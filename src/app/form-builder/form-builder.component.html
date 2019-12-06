@@ -1,0 +1,35 @@
+<div class="container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+        <div *ngFor="let elements of restructureForm()" class="form-row">
+            <fieldset >
+                <legend>{{elements.legend}}</legend>
+                <div 
+                    *ngFor="let table of  elements.fields" 
+                    class="form-row"
+                >
+                    <div 
+                        *ngFor="let field of table" 
+                        class="form-row"
+                    >
+                        <section class="row">
+                            <div class="col-1 col-sm-8 col-lg-4">
+                                {{field}}
+                                
+                            </div>
+                            
+                        </section>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="form-row">
+            <button type="submit" [disabled]="!form.valid" class="btn btn-primary">Soumettre</button>
+            <button type="reset"  class="btn btn-primary">Retablir</button>
+        </div>
+    </form>
+    <div *ngIf="payLoad" class="form-row">
+        <strong>Saved the following values</strong><br>
+        {{payLoad}}
+    </div>
+</div>
+

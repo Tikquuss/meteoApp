@@ -1,0 +1,11 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div *ngFor="let someAppRoute of headerAppRoot">
+            <ul class="nav navbar-nav">
+                <li routerLinkActive="active">
+                    <a [routerLink]="someAppRoute.routerLink">{{someAppRoute.label}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

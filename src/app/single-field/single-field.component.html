@@ -1,0 +1,40 @@
+<div class="form-group" [formGroup]="fieldForm">
+    <label [attr.for]="field.type.id" class="form_col">{{field.label}} </label>
+    <input *ngIf="field.meta_data.type == ''"
+            [type]="field.type.type" 
+            class="form-control" 
+            [formControlName]="field.name"
+            [id]="field.type.id" 
+            [name]="field.name"
+            [value]="field.value">
+           
+    <div *ngIf="field.type.type == 'radio'" class="form-row">  
+        <label *ngFor="let data of field.meta_data.data" >
+            <input  
+                [name]="field.name" 
+                [type]="field.type.type" 
+                [value]="data"
+                [formControlName]="field.name" 
+            />
+             {{data}}
+        </label>
+    </div>
+    <div *ngIf="field.meta_data.type == 'dropdown_list'" class="form-row"> 
+        <select class="form-control" [id]="field.type.id" [formControlName]="field.name">
+            <option *ngFor="let data of field.meta_data.data">{{data}}</option>
+        </select>
+    </div>
+    <div *ngIf="field.meta_data.type == 'set'" class="form-row">
+        <input  [type]="field.type.type" 
+                class="form-control" 
+                [formControlName]="field.name"
+                [id]="field.type.id" 
+                [name]="field.name"
+                [value]="test"
+        />
+        <app-single-modal [label]="'Ajouter'" (somethingEmitter)="onSomethingEmit($event)"></app-single-modal>
+    </div>     
+    <div class="errorMessage" *ngIf="!isValid">
+        {{errorMessage}} 
+    </div>
+</div>
