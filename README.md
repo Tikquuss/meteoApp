@@ -5,13 +5,13 @@
 # Différentes routes 
 •	form/view : pour voir les différents entités de la base de données.  
 •	form /:entity_class : pour voir toutes les occurrences de entity_class stockées dans la base de données ; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle.  
-Exemple : « form/Enregisteur  » permet de visualiser les enregistreurs présents dans la base de données.  
+Exemple : « form/Enregistreur  » permet de visualiser les enregistreurs présents dans la base de données.  
 •	form/:entity_class/view/:entity_id : pour voir  les informations de l’entité de type entity_class ayant l’identifiant  entity_id ; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle, ou si l’entité de type entity_class  ayant l’identifiant  entity_id  n’existe pas en BD.  
-Exemple : « form / Enregisteur / view / 5 » pour visualiser l’enregistreur ayant l’id 5 dans la base de données.  
-•	form / entity_class / entity_id  : pour modifier  les informations de l’entité de type entity_class ayant l’id  entity_id ; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle, ou si l’entité de type entity_class  ayant l’identifiant  entity_id  n’existe pas en BD.  
-Exemple : « form / Enregisteur / 5 » pour modifier les informations de l’enregistreur ayant l’id 5 dans la base de données.  
-•	form / entity_class / new : pour créer une nouvelle entité de type entity_class; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle.  
-Exemple : « form / Enregisteur / new » pour créer un nouveau enregistreur.  
+Exemple : « form / Enregistreur / view / 5 » pour visualiser l’enregistreur ayant l’id 5 dans la base de données.  
+•	form/:entity_class/:entity_id  : pour modifier  les informations de l’entité de type entity_class ayant l’id  entity_id ; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle, ou si l’entité de type entity_class  ayant l’identifiant  entity_id  n’existe pas en BD.  
+Exemple : « form / Enregistreur / 5 » pour modifier les informations de l’enregistreur ayant l’id 5 dans la base de données.  
+•	form/:entity_class/new : pour créer une nouvelle entité de type entity_class; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle.  
+Exemple : « form / Enregistreur / new » pour créer un nouveau enregistreur.  
 
 # Différents modules / composants
 Pour l’instant les modules qui doivent être modifier par celui qui veut utiliser cette génération de formulaires sont :  
@@ -27,6 +27,9 @@ Toute entité hérite de la classe abstraite Entity et doit redéfinir obligatoi
 •	Permettre la redéfinition des styles  
 •	Créer une interface d’administration  
 •	…  
+
+# Dévient contributeur 
+Clone le répo et fait et deplace toi dans le répertoire du projet, et tape `npm install`, puis `ng serve --open`
    
 # Autres informations
 
