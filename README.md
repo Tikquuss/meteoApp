@@ -1,5 +1,5 @@
 # Notes 
-•	Les deux points devant certains champs signifient qu’elles sont des variables dont les valeurs doivent être fournir lors du lancement de l’url.  
+•	Les deux points devant certains champs signifient qu’elles sont des variables dont les valeurs doivent être fournies lors du lancement de l’url.  
 •	Que ceux qui gèrent la sécurité, les droits sur les opérations et l’authentification me fassent signe pour l’ajout des Gaurds (en cours…) sur ces routes.
 
 # Différentes routes 
