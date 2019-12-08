@@ -1,33 +1,33 @@
 # Notes 
-•	Les deux points devant certains champs signifient qu’elles sont des variables dont les valeurs doivent être fournir lors du lancement de l’url.
+•	Les deux points devant certains champs signifient qu’elles sont des variables dont les valeurs doivent être fournir lors du lancement de l’url.  
 •	Que ceux qui gèrent la sécurité, les droits sur les opérations et l’authentification me fassent signe pour l’ajout des Gaurds (en cours…) sur ces routes.
 
 # Différentes routes 
-•	form/view : pour voir les différents entités de la base de données.
-•	form /:entity_class : pour voir toutes les occurrences de entity_class stockées dans la base de données ; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle.
-Exemple : « form/Enregisteur  » permet de visualiser les enregistreurs présents dans la base de données.
-•	form/:entity_class/view/:entity_id : pour voir  les informations de l’entité de type entity_class ayant l’identifiant  entity_id ; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle, ou si l’entité de type entity_class  ayant l’identifiant  entity_id  n’existe pas en BD.
-Exemple : « form / Enregisteur / view / 5 » pour visualiser l’enregistreur ayant l’id 5 dans la base de données. 
-•	form / entity_class / entity_id  : pour modifier  les informations de l’entité de type entity_class ayant l’id  entity_id ; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle, ou si l’entité de type entity_class  ayant l’identifiant  entity_id  n’existe pas en BD.
-Exemple : « form / Enregisteur / 5 » pour modifier les informations de l’enregistreur ayant l’id 5 dans la base de données.
-•	form / entity_class / new : pour créer une nouvelle entité de type entity_class; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle.
-Exemple : « form / Enregisteur / new » pour créer un nouveau enregistreur.
+•	form/view : pour voir les différents entités de la base de données.  
+•	form /:entity_class : pour voir toutes les occurrences de entity_class stockées dans la base de données ; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle.  
+Exemple : « form/Enregisteur  » permet de visualiser les enregistreurs présents dans la base de données.  
+•	form/:entity_class/view/:entity_id : pour voir  les informations de l’entité de type entity_class ayant l’identifiant  entity_id ; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle, ou si l’entité de type entity_class  ayant l’identifiant  entity_id  n’existe pas en BD.  
+Exemple : « form / Enregisteur / view / 5 » pour visualiser l’enregistreur ayant l’id 5 dans la base de données.  
+•	form / entity_class / entity_id  : pour modifier  les informations de l’entité de type entity_class ayant l’id  entity_id ; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle, ou si l’entité de type entity_class  ayant l’identifiant  entity_id  n’existe pas en BD.  
+Exemple : « form / Enregisteur / 5 » pour modifier les informations de l’enregistreur ayant l’id 5 dans la base de données.  
+•	form / entity_class / new : pour créer une nouvelle entité de type entity_class; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle.  
+Exemple : « form / Enregisteur / new » pour créer un nouveau enregistreur.  
 
 # Différents modules / composants
-Pour l’instant les modules qui doivent être modifier par celui qui veut utiliser cette génération de formulaires sont :
-•	models / entitys_util.ts : pour l’ajout des macros (un macro est une liste de champs qui sont utilisés par plusieurs entités, comme champs_système et informations_personnelles)
-•	models / entitys.model.ts : pour l’ajout de nouvelles entités
-Toute entité hérite de la classe abstraite Entity et doit redéfinir obligatoirement deux méthodes : 
--	generateFormStructureField / 0 : retourne un json spécifiant les informations à utiliser pour générer le formulaire d’enregistrement/modification d’une entité de cette classe, comme les champs, leurs labels, leurs Validators…
-// La seule référence actuelle : cahier de spécification
--	save / 1 : elle prend un json de valeur conforme à la structure du formulaire généré par generateFormStructureField pour une sauvegarde en base de données.
+Pour l’instant les modules qui doivent être modifier par celui qui veut utiliser cette génération de formulaires sont :  
+•	models / entitys_util.ts : pour l’ajout des macros (un macro est une liste de champs qui sont utilisés par plusieurs entités, comme champs_système et informations_personnelles)  
+•	models / entitys.model.ts : pour l’ajout de nouvelles entités  
+Toute entité hérite de la classe abstraite Entity et doit redéfinir obligatoirement deux méthodes :  
+-	generateFormStructureField / 0 : retourne un json spécifiant les informations à utiliser pour générer le formulaire d’enregistrement/modification d’une entité de cette classe, comme les champs, leurs labels, leurs Validators…  
+// La seule référence actuelle : cahier de spécification  
+-	save / 1 : elle prend un json de valeur conforme à la structure du formulaire généré par generateFormStructureField pour une sauvegarde en base de données.  
 
 # A venir 
-•	Ajout des Gaurds sur les routes
-•	Permettre la redéfinition des styles
-•	Créer une interface d’administration
-•	…
-  
+•	Ajout des Gaurds sur les routes  
+•	Permettre la redéfinition des styles  
+•	Créer une interface d’administration  
+•	…  
+   
 # Autres informations
 
 # Projet
