@@ -44,7 +44,10 @@ export class ViewSingleEntityComponent implements OnInit {
   }
 
   rollback(){
-    this.router.navigate(['/form/view/'+this.entityClass]);
+    if(this.entityClass != '404'){
+      this.router.navigate(['/form/view/'+this.entityClass]);
+    }else{
+      this.router.navigate(['/form/view']);
+    }
   }
-
 }

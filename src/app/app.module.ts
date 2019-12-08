@@ -20,9 +20,10 @@ import { ViewEntityComponent } from './view-entity/view-entity.component';
 import { ViewSingleEntityComponent } from './view-entity/view-single-entity/view-single-entity.component';
 import { ViewDataOfEntityComponent } from './view-entity/view-data-of-entity/view-data-of-entity.component';
 import { AuthService } from './services/auth.service'; 
-import { AuthGuardService } from './services/auth-guard.service';
+//import { AuthGuardService } from './services/auth-guard.service';
 import { SigninComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
 
 
 import { enableProdMode } from '@angular/core';
@@ -33,6 +34,8 @@ if (environment.production) {
 }
 
 export var appRoutes: Routes = [
+  // 404
+  { path: 'form/404', component: FourOhFourComponent},
   // voir les différentes entités de la base de données
   { path: 'form/view', component:  ViewEntityComponent }, 
   // voir toutes les occurrences de entity_class stockées dans la base de données
@@ -64,7 +67,8 @@ export var appRoutes: Routes = [
     ViewSingleEntityComponent,
     ViewDataOfEntityComponent,
     SigninComponent,
-    SignupComponent
+    SignupComponent,
+    FourOhFourComponent
   ],
   exports: [
     RouterModule
@@ -76,7 +80,12 @@ export var appRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [FieldService, EntitysService, AuthService, AuthGuardService],
+  providers: [
+    FieldService, 
+    EntitysService, 
+    AuthService
+    //AuthGuardService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -32,7 +32,8 @@ export class ViewDataOfEntityComponent implements OnInit {
               private route: ActivatedRoute,
               private entitysService : EntitysService) {
     this.entityClass = this.route.snapshot.params['entity_class'];
-    if(this.entitysService.isClass(this.entityClass)){
+    console.log(this.entityClass);
+    if(this.entitysService.isClass(this.entityClass) && this.entityClass != '404'){
       this.entityData = this.entitysService.getEntitysServiceByClass(this.entityClass);
     }else{
       this.router.navigate(['/form/404']);
