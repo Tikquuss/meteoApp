@@ -345,16 +345,18 @@ export class personneInfo{
 export class FormStructure{
   entity : Entity;
   type : string; // enregistrement / modification
+  id? : string;
   fields : {
     legend? : string,
     fields? : Field<any>[],
     nb_elements_per_colonne? : number
   }[] = [];
 
-  constructor(entity ,type){
-    this.entity = entity;
-    this.type = type;
-    this.fields = this.entity.generateFormStructureField();
+  constructor(options : {entity : Entity ,type : string, id? : string}){
+    this.entity = options.entity;
+    this.type = options.type;
+    this.id = options.id;
+    this.fields = this.entity.generateFormStructureField(this.id);
   }
 }
 
@@ -363,7 +365,7 @@ export class Entity{
   //sauvegarder l'entité en base de données
   save(values){}
   // Contruire la structure du formulaire et rétourner, enregistrement par défaut
-  generateFormStructureField(){
+  generateFormStructureField(id){
     return [];
   }
 }

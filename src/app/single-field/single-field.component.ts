@@ -20,7 +20,9 @@ export class SingleFieldComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    console.log("initialisation d'un fields")
+   }
 
   emitCache(){
      this.cacheEmitter.emit(this.cache);

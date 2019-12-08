@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SystemJsNgModuleLoader } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { FormGroup} from '@angular/forms';
 import { FieldService } from '../services/field.service';
@@ -18,11 +19,12 @@ export class FormBuilderComponent implements OnInit {
   cache = {};
   test : string = '';
 
-  constructor(private fieldService: FieldService) {  }
+  constructor(private fieldService: FieldService, private router: Router) {  }
 
   ngOnInit() { 
     this.form = this.fieldService.toFormGroup(this.formStructure.fields); 
     this.fillCache(undefined);
+    /*
     for(let elements of this.restructureForm()){
       console.log("legend : "+elements.legend);
       for(let table of elements.fields){
@@ -35,6 +37,7 @@ export class FormBuilderComponent implements OnInit {
       }
       console.log('end of legend');
     }
+    //*/
   }
 
   onSubmit() {
@@ -48,6 +51,9 @@ export class FormBuilderComponent implements OnInit {
     this.formStructure.entity.save(this.form.value);
     console.log("payLoad --------------------------");
     console.log(this.payLoad);
+
+    // ne pas toucher
+    this.router.navigate(['/form/view']);
   }
 
   //lasySave(){
@@ -100,8 +106,6 @@ export class FormBuilderComponent implements OnInit {
     var length, i = 0, j = 0;
     
     for(let element of this.formStructure.fields){
-      var g : Field<any>[][];
-      
       //fieldsRestructure[j].legend = element.legend;
       //fieldsRestructure[j].nb_elements_per_colonne = element.nb_elements_per_colonne;
 
@@ -180,6 +184,8 @@ export class FormBuilderComponent implements OnInit {
       meta_data : field.meta_data 
     })
     //*/
-    return new Field<any>(field);
+    var f = new Field<any>(field);
+    console.log(f);
+    return f;
   }
 }

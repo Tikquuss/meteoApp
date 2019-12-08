@@ -1,0 +1,20 @@
+<h1>{{entityClass}} </h1>
+<ul class="list-group">    
+    <div *ngFor="let i of Table">
+        <li [ngClass]="{'list-group-item': true}"> 
+            <h4 [ngStyle]="{color: red}">
+                <strong style="position:absolute; top:0px;"> {{ i }} </strong >
+            </h4> 
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <button class="btn btn-sm btn-success"
+                        (click)="Detail(i)">Detail</button>
+            
+            </div>
+        </li>
+    </div>  
+</ul>
+<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+    <button class="btn btn-sm btn-success" (click)="rollback()">
+        Retour
+    </button>
+</div>

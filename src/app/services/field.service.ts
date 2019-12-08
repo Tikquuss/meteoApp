@@ -70,17 +70,10 @@ export class FieldService {
 
     // Todo: rendre asynchronous
     getFormStructure(formStructureParameters : {
-            entity : Entity,
-            type : string
-        }){
-        /*
-        appRoutes.push({
-            path: '', 
-            component:  FormStructure
-        })
-        console.log("appRoutes is modified -----------------------------");
-        console.log(appRoutes);
-        //*/
-        return new FormStructure(formStructureParameters.entity, formStructureParameters.type);
+                        entity : Entity,
+                        type : string,
+                        id? : string
+                    }){
+        return new FormStructure(formStructureParameters);
     }
 }

@@ -1,0 +1,34 @@
+<!-- 
+Il s'agit d'un formulaire selon la méthode réactive comme vous l'avez vu dans le chapitre correspondant.  
+Il y a, en supplément, le paragraphe contenant l'éventuel message d'erreur rendu par Firebase.
+
+Vous pouvez créer un template presque identique pour  SignInComponent  pour la connexion d'un utilisateur déjà 
+existant.  Il vous suffit de renommer  signupForm  en  signinForm  et d'appeler la méthode  signInUser() 
+plutôt que  createNewUser()
+-->
+
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h2>Créer un compte</h2>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="email">Adresse mail</label>
+          <input type="text"
+                 id="email"
+                 class="form-control"
+                 formControlName="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <input type="password"
+                 id="password"
+                 class="form-control"
+                 formControlName="password">
+        </div>
+        <button class="btn btn-primary"
+                type="submit"
+                [disabled]="signupForm.invalid">Créer mon compte</button>
+      </form>
+      <p class="text-danger">{{ errorMessage }}</p>
+    </div>
+</div>

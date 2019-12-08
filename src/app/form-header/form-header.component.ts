@@ -9,11 +9,12 @@ export class FormHeaderComponent implements OnInit {
 
   @Input() headerAppRoot : {
     routerLink : string,
-    label : String
+    label : String,
+    ngIf? : boolean
   }[]= [
     {
-      routerLink : '/form/enregistreur/modify',
-      label : 'Enregistreur'
+      routerLink : "form/view",
+      label : 'Voir les données'
     }
   ];
 

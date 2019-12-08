@@ -1,0 +1,15 @@
+<ul class="list-group">    
+    <div *ngFor="let entity of entitysList">
+        <li [ngClass]="{'list-group-item': true}"> 
+            <h4 [ngStyle]="{color: red}">
+                <strong style="position:absolute; top:0px;"> {{ entity.entityLabel }} </strong >
+            </h4> 
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <button class="btn btn-sm btn-success"
+                    (click)="List(entity.routerLink)">Liste</button>
+                <button class="btn btn-sm btn-success"
+                    (click)="New(entity.routerLink)">Nouveau</button>
+            </div>
+        </li>
+    </div>  
+</ul>

@@ -8,13 +8,22 @@ import { SingleFieldComponent } from './single-field/single-field.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FieldService } from './services/field.service';
+import { EntitysService } from './services/entitys.service';
 
 import { Routes, RouterModule } from '@angular/router';
 
 import { SingleModalComponent } from './single-modal/single-modal.component';
-import { BrouillonComponent } from './brouillon/brouillon.component';
+import { BrouillonComponent } from './__cache/brouillon.component';
 import { AppFormComponent } from './app-form/app-form.component';
 import { FormHeaderComponent } from './form-header/form-header.component';
+import { ViewEntityComponent } from './view-entity/view-entity.component';
+import { ViewSingleEntityComponent } from './view-entity/view-single-entity/view-single-entity.component';
+import { ViewDataOfEntityComponent } from './view-entity/view-data-of-entity/view-data-of-entity.component';
+import { AuthService } from './services/auth.service'; 
+import { AuthGuardService } from './services/auth-guard.service';
+import { SigninComponent } from './auth/signin/signin.component';
+import { SignupComponent } from './auth/signup/signup.component';
+
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -24,9 +33,22 @@ if (environment.production) {
 }
 
 export var appRoutes: Routes = [
-  { path: 'form', component:  AppFormComponent },
-  { path: '', redirectTo: 'form', pathMatch: 'full' },
-  { path: '**', redirectTo: 'form' }
+  // voir les différentes entités de la base de données
+  { path: 'form/view', component:  ViewEntityComponent }, 
+  // voir toutes les occurrences de entity_class stockées dans la base de données
+  { path: 'form/:entity_class', component:   ViewDataOfEntityComponent },
+  // voir les informations de l’entité de type entity_class ayant l’identifiant  entity_id
+  { path: 'form/:entity_class/view/:entity_id', component:  ViewSingleEntityComponent },
+  // modifier  les informations de l’entité de type entity_class ayant l’id entity_id
+  { path: 'form/:entity_class/:entity_id', component:  AppFormComponent },
+  // Créer une nouvelle entité de type entity_class
+  { path: 'form/:entity_class/new', component:  AppFormComponent },
+  // Authentification
+  { path: 'auth/signup', component: SignupComponent },
+  { path: 'auth/signin', component: SigninComponent },
+  // Rédirection : par défaut on visualise les données
+  { path: '', redirectTo: 'form/view', pathMatch: 'full' },
+  { path: '**', redirectTo: 'form/view' }
 ];
 
 @NgModule({
@@ -37,8 +59,16 @@ export var appRoutes: Routes = [
     SingleModalComponent,
     BrouillonComponent,
     AppFormComponent,
-    FormHeaderComponent
+    FormHeaderComponent,
+    ViewEntityComponent,
+    ViewSingleEntityComponent,
+    ViewDataOfEntityComponent,
+    SigninComponent,
+    SignupComponent
   ],
+  exports: [
+    RouterModule
+] ,
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -46,7 +76,7 @@ export var appRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [FieldService],
+  providers: [FieldService, EntitysService, AuthService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

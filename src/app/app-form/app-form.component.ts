@@ -1,71 +1,67 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { FieldService } from '../services/field.service';
 import { FormStructure, Entity } from '../models/entitys-util';
-import { appRoutes } from '../app.module';
-import { rootableEntitys, Enregistreur } from '../models/entitys.model';
+import { EntitysService } from '../services/entitys.service';
 
 @Component({
   selector: 'app-form',
   templateUrl: './app-form.component.html',
   styleUrls: ['./app-form.component.css']
 })
+
+/**
+ * paths : 
+      * (1) 'form/:entity_class/:entity_id'  
+      * (2) 'form/:entity_class/new'
+ * @class
+ * @classdesc 
+ * (1) 
+    * Modifier  les informations de l’entité de type entity_class ayant l’id  
+    * entity_id ; 404 si entity_class n’est pas une table de la BD ou plus
+    * généralement un modèle, ou si l’entité de type entity_class  ayant 
+    * l’identifiant  entity_id  n’existe pas en BD.  
+  * Exemple : «form/Enregistreur/5» pour modifier les informations de l’enregistreur
+              ayant l’id 5 dans la base de données. 
+ * (2) 
+    * Créer une nouvelle entité de type entity_class; 404 si entity_class n’est 
+    * pas une table de la BD ou plus généralement un modèle.  
+  * Exemple : «form/Enregistreur/new» pour créer un nouveau enregistreur.
+*/
 export class AppFormComponent implements OnInit {
 
   formStructure :  FormStructure; //todo : convertir en un tableau de form structure plus tard
-  
-  constructor(private fieldService: FieldService, private router: Router) {
-    this.ComputeAppRoutes();
-    this.formStructure = this.fieldService.getFormStructure(this.wichEntity());
+  // enlever apres
+  entityClass : string;
+  entityId : string;
+
+  constructor(private fieldService: FieldService, 
+              private router: Router,
+              private route: ActivatedRoute,
+              private entitysService : EntitysService) {
+    this.entityClass = this.route.snapshot.params['entity_class'];
+    const _class = this.entitysService.getClassByName(this.entityClass);
+    if(_class != undefined){
+      this.formStructure = this.fieldService.getFormStructure(this.wichEntity(_class));
+    }else{
+      this.router.navigate(['/form/404']);
+    }
   }
 
   ngOnInit() {
   }
   
-  wichEntity(){
-    var formStructureParameters : {
-      entity : Entity,
-      type : string 
-    } =
-    {
-      entity : new Entity(),
-      type : ''
-    }
-
-    switch(this.router.url){
-      case '/form' :
-        formStructureParameters = {
-          entity : new Enregistreur(), 
-          type : "enregistrement"
-        }
-        break;
-      case '/form/enregistreur/modify' :
-        formStructureParameters = {
-          entity : new Enregistreur(), 
-          type : "modification"
-        }
-        break;
-    }
-
-    return formStructureParameters;
-  }
-
-  headerAppRoot(){
-    return [
-      {
-        routerLink : '/form/enregistreur/modify',
-        label : 'Enregistreur'
-      }
-    ]
-  }
-
-  ComputeAppRoutes(){
-    for(let entityRootInfo of rootableEntitys){
-      appRoutes.push({ 
-        path: entityRootInfo.root, 
-        component:  AppFormComponent 
-      });
+  wichEntity(_class){
+    this.entityId = this.router.url.split('/')[3]; // /form/:entity_class/:entity_id'
+    //this.entityId = this.route.snapshot.params['entity_id'];
+    console.log(" console.log(this.entityId) --------------");
+    console.log(this.entityId);
+    //if(this.entityId){
+    if(false){
+      return { entity : _class, type : 'modification',  id : this.entityId}
+    }else{
+      return { entity : _class, type : 'enregistrement' }
     }
   }
 }

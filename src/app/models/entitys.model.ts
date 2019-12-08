@@ -11,31 +11,37 @@ export class Enregistreur extends Entity{
     save(values){  
     }
 
-    generateFormStructureField(){
-        let fields: Field<any>[] = [
-            new Field({
-                label:'Matricule',
-                validator : new Validator(),
-                name: 'matricule',
-                type : {
-                    type: 'text',
-                    id: 'matricule',
-                    show : ''
-                },
-                value: ''
-            }),
-            new Field({
-                label:'Grade',
-                validator : new Validator(),
-                name: 'grade',
-                type : {
-                    type: 'number',
-                    id: 'grade',
-                    show : ''
-                },
-                value: '3'
-            })
-        ]
+    generateFormStructureField(id){
+        let fields : Field<any>[];
+        if(id){
+            // modification
+        }else{
+            // enrégistrement
+            fields = [
+                new Field({
+                    label:'Matricule',
+                    validator : new Validator(),
+                    name: 'matricule',
+                    type : {
+                        type: 'text',
+                        id: 'matricule',
+                        show : ''
+                    },
+                    value: ''
+                }),
+                new Field({
+                    label:'Grade',
+                    validator : new Validator(),
+                    name: 'grade',
+                    type : {
+                        type: 'number',
+                        id: 'grade',
+                        show : ''
+                    },
+                    value: '3'
+                })
+            ]
+        }
         return [
                 {legend : '', fields : fields, nb_elements_per_colonne : 2},
                 this.info_personne.generateFormStructureField(),
@@ -52,26 +58,32 @@ export class Controlleur extends Entity{
     save(values){  
     } 
 
-    generateFormStructureField(){
-        let fields: Field<any>[] = [
-            new Field({
-                label:'Matricule',
-                validator : new Validator(),
-                name: 'matricule',
-                type : {
-                    type: 'text',
-                    id: 'matricule',
-                    show : ''
-                },
-                value: ''
-            })
-        ]
+    generateFormStructureField(id){
+        let fields : Field<any>[];
+        if(id){
+            // modification
+        }else{
+            // enrégistrement
+            fields = [
+                new Field({
+                    label:'Matricule',
+                    validator : new Validator(),
+                    name: 'matricule',
+                    type : {
+                        type: 'text',
+                        id: 'matricule',
+                        show : ''
+                    },
+                    value: ''
+                })
+            ]
+        }
+
         return [
                 {legend : '', fields : fields, nb_elements_per_colonne : 1},
                 this.info_personne.generateFormStructureField(),
                 this.champs_systemes.generateFormStructureField()
-        ];
-          
+        ];  
     }
 }
 
@@ -95,13 +107,3 @@ class Piece extends Entity{
     save(values){
     }
 }
-
-export const rootableEntitys : {
-    entity? : Entity,
-    root? : string
-}[] = [
-    {
-        entity : new Enregistreur(),
-        root : '/enregistreur'
-    }
-]
