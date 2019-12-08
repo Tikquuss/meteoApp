@@ -3,7 +3,7 @@
 •	Que ceux qui gèrent la sécurité, les droits sur les opérations et l’authentification me fassent signe pour l’ajout des Gaurds (en cours…) sur ces routes.
 
 # Différentes routes 
-• form/view : pour voir les différents entités de la base de données.
+•	form/view : pour voir les différents entités de la base de données.
 •	form /:entity_class : pour voir toutes les occurrences de entity_class stockées dans la base de données ; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle.
 Exemple : « form/Enregisteur  » permet de visualiser les enregistreurs présents dans la base de données.
 •	form/:entity_class/view/:entity_id : pour voir  les informations de l’entité de type entity_class ayant l’identifiant  entity_id ; 404 si entity_class n’est pas une table de la BD ou plus généralement un modèle, ou si l’entité de type entity_class  ayant l’identifiant  entity_id  n’existe pas en BD.
@@ -23,10 +23,10 @@ Toute entité hérite de la classe abstraite Entity et doit redéfinir obligatoi
 -	save / 1 : elle prend un json de valeur conforme à la structure du formulaire généré par generateFormStructureField pour une sauvegarde en base de données.
 
 # A venir 
--	Ajout des Gaurd sur les routes
--	Permettre la redéfinition des styles
--	Créer une interface d’administration
--	…
+•	Ajout des Gaurds sur les routes
+•	Permettre la redéfinition des styles
+•	Créer une interface d’administration
+•	…
   
 # Autres informations
 
