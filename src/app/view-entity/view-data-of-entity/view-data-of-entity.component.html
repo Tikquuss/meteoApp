@@ -7,8 +7,14 @@
             </h4> 
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                 <button class="btn btn-sm btn-success"
-                        (click)="Detail(i)">Detail</button>
-            
+                        (click)="Detail(i)">Detail
+                </button>
+                <button class="btn btn-sm btn-danger"
+                        (click)="delete(i)">Supprimer
+                </button>
+                <button class="btn btn-sm"
+                        (click)="update(i)">Modifier
+                </button>
             </div>
         </li>
     </div>  

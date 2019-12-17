@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, SystemJsNgModuleLoader } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { Router } from '@angular/router';
-
 import { FormGroup} from '@angular/forms';
-import { FieldService } from '../services/field.service';
 
 import { FormStructure } from '../models/entitys-util'; 
 import { Field } from '../models/field.model';
+import { FieldService } from '../services/field.service';
+import { EntitysService } from '../services/entitys.service';
 
 @Component({
   selector: 'app-form-builder',
@@ -14,15 +14,25 @@ import { Field } from '../models/field.model';
 })
 export class FormBuilderComponent implements OnInit {
   @Input() formStructure :  FormStructure;
+  @Input() entityId : string;
   form: FormGroup;
+  // todo : enlever apres avoir gerer la communication avec le serveur
   payLoad = '';
   cache = {};
   test : string = '';
+  fieldsRestructure : {
+    legend? : string,
+    fields? : Field<any>[][],
+    nb_elements_per_colonne? : number
+  }[];
 
-  constructor(private fieldService: FieldService, private router: Router) {  }
+  constructor(private fieldService: FieldService, 
+              private router: Router,
+              private entitysService : EntitysService) {  }
 
   ngOnInit() { 
     this.form = this.fieldService.toFormGroup(this.formStructure.fields); 
+    this.fieldsRestructure = this.restructureForm();
     this.fillCache(undefined);
     /*
     for(let elements of this.restructureForm()){
@@ -48,11 +58,15 @@ export class FormBuilderComponent implements OnInit {
     console.log(this.cache);
     
     this.payLoad = JSON.stringify(this.form.value);
-    this.formStructure.entity.save(this.form.value);
+    if(this.formStructure.type == "modif")
     console.log("payLoad --------------------------");
     console.log(this.payLoad);
 
     // ne pas toucher
+    this.entitysService.saveORmodify(this.form.value, 
+                                     this.formStructure.entityClassName,
+                                    this.formStructure.type,
+                                    this.entityId)
     this.router.navigate(['/form/view']);
   }
 
@@ -184,7 +198,7 @@ export class FormBuilderComponent implements OnInit {
       meta_data : field.meta_data 
     })
     //*/
-    var f = new Field<any>(field);
+    var f : Field<any> =  new Field<any>(field);
     console.log(f);
     return f;
   }

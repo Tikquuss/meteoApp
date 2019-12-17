@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { FieldService } from '../services/field.service';
-import { FormStructure, Entity } from '../models/entitys-util';
+import { FormStructure} from '../models/entitys-util';
 import { EntitysService } from '../services/entitys.service';
 
 @Component({
@@ -32,7 +32,6 @@ import { EntitysService } from '../services/entitys.service';
 export class AppFormComponent implements OnInit {
 
   formStructure :  FormStructure; //todo : convertir en un tableau de form structure plus tard
-  // enlever apres
   entityClass : string;
   entityId : string;
 
@@ -41,9 +40,8 @@ export class AppFormComponent implements OnInit {
               private route: ActivatedRoute,
               private entitysService : EntitysService) {
     this.entityClass = this.route.snapshot.params['entity_class'];
-    const _class = this.entitysService.getClassByName(this.entityClass);
-    if(_class != undefined){
-      this.formStructure = this.fieldService.getFormStructure(this.wichEntity(_class));
+    if(this.entitysService.isClass(this.entityClass)){
+      this.formStructure = this.fieldService.getFormStructure(this.wichEntity());
     }else{
       this.router.navigate(['/form/404']);
     }
@@ -52,16 +50,16 @@ export class AppFormComponent implements OnInit {
   ngOnInit() {
   }
   
-  wichEntity(_class){
-    this.entityId = this.router.url.split('/')[3]; // /form/:entity_class/:entity_id'
-    //this.entityId = this.route.snapshot.params['entity_id'];
+  wichEntity(){
+    //this.entityId = this.router.url.split('/')[3]; // '/form/:entity_class/:entity_id'
+    this.entityId = this.route.snapshot.params['entity_id'];
     console.log(" console.log(this.entityId) --------------");
     console.log(this.entityId);
-    //if(this.entityId){
-    if(false){
-      return { entity : _class, type : 'modification',  id : this.entityId}
+    if(this.entityId){
+    //if(false){
+      return { entityClassName : this.entityClass, type : 'modification',  id : this.entityId}
     }else{
-      return { entity : _class, type : 'enregistrement' }
+      return { entityClassName : this.entityClass, type : 'enregistrement' }
     }
   }
 }

@@ -1,18 +1,17 @@
 import { Injectable }   from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, FormArray  } from '@angular/forms';
-
+import * as $ from 'jquery';
 
 import { Field } from '../models/field.model';
-import { FormStructure, Entity } from '../models/entitys-util';
-
-import { Enregistreur, Controlleur } from '../models/entitys.model';
-
-import { appRoutes } from '../app.module';
+import { FormStructure} from '../models/entitys-util';
+import { Utils } from '../models/entitys.model'
+import { EntitysService } from './entitys.service';
 
 @Injectable()
 export class FieldService {
-    entity : Entity = new Enregistreur();
-    constructor(private formBuilder : FormBuilder) { }
+    constructor(private formBuilder : FormBuilder,
+                private utils : Utils,
+                private entitysService : EntitysService) { }
     
     toFormGroup(fields: { legend? : string, fields? : Field<any>[]}[] = []) {
         let group: any = {};
@@ -70,10 +69,23 @@ export class FieldService {
 
     // Todo: rendre asynchronous
     getFormStructure(formStructureParameters : {
-                        entity : Entity,
+                        entityClassName : string,
                         type : string,
                         id? : string
                     }){
-        return new FormStructure(formStructureParameters);
+        if(formStructureParameters.type == "modification")
+            return new FormStructure(
+                formStructureParameters, 
+                this.utils.getClassByName(formStructureParameters.entityClassName),
+                this.entitysService.readEntity(
+                    formStructureParameters.entityClassName, formStructureParameters.id
+                )
+            );
+        else
+            return new FormStructure(
+                formStructureParameters, 
+                this.utils.getClassByName(formStructureParameters.entityClassName)
+            );
+                
     }
 }

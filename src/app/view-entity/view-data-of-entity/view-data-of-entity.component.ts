@@ -19,7 +19,6 @@ import { EntitysService } from '../../services/entitys.service';
  * Exemple : «form/Enregistreur» permet de visualiser les enregistreurs 
  * présents dans la base de données.
 */
-
 export class ViewDataOfEntityComponent implements OnInit {
 
   entityData : Entity[];
@@ -34,7 +33,7 @@ export class ViewDataOfEntityComponent implements OnInit {
     this.entityClass = this.route.snapshot.params['entity_class'];
     console.log(this.entityClass);
     if(this.entitysService.isClass(this.entityClass) && this.entityClass != '404'){
-      this.entityData = this.entitysService.getEntitysServiceByClass(this.entityClass);
+      this.entityData = this.entitysService.getEntitysDataByClass(this.entityClass);
     }else{
       this.router.navigate(['/form/404']);
     }
@@ -48,6 +47,16 @@ export class ViewDataOfEntityComponent implements OnInit {
   }
 
   Detail(i){
-    this.router.navigate(['/form/'+this.entityClass+'/view/'+i]);
+    this.router.navigate(['/form/view/'+this.entityClass+'/'+i]);
+  }
+
+  delete(id){
+    this.entitysService.deleteEntity(this.entityClass, id);
+    // todo : rétirer l'élement de entityData
+    this.Table = this.Table.filter(item => item !== parseInt(id+""))
+  }
+
+  update(id){
+    this.router.navigate(['/form/'+this.entityClass+'/'+id]);
   }
 }

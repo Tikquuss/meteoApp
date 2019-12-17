@@ -1,6 +1,11 @@
 import {Field} from './field.model';
 import {Validator, ValidatorEmail} from './validator.model';
 
+/**
+ * json
+ * @class
+ * @classdesc macro des adresses
+*/
 export class adresseJson{  
   TEL_MOBILE : [];
   TEL_FIXE : [];
@@ -22,7 +27,7 @@ export class adresseJson{
     this.BP = options.BP || '';
   }
 
-  generateFormStructureField(){
+  generateFormStructureField(data?){
     let fields: Field<any>[] = [
       new Field({
         label:'TELEPHONE MOBILE',
@@ -92,10 +97,21 @@ export class adresseJson{
             value: ''
         })
       ]
+
+      if(data){
+        for(let field of fields){
+          field.value = data[field.name];
+        }
+      }
       return fields;
   }
 }
 
+/**
+ * json
+ * @class
+ * @classdesc macro des contacts
+*/
 export class contactJson{  
   TEL_MOBILE : [];
   TEL_FIXE : [];
@@ -114,7 +130,7 @@ export class contactJson{
     this.localisation = options.localisation || '';
   }
 
-  generateFormStructureField(){
+  generateFormStructureField(data?){
     let fields: Field<any>[] = [
       new Field({
         label:'TELEPHONE MOBILE',
@@ -170,6 +186,12 @@ export class contactJson{
             value: ''
         })
       ]
+
+      if(data){
+        for(let field of fields){
+          field.value = data[field.name]
+        }
+      }
       return fields;
   }
 }
@@ -195,7 +217,7 @@ export class champsSysteme{
     this.date_dernier_modification = options.date_dernier_modification || new Date();
   }
 
-  generateFormStructureField(){
+  generateFormStructureField(data?){
     let fields: Field<any>[] = [
         new Field({
             label:'Code créateur',
@@ -257,6 +279,11 @@ export class champsSysteme{
           value: ''
         })
       ]
+      if(data){
+        for(let field of fields){
+          field.value = data[field.name]
+        }
+      }
       return {legend : 'Champs systemes', fields, nb_elements_per_colonne : 5}
   }
 }
@@ -282,7 +309,7 @@ export class personneInfo{
         this.adresse = options.adresse || new adresseJson();
     }
 
-    generateFormStructureField(){
+    generateFormStructureField(data?){
       let fields: Field<any>[] = [
           new Field({
               label:'Nom',
@@ -333,17 +360,22 @@ export class personneInfo{
             }
           })
         ]
-
+         
+        if(data){
+          for(let field of fields){
+            field.value = data[field.name]
+          }
+        }
         return {
           legend : 'Informations personnelles', 
-          fields : fields.concat(this.adresse.generateFormStructureField()),
+          fields : fields.concat(this.adresse.generateFormStructureField(data)),
           nb_elements_per_colonne : 3
         }
   }
 }
 
 export class FormStructure{
-  entity : Entity;
+  entityClassName : string;
   type : string; // enregistrement / modification
   id? : string;
   fields : {
@@ -352,20 +384,21 @@ export class FormStructure{
     nb_elements_per_colonne? : number
   }[] = [];
 
-  constructor(options : {entity : Entity ,type : string, id? : string}){
-    this.entity = options.entity;
+  constructor(
+    options : {entityClassName : string ,type : string, id? : string}, 
+    entity : Entity,
+    data? 
+  ){
+    this.entityClassName = options.entityClassName;
     this.type = options.type;
     this.id = options.id;
-    this.fields = this.entity.generateFormStructureField(this.id);
+    this.fields = entity.generateFormStructureField(data);
   }
 }
 
 export class Entity{
   constructor(){}
-  //sauvegarder l'entité en base de données
-  save(values){}
-  // Contruire la structure du formulaire et rétourner, enregistrement par défaut
-  generateFormStructureField(id){
+  generateFormStructureField(data?){
     return [];
   }
 }

@@ -6,8 +6,21 @@
             [formControlName]="field.name"
             [id]="field.type.id" 
             [name]="field.name"
-            [value]="field.value">
-           
+            [value]="field.value"
+    >
+    <div *ngIf="field.type.type == 'textarea'" class="form-row">  
+        <div class="form-group">
+            <textarea 
+                class="form-control" 
+                rows="7"
+                [id]="field.type.id"
+                [name]="field.name" 
+                [value]="field.value"
+                [formControlName]="field.name" 
+            >
+            </textarea>
+        </div>
+    </div>       
     <div *ngIf="field.type.type == 'radio'" class="form-row">  
         <label *ngFor="let data of field.meta_data.data" >
             <input  
@@ -16,7 +29,7 @@
                 [value]="data"
                 [formControlName]="field.name" 
             />
-             {{data}}
+            <label [attr.for]="field.name"> {{data}}</label>
         </label>
     </div>
     <div *ngIf="field.meta_data.type == 'dropdown_list'" class="form-row"> 

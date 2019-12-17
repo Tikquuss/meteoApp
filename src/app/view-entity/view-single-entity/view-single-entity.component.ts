@@ -1,26 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Entity } from '../../models/entitys-util';
 import { EntitysService } from '../../services/entitys.service';
-
-/**
- * path: 'form/:entity_class/view/:entity_id'
- * @class
- * @classdesc Voir  les informations de l’entité de type entity_class ayant 
- * l’identifiant entity_id ;404 si entity_class n’est pas une table de la BD ou 
- * plus généralement un modèle, ou si l’entité de type entity_class  ayant 
- * l’identifiant  entity_id  n’existe pas en BD.  
- * Exemple : «form/Enregistreur/view/5» pour visualiser l’enregistreur ayant l’id 
- * 5 dans la base de données.
-*/
 
 @Component({
   selector: 'app-view-single-entity',
   templateUrl: './view-single-entity.component.html',
   styleUrls: ['./view-single-entity.component.css']
 })
+
+/**
+ * path: 'form/view/:entity_class/:entity_id'
+ * @class
+ * @classdesc Voir  les informations de l’entité de type entity_class ayant 
+ * l’identifiant entity_id ;404 si entity_class n’est pas une table de la BD ou 
+ * plus généralement un modèle, ou si l’entité de type entity_class  ayant 
+ * l’identifiant  entity_id  n’existe pas en BD.  
+ * Exemple : «form/view/Enregistreur/5» pour visualiser l’enregistreur ayant l’id 
+ * 5 dans la base de données.
+*/
 export class ViewSingleEntityComponent implements OnInit {
 
   // todo : enlever l'attribut apres avoir fait le template
@@ -49,5 +48,14 @@ export class ViewSingleEntityComponent implements OnInit {
     }else{
       this.router.navigate(['/form/view']);
     }
+  }
+
+  update(){
+    this.router.navigate(['/form/'+this.entityClass+'/'+this.entityId]);
+  }
+
+  delete(){
+    this.entitysService.deleteEntity(this.entityClass, this.entityId);
+    this.router.navigate(['/form/view/'+this.entityClass]);
   }
 }

@@ -1,17 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormBuilderComponent } from './form-builder/form-builder.component';
-import { SingleFieldComponent } from './single-field/single-field.component';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FieldService } from './services/field.service';
-import { EntitysService } from './services/entitys.service';
-
 import { Routes, RouterModule } from '@angular/router';
 
+import { FormBuilderComponent } from './form-builder/form-builder.component';
+import { SingleFieldComponent } from './single-field/single-field.component';
+import { FieldService } from './services/field.service';
+import { EntitysService } from './services/entitys.service';
 import { SingleModalComponent } from './single-modal/single-modal.component';
 import { BrouillonComponent } from './__cache/brouillon.component';
 import { AppFormComponent } from './app-form/app-form.component';
@@ -24,7 +21,7 @@ import { AuthService } from './services/auth.service';
 import { SigninComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
-
+import { Utils } from './models/entitys.model'; // Très important
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -41,7 +38,7 @@ export var appRoutes: Routes = [
   // voir toutes les occurrences de entity_class stockées dans la base de données
   { path: 'form/:entity_class', component:   ViewDataOfEntityComponent },
   // voir les informations de l’entité de type entity_class ayant l’identifiant  entity_id
-  { path: 'form/:entity_class/view/:entity_id', component:  ViewSingleEntityComponent },
+  { path: 'form/view/:entity_class/:entity_id', component:  ViewSingleEntityComponent },
   // modifier  les informations de l’entité de type entity_class ayant l’id entity_id
   { path: 'form/:entity_class/:entity_id', component:  AppFormComponent },
   // Créer une nouvelle entité de type entity_class
@@ -83,8 +80,9 @@ export var appRoutes: Routes = [
   providers: [
     FieldService, 
     EntitysService, 
-    AuthService
+    AuthService,
     //AuthGuardService
+    Utils
   ],
   bootstrap: [AppComponent]
 })

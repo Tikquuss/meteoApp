@@ -1,22 +1,16 @@
-<div class="container">
+
+<div class="col-sm-8 col-sm-offset-2">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
-        <div *ngFor="let elements of restructureForm()" class="form-row">
-            <fieldset >
-                <legend>{{elements.legend}}</legend>
-                <div 
-                    *ngFor="let table of  elements.fields" 
-                    class="form-row"
-                >
-                    <div 
-                        *ngFor="let field of table" 
-                        class="form-row"
-                    >
-                        <section class="row">
-                            <div class="col-1 col-sm-8 col-lg-4">
-                                {{toField(field)}}
-                            </div>
-                        </section>
-                    </div>
+        <div *ngFor="let fields of formStructure.fields" class="form-row">
+            <fieldset>
+                <legend>{{fields.legend}}</legend>
+                <div *ngFor="let field of fields.fields" class="form-row">
+                    <app-single-field 
+                        [field]="field" 
+                        [test] = "test"
+                        [fieldForm]="form"
+                        (cacheEmitter)="onCacheEmit($event)">
+                    </app-single-field>
                 </div>
             </fieldset>
         </div>
@@ -30,4 +24,45 @@
         {{payLoad}}
     </div>
 </div>
+<!--
+<div class="container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+        <div *ngFor="let elements of fieldsRestructure" class="form-row">
+            <fieldset >
+                <legend>{{elements.legend}}</legend>
+                <div 
+                    *ngFor="let table of  elements.fields" 
+                    class="form-row"
+                >
+                    <div 
+                        *ngFor="let field of table" 
+                        class="form-row"
+                    >
+                        <section class="row">
+                            <div class="col-1 col-sm-8 col-lg-8">
+                                <app-single-field
+                                  class="col-12 col-sm-8 col-lg-4" 
+                                  [field]="field" 
+                                  [test] = "test"
+                                  [fieldForm]="form"
+                                  (cacheEmitter)="onCacheEmit($event)">
+                                </app-single-field>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                
+            </fieldset>
+        </div>
+        <div class="form-row">
+            <button type="submit" [disabled]="!form.valid" class="btn btn-primary">Soumettre</button>
+            <button type="reset"  class="btn btn-primary">Retablir</button>
+        </div>
+    </form>
+    <div *ngIf="payLoad" class="form-row">
+        <strong>Saved the following values</strong><br>
+        {{payLoad}}
+    </div>
+</div>
 
+-->
