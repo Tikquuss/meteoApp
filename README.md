@@ -1,5 +1,7 @@
 # MeteoApp
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.18.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.18.  
+
+Une fois le projet, placez-vous dans le repertoire du projet et tapez taper `npm install` pour telecharger les dependances (`node_modules`)
 
 ## Tâches des contributeurs
 
@@ -29,7 +31,8 @@ Par défaut la vue `Toutes les heures` est active et la météo de l’heure act
 Une information de météo est composée des données suivantes :
 - La température
 - La pluviométrie
-- L’humidité
+- L’humidité  
+
 Voir l'image `exemple.png`.
 
 ## Development server
