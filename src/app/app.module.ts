@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HttpClientModule} from '@angular/common/http'
 
 import { OpenWeatherService } from './services/open-weather.service';
 import { OpenStreetMapService } from './services/open-street-map.service';
@@ -16,6 +17,7 @@ import {ChangeLocationModalContentComponent} from './change-location-modal-conte
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserStoreService } from './services/user-store.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { TestOpenWeatherServiceComponent } from './test-open-weather-service/test-open-weather-service.component';
 
 const appRoutes: Routes = [
   { path: '', loadChildren: './hourly-weekly/hourly-weekly.module#HourlyWeeklyModule', canActivate: [AuthGuardService] },
@@ -31,10 +33,12 @@ const appRoutes: Routes = [
     SignupComponent,
     ChangeLocationModalContentComponent,
     UserProfileComponent,
+    TestOpenWeatherServiceComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     // ajoutés
     RouterModule.forRoot(appRoutes),
     ReactiveFormsModule, // Preferables aux template driven forms
