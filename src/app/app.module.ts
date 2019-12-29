@@ -8,6 +8,7 @@ import { OpenWeatherService } from "./services/open-weather.service";
 import { OpenStreetMapService } from "./services/open-street-map.service";
 
 import { Routes, RouterModule } from '@angular/router';
+import { TestbdComponent } from './components/testbd/testbd.component';
 
 const appRoutes: Routes = [
   
@@ -15,7 +16,8 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TestbdComponent
   ],
   imports: [
     BrowserModule,
