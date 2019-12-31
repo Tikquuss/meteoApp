@@ -9,7 +9,6 @@ import { OpenWeatherService } from './services/open-weather.service';
 import { OpenStreetMapService } from './services/open-street-map.service';
 
 import { Routes, RouterModule } from '@angular/router';
-<<<<<<< HEAD
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -19,9 +18,9 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserStoreService } from './services/user-store.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { TestOpenWeatherServiceComponent } from './test-open-weather-service/test-open-weather-service.component';
-=======
+
 import { TestbdComponent } from './components/testbd/testbd.component';
->>>>>>> 292e5f3ce4d21cf0612a791a5a3a7d2e4292e646
+
 
 const appRoutes: Routes = [
   { path: '', loadChildren: './hourly-weekly/hourly-weekly.module#HourlyWeeklyModule', canActivate: [AuthGuardService] },
@@ -33,15 +32,11 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-<<<<<<< HEAD
     LoginComponent,
     SignupComponent,
     ChangeLocationModalContentComponent,
     UserProfileComponent,
     TestOpenWeatherServiceComponent,
-=======
-    TestbdComponent
->>>>>>> 292e5f3ce4d21cf0612a791a5a3a7d2e4292e646
   ],
   imports: [
     BrowserModule,

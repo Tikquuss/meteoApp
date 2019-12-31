@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { UserStoreService } from './user-store.service';
-// import { Observable } from 'rxjs/Observable';
-// import * as firebase from 'firebase';
+ import { Observable } from 'rxjs/Observable';
+ import * as firebase from 'firebase';
 
 /*
   Puisque la vérification de l'authentification est asynchrone, ce service
@@ -34,7 +34,7 @@ export class AuthGuardService implements CanActivate {
       }
     );
   }
-  */
+  //*/
   canActivate(): boolean {
     if (this.userStore.isLoggedIn) { return true; }
     // Can store current route and redirect back to it

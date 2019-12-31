@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-//import * as firebase from 'firebase';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class AuthService {
   createNewUser(email: string, password: string) {
     return new Promise(
       (resolve, reject) => {
-        /*
+        //*
         firebase.auth().createUserWithEmailAndPassword(email, password).then(
           () => {
             resolve();
@@ -44,7 +44,7 @@ export class AuthService {
   signInUser(email: string, password: string) {
     return new Promise(
       (resolve, reject) => {
-        /*
+        //*
         firebase.auth().signInWithEmailAndPassword(email, password).then(
           () => {
             resolve();
@@ -59,7 +59,7 @@ export class AuthService {
   }
 
   signOutUser() {
-    //firebase.auth().signOut();
+    firebase.auth().signOut();
   }
 
   // Mes propres methodes
@@ -68,7 +68,7 @@ export class AuthService {
   SignUp(email, password) {
     return new Promise(
       (resolve, reject) => {
-        /*
+        //*
         firebase.auth().createUserWithEmailAndPassword(email, password).then(
           (result) => {
             // Call the SendVerificaitonMail() function when new user sign up and returns promise 
@@ -94,7 +94,7 @@ export class AuthService {
     .then(() => {
       //this.router.navigate(['verify-email-address']);
     })
-    */
+    //*/
   }
 
   // Reset Forggot password
@@ -106,7 +106,7 @@ export class AuthService {
     }).catch((error) => {
       window.alert(error)
     })
-    */
+    //*/
   }
 
   // Returns true when user is looged in and email is verified
@@ -161,6 +161,6 @@ export class AuthService {
       localStorage.removeItem('user');
       //this.router.navigate(['sign-in']);
     })
-    */
+    //*/
   }
 }
