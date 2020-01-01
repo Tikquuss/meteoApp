@@ -200,7 +200,7 @@ export class BdlocaleService {
         if (cursor) {
           results.push(cursor.value);
 
-          cursor.continue
+          cursor.continue;
         }
         else {
           resolve(results);
@@ -236,6 +236,21 @@ export class BdlocaleService {
     let db = await this.openDB();
     return new Promise<Ville[]>((resolve, reject) => {
       let villePromise = this.getByIndex<Ville>(db, "ville", "region", key);
+      villePromise.then((villes: Ville[]) => {
+        resolve(villes);
+      });
+    });
+  }
+
+  /**
+  * permet de retourner des villes a partir de leur pays d'appartenance
+  * @param {string} key - nom du pays
+  * @return Ville[]
+*/
+  async getVilleByPays(key: string): Promise<Ville[]> {
+    let db = await this.openDB();
+    return new Promise<Ville[]>((resolve, reject) => {
+      let villePromise = this.getByIndex<Ville>(db, "ville", "pays", key);
       villePromise.then((villes: Ville[]) => {
         resolve(villes);
       });
