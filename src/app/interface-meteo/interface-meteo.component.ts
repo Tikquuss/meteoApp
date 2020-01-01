@@ -49,8 +49,6 @@ export class InterfaceMeteoComponent implements OnInit {
     this.router.navigate(['login']);
   }
 
-
-
   ngOnInit() {
   }
 

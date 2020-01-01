@@ -15,15 +15,16 @@ import { Ville } from 'src/app/models/ville';
   styleUrls: ['./testbd.component.css']
 })
 export class TestbdComponent implements OnInit {
-  private _bdService: BdlocaleService;
+  
 
   //userCourant est l'utilisateur courant de l'application.
   private _userCourant: Utilisateur;
 
+  private _bdService: BdlocaleService;
   constructor(private bdService: BdlocaleService) { 
     this._bdService = bdService;
   }
-
+  
   public getUserCourant(): Utilisateur{
     return this._userCourant;
   }
@@ -78,7 +79,7 @@ export class TestbdComponent implements OnInit {
   async ngOnInit() {
    
     console.log("entree");
-    //this._bdService.initValues();
+    this._bdService.initValues();
     let user = new Utilisateur();
     user.dateNaissance = new Date();
     user.mdp = "emma";

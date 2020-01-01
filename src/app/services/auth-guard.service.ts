@@ -17,24 +17,6 @@ export class AuthGuardService implements CanActivate {
   constructor(private router: Router,
               private userStore: UserStoreService) { }
 
-  /*
-  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    return new Promise(
-      (resolve, reject) => {
-        firebase.auth().onAuthStateChanged(
-          (user) => {
-            if(user) {
-              resolve(true);
-            } else {
-              this.router.navigate(['/auth', 'signin']);
-              resolve(false);
-            }
-          }
-        );
-      }
-    );
-  }
-  //*/
   canActivate(): boolean {
     if (this.userStore.isLoggedIn) { return true; }
     // Can store current route and redirect back to it
