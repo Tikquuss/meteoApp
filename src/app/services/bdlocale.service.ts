@@ -28,7 +28,7 @@ export class BdlocaleService {
 
         let db = event.target.result;
 
-        console.log("onupgradeneeded")
+        //console.log("onupgradeneeded")
         //db.deleteObjectStore("utilisateur");
         //creation de utilisateur
         if (!db.objectStoreNames.contains("utilisateur")) {
@@ -38,7 +38,6 @@ export class BdlocaleService {
           store.createIndex('photo', 'photo', { unique: false });
           store.createIndex('ville', 'ville', { unique: false });
           store.createIndex('mdp', 'mdp', { unique: false });
-          console.log("table user créee");
         }
 
         //creation de ville
@@ -52,7 +51,6 @@ export class BdlocaleService {
       }
 
       request.onsuccess = event => {
-        console.log("success");
         resolve(request.result);
       };
       request.onerror = (event: any) => {
@@ -155,13 +153,17 @@ export class BdlocaleService {
   async verify(nom: string, mdp: string): Promise<Utilisateur> {
     let db = await this.openDB();
     return new Promise<Utilisateur>((resolve, reject) => {
-      let user = this.getByIndex<Utilisateur>(db, "utilisateur", "nom", nom);
-      user.then((use: Utilisateur[]) => {
-        use.forEach(element => {
-          if (element.mdp === mdp) {
-            resolve(element);
+      let user = this.getValue<Utilisateur>(db, "utilisateur", nom);
+      user.then((use: Utilisateur) => {
+        if (use !== undefined && use !== null){
+          if (use.mdp === mdp){
+            resolve(use);
           }
-        });
+          resolve(null);
+        }
+        else{
+          resolve(null);
+        }
         resolve(null);
       });
     });
