@@ -26,11 +26,7 @@ export class LoginComponent implements OnInit {
               private userStore: UserStoreService,
               private bdService: BdlocaleService) {
     this.createForm();
-<<<<<<< HEAD
     LoginComponent.bdComponent = new TestbdComponent(bdService);  
-=======
-    LoginComponent.bdComponent = new TestbdComponent(bdService);
->>>>>>> 35aac5467fa51584e8b5285a6edf7e27880e7763
     LoginComponent.bdComponent.ngOnInit();
   }
 

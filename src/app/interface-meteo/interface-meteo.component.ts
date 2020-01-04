@@ -34,15 +34,9 @@ export class InterfaceMeteoComponent implements OnInit {
     this.times =  this.openWeatherService.times;
     this.time = this.openWeatherService.getTime();
     this.ind = this.openWeatherService.getTimeIndex(this.time);
-<<<<<<< HEAD
     
     InterfaceMeteoComponent.city = OpenStreetMapService.getVilleName()
     console.log('InterfaceMeteoComponent.city', InterfaceMeteoComponent.city)
-=======
-
-    InterfaceMeteoComponent.city = this.openStreetMapService.getVilleName();
-    console.log('InterfaceMeteoComponent.city', InterfaceMeteoComponent.city);
->>>>>>> 35aac5467fa51584e8b5285a6edf7e27880e7763
     //*
     let meteo = this.openWeatherService.getValuesByVille(InterfaceMeteoComponent.city);
     console.log(meteo);
