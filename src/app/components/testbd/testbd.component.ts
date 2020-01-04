@@ -76,9 +76,7 @@ export class TestbdComponent implements OnInit {
   }
 
   async ngOnInit() {
-   
-    console.log("entree");
-    //this._bdService.initValues();
+    this._bdService.initValues();
     let user = new Utilisateur();
     user.dateNaissance = new Date();
     user.mdp = "emma";
@@ -86,11 +84,15 @@ export class TestbdComponent implements OnInit {
     user.photo = "link";
     user.sexe = "Homme";
     user.ville = "Douala";
-    console.log("test");
     this.updateUser(user);
+
     let villes = await this._bdService.getVilleByRegion("Centre");
+    let ville = await this._bdService.getVilleByNom("Yaounde");
+    let val = await this.assignUser("emma", "");
+
+    console.log(ville);
     console.log(villes);
-    
+    console.log("identification reussie " + val );
   }
 
 }
