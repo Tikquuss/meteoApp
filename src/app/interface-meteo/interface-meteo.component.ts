@@ -35,7 +35,7 @@ export class InterfaceMeteoComponent implements OnInit {
     this.time = this.openWeatherService.getTime();
     this.ind = this.openWeatherService.getTimeIndex(this.time);
     
-    InterfaceMeteoComponent.city = this.openStreetMapService.getVilleName()
+    InterfaceMeteoComponent.city = OpenStreetMapService.getVilleName()
     console.log('InterfaceMeteoComponent.city', InterfaceMeteoComponent.city)
     //*
     let meteo = this.openWeatherService.getValuesByVille(InterfaceMeteoComponent.city);
@@ -52,6 +52,10 @@ export class InterfaceMeteoComponent implements OnInit {
 
   ngOnInit() {
     this.openStreetMapService.initMap(L, 'open-street-map', '4GI_Tikquuss_Team');
+  }
+
+  getPosition(){
+    console.log('position-----------');
   }
 
   logOut() {
