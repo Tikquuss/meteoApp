@@ -37,13 +37,13 @@ export class InterfaceMeteoComponent implements OnInit {
     
     InterfaceMeteoComponent.city = this.openStreetMapService.getVilleName()
     console.log('InterfaceMeteoComponent.city', InterfaceMeteoComponent.city)
-    /*
-    let meteo = this.openWeatherService.getValuesByVille(this.city);
+    //*
+    let meteo = this.openWeatherService.getValuesByVille(InterfaceMeteoComponent.city);
     this.temperature = meteo['temperature'];
     this.pluviometry = meteo['pluviometry'];
     this.humidity = meteo['humidity'];
     //*/
-    //*
+    /*
     this.temperature = Math.floor(Math.random() * 100);
     this.pluviometry = 'ESE '+ Math.floor(Math.random() * 1000)+' m/s';
     this.humidity = Math.floor(Math.random() * 100);
