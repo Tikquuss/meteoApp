@@ -17,8 +17,8 @@
     </li>
   </ul>
 </nav>
-<div class="container mt-3">
-  <div class="card text-white bg-transparent mx-auto w-50" style="min-height: 60vh;">
+<div class="container-fluid container-sm mx-auto mt-3">
+  <div class="card text-white bg-transparent mx-auto" style="min-height: 60vh; max-width: 36rem">
     <div class="card-body rounded" style="background-color: rgba(0, 0, 0, .4);">
       <h4 class="card-title text-capitalize text-center">informations générales</h4>
       <hr class="bg-light">
@@ -55,7 +55,7 @@
             <h6>{{user.ville}}</h6>
           </div>
         </div>
-        <button class="btn btn-light btn-block w-50 mx-auto mt-4" (click)="editState = true;">Modifier vos informations</button>
+        <button class="btn btn-light btn-block w-50 mx-auto mt-4" (click)="editState = true;">Modifier</button>
       </div>
       <form [formGroup]="form" *ngIf="editState">
         <div class="form-group" >
