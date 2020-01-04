@@ -61,6 +61,7 @@ export class OpenWeatherService {
       r['pression'] = Math.round(data.main.pressure); // hpa
       r['vent'] = data.wind.speed; //m/s
     });
+    
     return r;
   }
 
