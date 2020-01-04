@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import * as L from 'leaflet';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class OpenStreetMapService {
     latitude=4.04827;
     longitude=9.70428; //Il s'agit des coordonnées de Douala
     macarte;
-  constructor() {
+  constructor(private httpClient: HttpClient) {
     
    }
    /** @description Initialise la map:permet d'afficher la map centrer en latitude et longitude.
@@ -24,14 +26,19 @@ export class OpenStreetMapService {
                     maxZoom: 20
                 }).addTo(this.macarte);
            var marker = L.marker([this.latitude, this.longitude]).addTo(this.macarte);
- }
- /** @description Recupere les coordonnées geographique du lieu choisi par l'utilisateur.
- * @return {LatLng}
- * Utiliser ".lat" pour recuperer la latitude et ".lng" pour la logitude
+ /** @description Recupere les coordonnées geographique du lieu choisi(par clic) par l'utilisateur.
  */
- getlocation(){
-    this.latitude=this.macarte.getCenter().lat;
-    this.longitude=this.macarte.getCenter().lng;
-    return this.macarte.getCenter();
+    this.macarte.on('click', function(e) {
+      alert("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng);
+      this.latitude=e.latlng.lat;
+      this.longitude=e.latlng.lng;
+    });
+ }
+ /** @description Change les coordonnées geographique en fonction du lieu choisi(ville) par l'utilisateur. on se sert à 
+ */
+geoLocation(ville){
+    var reponse=this.httpClient.get("https://nominatim.openstreetmap.org/search.php?q="+ville+"+&polygon_geojson=1");
+    this.latitude=reponse.getCenter().lat;
+    this.longitude=reponse.getCenter().lng;
  }
 }
