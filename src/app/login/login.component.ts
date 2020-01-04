@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
               private bdService: BdlocaleService) {
     this.createForm();
     LoginComponent.bdComponent = new TestbdComponent(bdService);  
+    LoginComponent.bdComponent.ngOnInit();
   }
 
   createForm() {

@@ -118,8 +118,6 @@ export class BdlocaleService {
 
     await this.setValue(db, "ville",
       { nom: "Edea", posX: 3.800, posY: 10.120, region: "Littoral", pays: "Cameroun" });
-
-
   }
 
   /**
