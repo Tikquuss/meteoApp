@@ -20,6 +20,7 @@
                name="password"
                formControlName="password">
       </div>
+      <p class="card-text mt-3 text-center">{{errorMessage}}</p>
       <button type="submit" class="btn btn-light btn-block mt-4 mx-auto" style="max-width: 18rem">
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="submitting"></span>
         Connexion

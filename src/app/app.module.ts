@@ -17,10 +17,9 @@ import {ChangeLocationModalContentComponent} from './change-location-modal-conte
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserStoreService } from './services/user-store.service';
 import { AuthGuardService } from './services/auth-guard.service';
-import { TestOpenWeatherServiceComponent } from './test-open-weather-service/test-open-weather-service.component';
 
 import { TestbdComponent } from './components/testbd/testbd.component';
-
+import { InterfaceMeteoComponent } from './interface-meteo/interface-meteo.component';
 
 const appRoutes: Routes = [
   { path: '', loadChildren: './hourly-weekly/hourly-weekly.module#HourlyWeeklyModule', canActivate: [AuthGuardService] },
@@ -36,7 +35,7 @@ const appRoutes: Routes = [
     SignupComponent,
     ChangeLocationModalContentComponent,
     UserProfileComponent,
-    TestOpenWeatherServiceComponent,
+    TestbdComponent
   ],
   imports: [
     BrowserModule,
@@ -59,3 +58,11 @@ const appRoutes: Routes = [
   ]
 })
 export class AppModule { }
+
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { environment } from '../environments/environment';
+if (environment.production) {
+  enableProdMode();
+}
+platformBrowserDynamic().bootstrapModule(AppModule);

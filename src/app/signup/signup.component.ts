@@ -6,7 +6,8 @@ import { Router} from '@angular/router';
 import {TestbdComponent} from '../components/testbd/testbd.component'
 import { BdlocaleService } from '../services/bdlocale.service';
 import { Utilisateur } from '../models/utilisateur';
-import { LoginComponent } from '../login/login.component';
+
+import { LoginComponent} from '../login/login.component';
 
 @Component({
   selector: 'app-signup',
@@ -17,6 +18,8 @@ export class SignupComponent implements OnInit {
 
   public form: FormGroup;
   public submitting: boolean = false;
+
+  public errorMessage : String ="rr";
 
   public bdComponent : TestbdComponent;
 
@@ -29,38 +32,45 @@ export class SignupComponent implements OnInit {
 
   createForm() {
     this.form = this.fb.group({
-      email: ['', Validators.required],
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+      nom: ['', Validators.required],
+      dateNaissance: ['', Validators.required],
+      sexe: ['', Validators.required],
+      photo: ['', Validators.required],
+      ville: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
   submit() {
     this.submitting = true;
     if (this.form.valid) {
-      //const username = this.form.get('username').value;
-      //const password = this.form.get('password').value;
         console.log(this.form.value);
         let user = new Utilisateur();
-        user.dateNaissance = new Date();
-        user.mdp = "emma2";
-        user.nom = "emma2";
-        user.photo = "link";
-        user.sexe = "Homme";
-        user.ville = "Douala";
-        this.bdComponent.updateUser(user);
+        user.nom = this.form.get('nom').value;
+        user.dateNaissance = this.form.get('dateNaissance').value;
+        user.sexe = this.form.get('sexe').value;
+        user.photo = this.form.get('photo').value;
+        user.ville = this.form.get('ville').value;
+        user.mdp = this.form.get('password').value;
+        
+        //this.bdComponent.updateUser(user);
         //*
         this.bdService.setUser(user).then(
           (success) => {
-            console.log("inscription reussi", success)
-            LoginComponent
+            if(success){
+              LoginComponent.bdComponent.setUserCourant(user);
+              console.log("inscription reussi", success);
+            }else{
+              this.errorMessage = "Informations invalides";
+              console.log("inscription échouée", success);
+            }
           },
           (error) => {
-            console.log("inscription échouée", error)
+            console.log("erreur de connexion", error)
           }
         );
         //*/
-       this.router.navigate(['']);
+        this.router.navigate(['']);
     }
   }
 

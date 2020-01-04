@@ -6,6 +6,7 @@ import { UserStoreService } from '../services/user-store.service';
 // Fandio to Mengong
 import {TestbdComponent} from '../components/testbd/testbd.component'
 import { BdlocaleService } from '../services/bdlocale.service';
+import { Utilisateur } from '../models/utilisateur';
 
 @Component({
   selector: 'app-login',
@@ -17,14 +18,17 @@ export class LoginComponent implements OnInit {
 
   public form: FormGroup;
   public submitting: Boolean = false;
-  public bdComponent : TestbdComponent;
+  
+  public static bdComponent : TestbdComponent;
+  
+  public errorMessage : String ="";
 
   constructor(private fb: FormBuilder,
               private router: Router,
               private userStore: UserStoreService,
               private bdService: BdlocaleService) {
     this.createForm();
-    this.bdComponent = new TestbdComponent(bdService);
+    LoginComponent.bdComponent = new TestbdComponent(bdService);  
   }
 
   createForm() {
@@ -40,26 +44,30 @@ export class LoginComponent implements OnInit {
       const username = this.form.get('username').value;
       const password = this.form.get('password').value;
       console.log(this.form.value);
-      /*
-      this.bdComponent.assignUser(username, password).then(
+      LoginComponent.bdComponent.assignUser(username, password).then(
         (success) => {
-          this.userStore.isLoggedIn = true;
-          //this.bdComponent.setUserCourant()
+          if(success){
+            this.userStore.isLoggedIn = true;
+            this.bdService.getUserByUserName(username).then(
+              (user: Utilisateur) => {
+                LoginComponent.bdComponent.setUserCourant(user);
+              }
+            );
+            console.log("connexion reussi");
+          }else{
+            this.errorMessage = "Utilisateur introuvable";
+            this.userStore.isLoggedIn = false;
+            console.log("connexion échouée")
+          }
           this.router.navigate(['']);
-          console.log("connexion reussi", success)
         },
         (error) => {
-          console.log("connexion échouée", error)
+          console.log("erreur de connexion", error)
         }
       );
-      */
     }
-    this.userStore.isLoggedIn = true;
-    this.submitting = false;
-    this.router.navigate(['']);
   }
 
   ngOnInit() {
   }
-
 }
