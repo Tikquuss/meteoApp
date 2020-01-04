@@ -16,19 +16,18 @@ import { Utilisateur } from '../models/utilisateur';
 
 export class LoginComponent implements OnInit {
 
+  public static bdComponent: TestbdComponent;
   public form: FormGroup;
-  public submitting: Boolean = false;
-  
-  public static bdComponent : TestbdComponent;
-  
-  public errorMessage : String ="";
+  public submitting: boolean = false;
+  public errorMessage: string = '';
 
   constructor(private fb: FormBuilder,
               private router: Router,
               private userStore: UserStoreService,
               private bdService: BdlocaleService) {
     this.createForm();
-    LoginComponent.bdComponent = new TestbdComponent(bdService);  
+    LoginComponent.bdComponent = new TestbdComponent(bdService);
+    LoginComponent.bdComponent.ngOnInit();
   }
 
   createForm() {
@@ -66,6 +65,7 @@ export class LoginComponent implements OnInit {
         }
       );
     }
+    this.submitting = false;
   }
 
   ngOnInit() {

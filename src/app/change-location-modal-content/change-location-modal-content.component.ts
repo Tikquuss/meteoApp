@@ -21,7 +21,7 @@ export class ChangeLocationModalContentComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal,
               private fb: FormBuilder,
-              private bdlocaleService : BdlocaleService) {
+              private bdlocaleService: BdlocaleService) {
     this.countries = [''].concat(this.bdlocaleService.getCountries());
     this.createForm();
   }
@@ -47,32 +47,33 @@ export class ChangeLocationModalContentComponent implements OnInit {
 
   /**
    * Retourne les regions du pays selectionné dans le modal
-   * @param {countrie : String} 
-   * @returns {Array of regions}
-  */
+   * @param {countrie : String}
+   * * @returns {Array of regions}
+   */
   getRegionOfSelectedCountrie(countrie){
     return [''].concat(this.bdlocaleService.getRegionsByCountrie(countrie));
   }
 
   /**
    * Retourne les villes de la region selectionnée dans le modal
-   * @param {region : String} 
-   * @returns {Array of cities}
-  */
+   * @param {region : String}
+   * * @returns {Array of cities}
+   */
   getCitiesOfSelectedRegion(region){
     return [''].concat(this.bdlocaleService.getVillesByRegion(region));
   }
 
   /**
    * Ecouteur du boutton enregistré
-   * @param {} 
-   * @returns {}
-  */
-  onSave(){
+   * @param {}
+   * * @returns {}
+   */
+  onSave() {
     // Todo : faire en sorte que le modal se ferme
     console.log(this.country.value);
     console.log(this.region.value);
     console.log(this.city.value);
     InterfaceMeteoComponent.city = this.city.value;
+    this.activeModal.close('Close click');
   }
 }
