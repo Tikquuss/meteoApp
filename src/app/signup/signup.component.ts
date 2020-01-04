@@ -71,7 +71,9 @@ export class SignupComponent implements OnInit {
         );
         // */
         this.router.navigate(['']);
-    }
+      }else{
+        this.errorMessage = 'Informations invalides';
+      }
   }
 
   triggerClick() {

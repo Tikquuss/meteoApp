@@ -5,7 +5,10 @@ import { Router} from '@angular/router';
 
 // Mengong to Mengong
 import { LoginComponent} from '../login/login.component';
-import {Utilisateur} from "../models/utilisateur";
+
+// Fandio to Mengong
+import { Utilisateur } from '../models/utilisateur';
+import { BdlocaleService } from '../services/bdlocale.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -23,14 +26,15 @@ export class UserProfileComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private userStore: UserStoreService,
-              private router: Router) {
+              private router: Router,
+              private bdService: BdlocaleService) {
     this.createForm();
   }
 
   createForm() {
     // Mengong : refaire le formulaire comme suit
     this.user = LoginComponent.bdComponent.getUserCourant();
-    const user = LoginComponent.bdComponent.getUserCourant();
+    const user = this.user;
     this.form = this.fb.group({
       nom: [this.user.nom, Validators.required],
       dateNaissance: ['', Validators.required],
@@ -61,6 +65,24 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  OnSave(){
+    if (this.form.valid) {
+
+      let user = new Utilisateur();
+      user.nom = this.form.get('nom').value;
+      user.dateNaissance = this.form.get('dateNaissance').value;
+      user.sexe = this.form.get('sexe').value;
+      user.photo = this.form.get('photo').value;
+      user.ville = this.form.get('ville').value;
+      user.mdp = this.form.get('password').value;
+
+      LoginComponent.bdComponent.updateUser(user);
+      this.bdService.removeUser(LoginComponent.bdComponent.getUserCourant())
+      LoginComponent.bdComponent.setUserCourant(user);
+      
+    }
   }
 
 }

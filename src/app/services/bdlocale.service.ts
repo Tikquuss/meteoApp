@@ -289,6 +289,15 @@ export class BdlocaleService {
   }
 
   // Ajouté
+  /**
+   * Pour supprimer un utilisateur de la BD
+   * @param {user : Utilisateur} 
+   * @returns {}
+  */
+  async removeUser(user: Utilisateur){
+
+  }
+
   async getUserByUserName(username: string): Promise<Utilisateur> {
     let db = await this.openDB();
     return new Promise<Utilisateur>((resolve, reject) => {
