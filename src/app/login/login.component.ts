@@ -16,19 +16,21 @@ import { Utilisateur } from '../models/utilisateur';
 
 export class LoginComponent implements OnInit {
 
+  public static bdComponent: TestbdComponent;
   public form: FormGroup;
-  public submitting: Boolean = false;
-  
-  public static bdComponent : TestbdComponent;
-  
-  public errorMessage : String ="";
+  public submitting: boolean = false;
+  public errorMessage: string = '';
 
   constructor(private fb: FormBuilder,
               private router: Router,
               private userStore: UserStoreService,
               private bdService: BdlocaleService) {
     this.createForm();
+<<<<<<< HEAD
     LoginComponent.bdComponent = new TestbdComponent(bdService);  
+=======
+    LoginComponent.bdComponent = new TestbdComponent(bdService);
+>>>>>>> 35aac5467fa51584e8b5285a6edf7e27880e7763
     LoginComponent.bdComponent.ngOnInit();
   }
 
@@ -67,6 +69,7 @@ export class LoginComponent implements OnInit {
         }
       );
     }
+    this.submitting = false;
   }
 
   ngOnInit() {
