@@ -391,13 +391,7 @@ export class BdlocaleService {
 
       const request = store.getAll();
       request.onsuccess = (event: any) => {
-        const cursor = event.target.result;
-        if (cursor) {
-          results.push(cursor.value);
-          cursor.continue();
-        } else {
-          resolve(results);
-        }
+        resolve(request.result);
       };
       request.onerror = (event: any) => {
         reject(event.error);
