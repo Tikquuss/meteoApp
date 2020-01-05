@@ -9,17 +9,14 @@ import { Observable } from 'rxjs';
 export class OpenWeatherService {
 
   private API_KEY = "d28e38bb181eda122ee70b1387568a14";
-  private ROOT_URL ="https://api.openweathermap.org/data/2.5/weather?";
+  private ROOT_URL ="https://api.openweathermap.org/data/2.5/weather?q";
+  
+  public times = ['cloudy', 'rainy', 'sunny', 'stormy'];
 
   constructor(private httpClient: HttpClient) { }
 
-  getWeather(ville:string): Observable<any> {
-    return this.httpClient.get(this.ROOT_URL +'q='+ville+'&APPID='+this.API_KEY);
-  }
-
-  getWeatherByCoord(latitude:number, longitude:number):Observable<any>{
-    return this.httpClient.get(this.ROOT_URL + 'lat='+latitude+'&lon='+longitude+
-                              '&APPID='+this.API_KEY)
+  getWeather(ville): Observable<any> {
+    return this.httpClient.get(this.ROOT_URL +'='+ville+'&APPID='+this.API_KEY);
   }
 
   getValuesByVille(ville){
@@ -29,7 +26,6 @@ export class OpenWeatherService {
       'humidite':  0, //%
       'pression': 0, // hpa
       'vent': 0 //m/s
-      'time': ''//temps qu'il fait
     };
 
     this.getWeather(ville).subscribe(data => {
@@ -38,7 +34,6 @@ export class OpenWeatherService {
       r['humidite'] = Math.round(data.main.humidity); //%
       r['pression'] = Math.round(data.main.pressure); // hpa
       r['vent'] = data.wind.speed; //m/s
-      r['time'] =
     });
     return r;
   }
@@ -59,7 +54,7 @@ export class OpenWeatherService {
       'vent': 0 //m/s
     };
 
-    this.getWeatherByCoord(latitude,longitude).subscribe(data => {
+    this.getWeather('--------------------').subscribe(data => {
       r['temperature'] = Math.round(data.main.temp-273); // °C
       r['pluviometrie'] = 'ESE 0 m/s';
       r['humidite'] = Math.round(data.main.humidity); //%
