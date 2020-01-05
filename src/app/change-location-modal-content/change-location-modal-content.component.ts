@@ -27,6 +27,9 @@ export class ChangeLocationModalContentComponent implements OnInit {
         console.log("liste pays" + this.countries);
       });
       */ 
+     this.getCountries().then((co)=>{
+      this.countries = co;
+     });
      this.createForm();
   }
 
