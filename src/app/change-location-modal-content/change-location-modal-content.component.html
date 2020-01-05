@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h4 class="modal-title">Localisation</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+      <div class="form-group">
+        <label for="country" class="font-weight-bold">Choisir le pays:</label>
+        <select class="form-control bg-transparent border-light text-black font-weight-bold"
+                id="country"
+                name="country"
+                formControlName="country">
+          <option *ngFor="let c of countries">{{c}}</option>
+        </select>
+      </div>
+    <div class="form-group" *ngIf="country.value">
+      <label for="region" class="font-weight-bold">Choisir la région:</label>
+      <select class="form-control bg-transparent border-light text-black font-weight-bold"
+              id="region"
+              name="region"
+              formControlName="region">
+        <option *ngFor="let r of getRegionOfSelectedCountrie(country.value)">{{r}}</option>
+      </select>
+    </div>
+    <div class="form-group" *ngIf="region.value">
+      <label for="city" class="font-weight-bold">Choisir la ville:</label>
+      <select class="form-control bg-transparent border-light text-black font-weight-bold"
+              id="city"
+              name="city"
+              formControlName="city">
+        <option *ngFor="let c of getCitiesOfSelectedRegion(region.value)">{{c}}</option>
+      </select>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-danger" (click)="activeModal.close('Close click')">Cancel</button>
+  <button type="submit" class="btn btn-outline-dark" (click)="onSave()">Enregistrer</button>
+</div>

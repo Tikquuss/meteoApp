@@ -1,0 +1,31 @@
+<div class="card mx-auto mt-5 w-50 bg-transparent text-white border-0">
+  <div class="card-body">
+    <h3 class="card-title text-center">Connexion</h3>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-group" >
+        <label for="exampleInputEmail1">Pseudo:</label>
+        <input type="text"
+               class="form-control bg-transparent border-light text-white"
+               id="exampleInputEmail1"
+               placeholder="entrez votre pseudonyme"
+               name="username"
+               formControlName="username">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Mot de passe:</label>
+        <input type="password"
+               class="form-control bg-transparent border-light text-white"
+               id="exampleInputPassword1"
+               placeholder="entrez votre mot de passe"
+               name="password"
+               formControlName="password">
+      </div>
+      <p class="card-text mt-3 text-center">{{errorMessage}}</p>
+      <button type="submit" class="btn btn-light btn-block mt-4 mx-auto" style="max-width: 18rem">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="submitting"></span>
+        Connexion
+      </button>
+      <p class="card-text mt-3 text-center">Vous n'avez pas de compte ?  <a class="text-primary text-decoration-none" href="#" routerLink="/signup">Inscrivez-vous</a></p>
+    </form>
+  </div>
+</div>

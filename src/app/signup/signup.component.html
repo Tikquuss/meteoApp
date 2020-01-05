@@ -1,0 +1,67 @@
+<div class="card mx-auto mt-5 w-50 bg-transparent text-white border-0">
+  <div class="card-body">
+    <h3 class="card-title text-center">Inscription</h3>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-group" >
+        <label for="nom">Nom d'utilisateur:</label>
+        <input type="text"
+               class="form-control bg-transparent border-light text-white"
+               id="nom"
+               placeholder="entrez votre nom d'utilisateur"
+               name="nom"
+               formControlName="nom">
+      </div>
+      <div class="form-group" >
+        <label for="dateNaissance">Date de naissance:</label>
+        <input type="date"
+               class="form-control bg-transparent border-light text-white"
+               id="dateNaissance"
+               placeholder="entrez votre date de naissance"
+               name="dateNaissance"
+               formControlName="dateNaissance">
+      </div>
+      <div class="form-group" >
+        <label for="sexe">Sexe:</label>
+        <input type="text"
+               class="form-control bg-transparent border-light text-white"
+               id="sexe"
+               placeholder="entrez votre sexe"
+               name="sexe"
+               formControlName="sexe">
+      </div>
+      <div class="form-group" >
+        <label for="photo">Photo de Profil</label>
+        <input type="text"
+               class="form-control bg-transparent border-light text-white"
+               id="photo"
+               placeholder="entrez un pseudonyme"
+               name="photo"
+               formControlName="photo">
+      </div>
+      <div class="form-group" >
+        <label for="ville">Ville:</label>
+        <input type="text"
+               class="form-control bg-transparent border-light text-white"
+               id="ville"
+               placeholder="entrez un ville"
+               name="ville"
+               formControlName="ville">
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de passe:</label>
+        <input type="password"
+               class="form-control bg-transparent border-light text-white"
+               id="password"
+               placeholder="entrez un mot de passe"
+               name="password"
+               formControlName="password">
+      </div>
+      <p class="card-text mt-3 text-center">{{errorMessage}}</p>
+      <button type="submit" class="btn btn-light btn-block mt-4 mx-auto" style="max-width: 18rem">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="submitting"></span>
+        S'inscrire
+      </button>
+      <p class="card-text mt-3 text-center">Vous avez déjà un compte ?  <a class="text-primary text-decoration-none" href="#" routerLink="/login">Connectez-vous</a></p>
+    </form>
+  </div>
+</div>

@@ -11,8 +11,7 @@ import { Ville } from 'src/app/models/ville';
   */
 @Component({
   selector: 'app-testbd',
-  templateUrl: './testbd.component.html',
-  styleUrls: ['./testbd.component.css']
+  template: ''
 })
 export class TestbdComponent implements OnInit {
   private _bdService: BdlocaleService;
@@ -94,5 +93,4 @@ export class TestbdComponent implements OnInit {
     console.log(villes);
     console.log("identification reussie " + val );
   }
-
 }

@@ -1,0 +1,67 @@
+<nav class="navbar navbar-light bg-transparent border-bottom text-white">
+  <a class="navbar-brand align-middle text-white" href="#">
+    <img src="/docs/4.4/assets/brand/bootstrap-solid.svg"
+         width="60"
+         height="60"
+         class="d-inline-block align-middle rounded-circle bg-white"
+         alt=""
+         style="object-fit: cover">
+    User name
+  </a>
+  <ul class="nav">
+    <li class="nav-item active border-right">
+      <a class="nav-link" href="#" routerLink="profile">Profil</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="logOut()" style="cursor: pointer">Se déconnecter</a>
+    </li>
+  </ul>
+</nav>
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div class="col-5">
+      <div class="card border-0 text-white bg-transparent" style="min-height: 50vh;">
+        <img src="assets/img/{{times[ind]}}.gif" class="card-img" alt="..." style="object-fit: cover; height: 50vh; opacity: .4">
+        <div class="card-img-overlay" style="background-color: rgba(0, 0, 0, .4);">
+          <h5 class="card-title mb-4">
+            <i class="fas fa-map-marker-check"></i>
+            {{city}}
+            <small class="text-white-50">• Maintenant</small>
+            <small class="float-right">
+              <app-change-location-modal class="d-inline"></app-change-location-modal>
+            </small>
+          </h5>
+          <h2 class="card-title display-4 text-center mb-2"><i class="wi wi-day-cloudy"></i> {{temperature}}°C</h2>
+          <h4 class="card-text text-center font-weight-normal">{{time}}</h4>
+          <p class="card-text text-center text-white-50 mb-5">{{temperature + 10}}°/{{temperature}}° Ressentie {{temperature}}°</p>
+          <p class="card-text mb-2">
+            <small> <i class="fa fa-humidity"></i>&nbsp;&nbsp;{{humidity}} %</small>
+          </p>
+          <p class="card-text mt-0">
+            <small> <i class="fa fa-pennant"></i>&nbsp;{{pluviometry}}</small>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card border-0" style="background-color: rgba(0, 0, 0, .4); min-height: 50vh;">
+        <!-- Déclaration du conteneur de la carte avec l'id "open-street-map" -->
+        <div class="card-body" id="open-street-map">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mt-3 border-0 pb-3" style="background-color: rgba(0, 0, 0, .4); min-height: 20vh;">
+    <div class="card-header bg-transparent border-0">
+      <div class="btn-group btn-group-toggle d-inline" data-toggle="buttons">
+        <label class="btn btn-sm btn-light active px-5" routerLink="" [class.active]="hourly" (click)="hourly=true; weekly=false;">
+          <input type="radio" name="options" id="option1" checked> Heures
+        </label>
+        <label class="btn btn-sm btn-light px-5" routerLink="weekly" [class.active]="weekly" (click)="hourly=false; weekly=true;">
+          <input type="radio" name="options" id="option2"> Jours
+        </label>
+      </div>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</div>
