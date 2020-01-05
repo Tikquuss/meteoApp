@@ -28,7 +28,7 @@ export class BdlocaleService {
 
         let db = event.target.result;
 
-        console.log("onupgradeneeded")
+        //console.log("onupgradeneeded")
         //db.deleteObjectStore("utilisateur");
         //creation de utilisateur
         if (!db.objectStoreNames.contains("utilisateur")) {
@@ -38,7 +38,6 @@ export class BdlocaleService {
           store.createIndex('photo', 'photo', { unique: false });
           store.createIndex('ville', 'ville', { unique: false });
           store.createIndex('mdp', 'mdp', { unique: false });
-          console.log("table user créee");
         }
 
         //creation de ville
@@ -52,7 +51,6 @@ export class BdlocaleService {
       }
 
       request.onsuccess = event => {
-        console.log("success");
         resolve(request.result);
       };
       request.onerror = (event: any) => {
@@ -120,8 +118,6 @@ export class BdlocaleService {
 
     await this.setValue(db, "ville",
       { nom: "Edea", posX: 3.800, posY: 10.120, region: "Littoral", pays: "Cameroun" });
-
-
   }
 
   /**
@@ -155,13 +151,17 @@ export class BdlocaleService {
   async verify(nom: string, mdp: string): Promise<Utilisateur> {
     let db = await this.openDB();
     return new Promise<Utilisateur>((resolve, reject) => {
-      let user = this.getByIndex<Utilisateur>(db, "utilisateur", "nom", nom);
-      user.then((use: Utilisateur[]) => {
-        use.forEach(element => {
-          if (element.mdp === mdp) {
-            resolve(element);
+      let user = this.getValue<Utilisateur>(db, "utilisateur", nom);
+      user.then((use: Utilisateur) => {
+        if (use !== undefined && use !== null){
+          if (use.mdp === mdp){
+            resolve(use);
           }
-        });
+          resolve(null);
+        }
+        else{
+          resolve(null);
+        }
         resolve(null);
       });
     });
@@ -200,7 +200,7 @@ export class BdlocaleService {
         if (cursor) {
           results.push(cursor.value);
 
-          cursor.continue
+          cursor.continue;
         }
         else {
           resolve(results);
@@ -243,6 +243,21 @@ export class BdlocaleService {
   }
 
   /**
+  * permet de retourner des villes a partir de leur pays d'appartenance
+  * @param {string} key - nom du pays
+  * @return Ville[]
+*/
+  async getVilleByPays(key: string): Promise<Ville[]> {
+    let db = await this.openDB();
+    return new Promise<Ville[]>((resolve, reject) => {
+      let villePromise = this.getByIndex<Ville>(db, "ville", "pays", key);
+      villePromise.then((villes: Ville[]) => {
+        resolve(villes);
+      });
+    });
+  }
+
+  /**
     * permet de rechercher des éléments ayant une valeur donnée dans un index donné
     * @param {IDBDatabase} db - base de donnée
     * @param {string} storeName - nom de la table
@@ -271,5 +286,133 @@ export class BdlocaleService {
         reject(event.error);
       };
     });
+  }
+
+  // Ajouté
+  /**
+   * Pour supprimer un utilisateur de la BD
+   * @param {user : Utilisateur} 
+   * @returns {}
+  */
+  async removeUser(user: Utilisateur){
+
+  }
+
+  async getUserByUserName(username: string): Promise<Utilisateur> {
+    let db = await this.openDB();
+    return new Promise<Utilisateur>((resolve, reject) => {
+      this.getValue<Utilisateur>(db, "utilisateur", username).then(
+        (utilisateur: Utilisateur) => {
+          resolve(utilisateur);
+        }
+      );
+    });
+  }
+
+  
+  /**
+   * Retourne tous les pays du monde
+   * @param {} 
+   * @returns {Array of countries}
+  */
+  public getCountries(){
+    return ['Cameroun'];
+  }
+
+  /**
+   * Retourne tout les villes d'un pays donné
+   * @param {countrie : String} 
+   * @returns {Array of cities}
+  */
+  getRegionsByCountrie(countrie){
+    // Uniquement le cameroun pour l'instant
+    switch(countrie){
+      case 'Cameroun' :
+        return ['Ouest','Extrême-Nord', 'Nord', 'Adamawoua','Est','Centre', 
+                'Sud','Littoral', 'Nord-Ouest','Sud-Ouest'];
+      default:
+        return [];
+    }
+  }
+
+  /**
+   * Retourne les villes d'une region donnée
+   * @param {region : String} 
+   * @returns {Array of cities}
+  */
+  getVillesByRegion(region){
+    // Normalement c'est :
+    /* 
+     this.getVilleByRegion(region).then(
+        (ville: Ville[]) => {
+            return ville;
+        }
+    );
+    //*/
+    // sauf que ca renvoit peu de villes et ne gere pas toutes les regions.
+    // Fandio doit rendre ca dynamique en peuplant la BD de villes
+    switch(region){
+      case 'Ouest':
+        return ['Baffoussam', 'Mbouda'];
+      case 'Extrême-Nord': 
+        return ['Maroua', 'Walay', 'Djam'];
+      case 'Nord':
+        return ['Garoua', 'Walay', 'Djam'];
+      case 'Adamawoua':
+        return ["Ngaoundere",'Walay', 'Djam'];
+      case 'Est':
+        return ['Bertoua', 'Abong-Mbang'];
+      case 'Centre': 
+        return ['Yaounde', 'Obala'];
+      case 'Sud':
+        return ['Ebolowa', 'Makanah'];
+      case 'Littoral':
+        return ['Douala', 'Ebolotowa', 'Boumniebel']; 
+      case 'Nord-Ouest':
+        return ['Bamenda', 'Caleb', 'Nfor', 'Mutia'];
+      case 'Sud-Ouest':
+        return ['Buea', 'Caleb', 'Nfor', 'Mutia'];
+    }
+    return [];
+  }
+
+  /**
+   * Retourne tous les régions des pays de la base de données
+   * @param {} 
+   * @returns {Map of <pays, [regions pays]>}
+  */
+  public getRegions(){
+    let regions = new Map(); // <pays, [regions]>
+    for(let countrie of this.getCountries()){
+      regions.set(countrie, this.getRegionsByCountrie(countrie));
+    }
+    return regions;
+  }
+
+  /**
+   * Retourne tous les villes des regions/pays de la base de données
+   * @param {limit_to_region : boolean} 
+   * @returns {Map of <region, [ville de la region]>} si limit_to_region = true
+   * @returns {Map of <pays, [<region du pays, [ville de la region]>]>} si limit_to_region = false
+   * Dans le second cas c'est un map de map du prémiere cas
+  */
+  getCities(limit_to_region = true){
+    let cities = new Map(); // <pays, [regions]>
+    if(limit_to_region){
+      for(let regions of this.getRegions().values()){
+        for(let region of regions){
+          cities.set(region, this.getVillesByRegion(region));
+        }
+      }
+    }else{
+      for(let countrie of this.getCountries()){
+        let c = new Map();
+        for(let region of this.getRegionsByCountrie(countrie)){
+            c.set(region, this.getVillesByRegion(region))
+        }
+        cities.set(countrie, c)
+      }
+    }
+    return cities;
   }
 }

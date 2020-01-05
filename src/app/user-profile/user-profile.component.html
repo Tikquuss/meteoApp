@@ -1,12 +1,12 @@
 <nav class="navbar navbar-light bg-transparent border-bottom text-white">
   <a class="navbar-brand align-middle text-white" href="#">
-    <img src="/docs/4.4/assets/brand/bootstrap-solid.svg"
+    <img src="{{user.photo}}"
          width="60"
          height="60"
          class="d-inline-block align-middle rounded-circle bg-white"
          alt=""
          style="object-fit: cover">
-    User name
+    {{user.nom}}
   </a>
   <ul class="nav">
     <li class="nav-item active border-right">
@@ -17,8 +17,8 @@
     </li>
   </ul>
 </nav>
-<div class="container mt-3">
-  <div class="card text-white bg-transparent mx-auto w-50" style="min-height: 60vh;">
+<div class="container-fluid container-sm mx-auto mt-3">
+  <div class="card text-white bg-transparent mx-auto" style="min-height: 60vh; max-width: 36rem">
     <div class="card-body rounded" style="background-color: rgba(0, 0, 0, .4);">
       <h4 class="card-title text-capitalize text-center">informations générales</h4>
       <hr class="bg-light">
@@ -28,7 +28,7 @@
             <h6>Noms et Prénoms :</h6>
           </div>
           <div class="col-7">
-            <h6>KEUDEM FRANK</h6>
+            <h6 class="text-uppercase">{{user.nom}}</h6>
           </div>
         </div>
         <div class="row">
@@ -36,7 +36,7 @@
             <h6>Date de Naissance :</h6>
           </div>
           <div class="col-7">
-            <h6>DD/MM/YYYY</h6>
+            <h6>{{user.dateNaissance.toISOString().split('T')[0]}}</h6>
           </div>
         </div>
         <div class="row">
@@ -44,26 +44,18 @@
             <h6>Sexe :</h6>
           </div>
           <div class="col-7">
-            <h6>N/A</h6>
+            <h6>{{user.sexe}}</h6>
           </div>
         </div>
         <div class="row">
           <div class="col-5 text-white-50 px-0 mr-0 text-right">
-            <h6>Username :</h6>
+            <h6>Ville :</h6>
           </div>
           <div class="col-7">
-            <h6>Frank.Keudem</h6>
+            <h6>{{user.ville}}</h6>
           </div>
         </div>
-        <div class="row">
-          <div class="col-5 text-white-50 px-0 mr-0 text-right">
-            <h6>Email :</h6>
-          </div>
-          <div class="col-7">
-            <h6>frankkeudem@gmail.com</h6>
-          </div>
-        </div>
-        <button class="btn btn-light btn-block w-50 mx-auto mt-4" (click)="editState = true;">Modifier vos informations</button>
+        <button class="btn btn-light btn-block w-50 mx-auto mt-4" (click)="editState = true;">Modifier</button>
       </div>
       <form [formGroup]="form" *ngIf="editState">
         <div class="form-group" >
@@ -73,16 +65,16 @@
                  id="firstName"
                  placeholder="entrez votre nom"
                  name="firstName"
-                 formControlName="firstName">
+                 formControlName="nom">
         </div>
-        <div class="form-group" >
-          <label for="lastName">Prénom:</label>
-          <input type="text"
+        <div class="form-group">
+          <label for="password">Mot de passe:</label>
+          <input type="password"
                  class="form-control bg-transparent border-light text-white"
-                 id="lastName"
-                 placeholder="entrez votre prénom"
-                 name="lastName"
-                 formControlName="lastName">
+                 id="password"
+                 placeholder="entrez un mot de passe"
+                 name="password"
+                 formControlName="password">
         </div>
         <div class="form-group">
           <label for="birthDate">Date de naissance:</label>
@@ -90,13 +82,22 @@
             <input class="form-control bg-transparent border-light text-white"
                    id="birthDate"
                    placeholder="yyyy-mm-dd"
-                   name="birthDate"
-                   formControlName="birthDate"
+                   name="dateNaissance"
+                   formControlName="dateNaissance"
                    ngbDatepicker #d="ngbDatepicker">
             <div class="input-group-append">
               <button class="btn btn-outline-light fal fa-calendar-day" (click)="d.toggle()" type="button"></button>
             </div>
           </div>
+        </div>
+        <div class="form-group" >
+          <label for="ville">Ville:</label>
+          <input type="text"
+                 class="form-control bg-transparent border-light text-white"
+                 id="ville"
+                 placeholder="entrez une ville"
+                 name="ville"
+                 formControlName="ville">
         </div>
         <fieldset class="form-group">
           <div class="row">
@@ -105,11 +106,10 @@
               <div class="form-check">
                 <input class="form-check-input"
                        type="radio"
-                       name="sex"
-                       formControlName="sex"
+                       name="sexe"
+                       formControlName="sexe"
                        id="gridRadios1"
-                       value="Homme"
-                       checked>
+                       value="Homme">
                 <label class="form-check-label" for="gridRadios1">
                   Homme
                 </label>
@@ -117,8 +117,8 @@
               <div class="form-check">
                 <input class="form-check-input"
                        type="radio"
-                       name="sex"
-                       formControlName="sex"
+                       name="sexe"
+                       formControlName="sexe"
                        id="gridRadios2"
                        value="Femme">
                 <label class="form-check-label" for="gridRadios2">
@@ -130,10 +130,15 @@
         </fieldset>
         <a class="btn btn-link text-decoration-none p-0 text-primary" role="button" (click)="triggerClick()">Changer la photo de profil</a>
         <div class="custom-file" style="display: none" >
-          <input type="file" class="custom-file-input" id="customFileLangHTML" #profilePicture>
+          <input type="file"
+                 class="custom-file-input"
+                 id="customFileLangHTML"
+                 name="profilePicture"
+                 formControlName="photo"
+                 #profilePicture>
           <label class="custom-file-label" for="customFileLangHTML" data-browse="Choisir">Changer la photo de profil</label>
         </div>
-        <button type="submit" class="btn btn-light btn-block mt-4 mx-auto" style="max-width: 18rem">
+        <button type="submit" class="btn btn-light btn-block mt-4 mx-auto" style="max-width: 18rem" (click)="OnSave()">
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="submitting"></span>
           Enregistrer
         </button>
