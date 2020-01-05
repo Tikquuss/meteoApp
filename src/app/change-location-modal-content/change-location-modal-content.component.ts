@@ -26,11 +26,11 @@ export class ChangeLocationModalContentComponent implements OnInit {
         this.createForm();
         console.log("liste pays" + this.countries);
       });
-      */ 
-     this.getCountries().then((co)=>{
-      this.countries = co;
+      */
+      this.getCountries().then((co) =>  {
+        this.countries = co;
      });
-     this.createForm();
+      this.createForm();
   }
 
   async initPays() {
@@ -58,8 +58,8 @@ export class ChangeLocationModalContentComponent implements OnInit {
   // Ajoutées
 
   /**
-   * 
-   * @param 
+   *
+   * @param
    */
   async getCountries(): Promise<string[]>{
     let coun = await this.bdlocaleService.getCountries();
