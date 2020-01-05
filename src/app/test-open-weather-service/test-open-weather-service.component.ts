@@ -15,9 +15,10 @@ export class TestOpenWeatherServiceComponent {
   pression: number;
   humidite: number;
   vent: number;
+  time: string;
   ville = "Mbouda";
-  latitude ="037"
-  longitude ="56567"
+  latitude =" 4"
+  longitude ="12"
 
   ngOnInit() {
    
@@ -27,6 +28,7 @@ export class TestOpenWeatherServiceComponent {
       this.pression = Math.round(data.main.pressure);
       this.humidite = Math.round(data.main.humidity);
       this.vent = data.wind.speed;
+      this.time = data.weather["0"].main;
      
       console.log(data);
     });
