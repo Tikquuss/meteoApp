@@ -23,7 +23,7 @@ export class BdlocaleService {
   */
   openDB(): Promise<IDBDatabase> {
     return new Promise<IDBDatabase>((resolve, reject) => {
-      const request = window.indexedDB.open("myDatabase", 4);
+      const request = window.indexedDB.open("myDatabase", 6);
 
       request.onupgradeneeded = (event: any) => {
         //C'est ici qu'on créé ou modifie la structure de la base
@@ -35,18 +35,18 @@ export class BdlocaleService {
 
         //creation de pays
         if (!db.objectStoreNames.contains("pays")) {
-          var store = db.createObjectStore("pays", { keyPath: "nom" });
+          let store = db.createObjectStore("pays", { keyPath: "nom" });
         }
 
         //creation de region
         if (!db.objectStoreNames.contains("region")) {
-          var store = db.createObjectStore("region", { keyPath: "nom" });
+          let store = db.createObjectStore("region", { keyPath: "nom" });
           store.createIndex('pays', 'pays', { unique: false });
         }
 
         //creation de utilisateur
         if (!db.objectStoreNames.contains("utilisateur")) {
-          var store = db.createObjectStore("utilisateur", { keyPath: "nom" });
+          let store = db.createObjectStore("utilisateur", { keyPath: "nom" });
           store.createIndex('dateNaissance', 'dateNaissance', { unique: false });
           store.createIndex('sexe', 'sexe', { unique: false });
           store.createIndex('photo', 'photo', { unique: false });
@@ -56,7 +56,7 @@ export class BdlocaleService {
 
         //creation de ville
         if (!db.objectStoreNames.contains("ville")) {
-          var store2 = db.createObjectStore("ville", { keyPath: "nom" });
+          let store2 = db.createObjectStore("ville", { keyPath: "nom" });
           store2.createIndex('posX', 'posX', { unique: false });
           store2.createIndex('posY', 'posY', { unique: false });
           store2.createIndex('region', 'region', { unique: false });
@@ -121,37 +121,36 @@ export class BdlocaleService {
   /**
    * initialisation des Regions du Cameroun
    */
-  async initRegions() {
-    let db = await this.openDB();
+  async initRegions(db: IDBDatabase) {
 
-    await this.setValue(db, "pays",
+    await this.setValue(db, "region",
       { nom: "Adamaoua", pays: "Cameroun" });
 
-    await this.setValue(db, "pays",
+    await this.setValue(db, "region",
       { nom: "Centre", pays: "Cameroun" });
 
-    await this.setValue(db, "pays",
+    await this.setValue(db, "region",
       { nom: "Est", pays: "Cameroun" });
 
-    await this.setValue(db, "pays",
+    await this.setValue(db, "region",
       { nom: "Extrême-Nord", pays: "Cameroun" });
 
-    await this.setValue(db, "pays",
+    await this.setValue(db, "region",
       { nom: "Littoral", pays: "Cameroun" });
 
-    await this.setValue(db, "pays",
+    await this.setValue(db, "region",
       { nom: "Nord", pays: "Cameroun" });
 
-    await this.setValue(db, "pays",
+    await this.setValue(db, "region",
       { nom: "Nord-Ouest", pays: "Cameroun" });
 
-    await this.setValue(db, "pays",
+    await this.setValue(db, "region",
       { nom: "Ouest", pays: "Cameroun" });
 
-    await this.setValue(db, "pays",
+    await this.setValue(db, "region",
       { nom: "Sud", pays: "Cameroun" });
 
-    await this.setValue(db, "pays",
+    await this.setValue(db, "region",
       { nom: "Sud-Ouest", pays: "Cameroun" });
   }
   /**
@@ -167,8 +166,8 @@ export class BdlocaleService {
     await this.setValue(db, "pays",
       { nom: "Cameroun" });
 
-    this.initRegions();
-    this.initVilles();
+    this.initRegions(db);
+    this.initVilles(db);
   }
 
   /**
@@ -489,8 +488,7 @@ export class BdlocaleService {
     return cities;
   }
 
-  async initVilles() {
-    let db = await this.openDB();
+  async initVilles(db: IDBDatabase) {
 
     let ad = "Adamaoua";
     let ce = "Centre";

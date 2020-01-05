@@ -22,11 +22,15 @@ export class ChangeLocationModalContentComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private bdlocaleService: BdlocaleService) {
-    let coun = this.bdlocaleService.getCountries();
-    coun.then((co: string[]) => {
-      this.countries = [''].concat(co);
-      this.createForm();
-    });
+      this.initPays().then(()=>{
+        this.createForm();
+        console.log("liste pays" + this.countries);
+      });
+  }
+
+  async initPays() {
+    let coun = await this.bdlocaleService.getCountries();
+    this.countries.concat(coun);
   }
 
   createForm() {
@@ -43,7 +47,7 @@ export class ChangeLocationModalContentComponent implements OnInit {
 
   get city() { return this.form.get('city'); }
 
-  ngOnInit() {
+  async ngOnInit() {
   }
 
   // Ajoutées
