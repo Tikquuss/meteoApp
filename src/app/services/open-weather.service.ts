@@ -8,74 +8,88 @@ import { Observable } from 'rxjs';
 
 export class OpenWeatherService {
 
-  private API_KEY = "d28e38bb181eda122ee70b1387568a14";
-  private ROOT_URL ="https://api.openweathermap.org/data/2.5/weather?q";
+private API_KEY = "d28e38bb181eda122ee70b1387568a14";
+private ROOT_URL ="https://api.openweathermap.org/data/2.5/weather?";
+public times=['clouds', 'Rain', 'Clear', 'Snow','Haze']
+
+
+constructor(private httpClient: HttpClient) { }
+
+getWeather(ville): Observable<any> {
+  return this.httpClient.get(this.ROOT_URL +'q='+ville+'&APPID='+this.API_KEY);
+}
+
+getWeatherByCoord(latitude:number, longitude:number):Observable<any>{
+  return this.httpClient.get(this.ROOT_URL + 'lat='+latitude+'&lon='+longitude+
+                            '&APPID='+this.API_KEY)
+}
+
+getValuesByVille(ville){
   
-  public times = ['cloudy', 'rainy', 'sunny', 'stormy'];
+  let r = {
+    'temperature':0, // °C
+    'pluviometrie': 'ESE 0 m/s', // respecter cette nommenclature, genre 'ESE 66 m/s', 'ESE 20 m/s',...               
+    'humidite':  0, //%
+    'pression': 0, // hpa
+    'vent': 0,//m/s
+    'time':' '//temps qu'il fait
+  };
 
-  constructor(private httpClient: HttpClient) { }
+  this.getWeather(ville).subscribe(data => {
+    r['temperature'] = Math.round(data.main.temp-273); // °C
+    r['pluviometrie'] = 'ESE 0 m/s'; // l'api ne renvoie pas la pluviometrie
+    r['humidite'] = Math.round(data.main.humidity); //%
+    r['pression'] = Math.round(data.main.pressure); // hpa
+    r['vent'] = data.wind.speed; //m/s
+    r['time'] = data.weather["0"].main;
+  });
+  return r;
+}
 
-  getWeather(ville): Observable<any> {
-    return this.httpClient.get(this.ROOT_URL +'='+ville+'&APPID='+this.API_KEY);
-  }
+// Autre methodes à implémenter
 
-  getValuesByVille(ville){
-    let r = {
-      'temperature':0, // °C
-      'pluviometrie': 'ESE 0 m/s', // respecter cette nommenclature, genre 'ESE 66 m/s', 'ESE 20 m/s',...               
-      'humidite':  0, //%
-      'pression': 0, // hpa
-      'vent': 0 //m/s
-    };
-
-    this.getWeather(ville).subscribe(data => {
-      r['temperature'] = Math.round(data.main.temp-273); // °C
-      r['pluviometrie'] = 'ESE 0 m/s';
-      r['humidite'] = Math.round(data.main.humidity); //%
-      r['pression'] = Math.round(data.main.pressure); // hpa
-      r['vent'] = data.wind.speed; //m/s
-    });
-    return r;
-  }
-
-  // Autre methodes à implémenter
-
-  /** @description récupere les parametres grace aux coordonnées géorgraphique
-    * @param {latitude, longitude}
-    * @return {meteo} 
-  */
-  getValuesByCoord(coordonnees:{latitude:number, longitude:number}){
-    console.log(coordonnees.latitude, coordonnees.longitude)
-    let r = {
-      'temperature':0, // °C
-      'pluviometrie': 'ESE 0 m/s', // respecter cette nommenclature, genre 'ESE 66 m/s', 'ESE 20 m/s',...               
-      'humidite':  0, //%
-      'pression': 0, // hpa
-      'vent': 0 //m/s
-    };
-
-    this.getWeather('--------------------').subscribe(data => {
-      r['temperature'] = Math.round(data.main.temp-273); // °C
-      r['pluviometrie'] = 'ESE 0 m/s';
-      r['humidite'] = Math.round(data.main.humidity); //%
-      r['pression'] = Math.round(data.main.pressure); // hpa
-      r['vent'] = data.wind.speed; //m/s
-    });
+/** @description récupere les parametres grace aux coordonnées géorgraphique
+  * @param {latitude, longitude}
+  * @return {meteo} 
+*/
+getValuesByCoord(coordonnees:{latitude:number, longitude:number}){
+  console.log(coordonnees.latitude, coordonnees.longitude)
+  let r = {
+    'temperature':0, // °C
+    'pluviometrie': 'ESE 0 m/s', // respecter cette nommenclature, genre 'ESE 66 m/s', 'ESE 20 m/s',...               
+    'humidite':  0, //%
+    'pression': 0, // hpa
+    'vent': 0, //m/s
+    'time':''
     
-    return r;
-  }
+  };
 
-  /** @description rétourner  le temps actuel (entre ['cloudy', 'rainy', 'sunny', 'stormy']) 
-   * en fonction des conditions métérologiques.
-    * @param {}
-    * @return {time} 
-  */
-  getTime(){
-    // choisir actuelement un temps au hasard
-    return this.times[Math.floor(Math.random() * this.times.length)];
-  }
+  this.getWeatherByCoord(Math.round(coordonnees.latitude),Math.round(coordonnees.longitude)).subscribe(data => {
+    r['temperature'] = Math.round(data.main.temp-273); // °C
+    r['pluviometrie'] = 'ESE 0 m/s';
+    r['humidite'] = Math.round(data.main.humidity); //%
+    r['pression'] = Math.round(data.main.pressure); // hpa
+    r['vent'] = data.wind.speed; //m/s
+    r['time'] = data.weather["0"].main;
+  });
+  
+  return r;
+}
 
-  getTimeIndex(time:string){
-    return this.times.indexOf(time);
-  }
+/** @description rétourner  le temps actuel (entre ['cloudy', 'rainy', 'sunny', 'stormy']) 
+ * en fonction des conditions métérologiques.
+  * @param {ville}
+  * @return {time} 
+*/
+getTime(ville:string){
+
+  let time:string;
+  this.getWeather(ville).subscribe(data => {
+  time= data.weather["0"].main
+});
+  return time;
+}
+getTimeIndex(time:string){
+  return this.times.indexOf(time);
+}
 }

@@ -22,7 +22,7 @@ export class InterfaceMeteoComponent implements OnInit {
 
   public static city: string;
   public times = [];
-  public time: string;
+  public time= 'string';
   public temperature: number;
   public pluviometry: string;
   public humidity: number;
@@ -36,7 +36,7 @@ export class InterfaceMeteoComponent implements OnInit {
               private  openStreetMapService: OpenStreetMapService,
               private openWeatherService: OpenWeatherService) {
     this.times =  this.openWeatherService.times;
-    this.time = this.openWeatherService.getTime();
+    this.time = this.openWeatherService.getTime(InterfaceMeteoComponent.city);
     this.ind = this.openWeatherService.getTimeIndex(this.time);
     InterfaceMeteoComponent.city = OpenStreetMapService.getVilleName();
     console.log('InterfaceMeteoComponent.city', InterfaceMeteoComponent.city);
@@ -44,6 +44,7 @@ export class InterfaceMeteoComponent implements OnInit {
     this.user = LoginComponent.bdComponent.getUserCourant();
     // *
     let meteo = this.openWeatherService.getValuesByVille(InterfaceMeteoComponent.city);
+    console.log(meteo)
     this.temperature = meteo.temperature;
     this.pluviometry = meteo.pluviometrie;
     this.humidity = meteo.humidite;
