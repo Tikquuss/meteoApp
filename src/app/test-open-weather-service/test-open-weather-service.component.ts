@@ -16,10 +16,12 @@ export class TestOpenWeatherServiceComponent {
   humidite: number;
   vent: number;
   ville = "Mbouda";
+  latitude ="037"
+  longitude ="56567"
 
   ngOnInit() {
    
-    this.apiService.getWeather(this.ville).subscribe(data => {
+    this.apiService.getWeatherByCoord(this.latitude, this.longitude).subscribe(data => {
 
       this.temperature = Math.round(data.main.temp-273);
       this.pression = Math.round(data.main.pressure);
