@@ -25,7 +25,7 @@ getWeatherByCoord(latitude:number, longitude:number):Observable<any>{
 }
 
 getValuesByVille(ville){
-  let test;
+  
   let r = {
     'temperature':0, // °C
     'pluviometrie': 'ESE 0 m/s', // respecter cette nommenclature, genre 'ESE 66 m/s', 'ESE 20 m/s',...               
@@ -37,12 +37,11 @@ getValuesByVille(ville){
 
   this.getWeather(ville).subscribe(data => {
     r['temperature'] = Math.round(data.main.temp-273); // °C
-    r['pluviometrie'] = 'ESE 0 m/s';
+    r['pluviometrie'] = 'ESE 0 m/s'; // l'api ne renvoie pas la pluviometrie
     r['humidite'] = Math.round(data.main.humidity); //%
     r['pression'] = Math.round(data.main.pressure); // hpa
     r['vent'] = data.wind.speed; //m/s
     r['time'] = data.weather["0"].main;
-    test= data.weather["0"].main;
   });
   return r;
 }
