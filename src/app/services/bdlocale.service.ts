@@ -405,10 +405,10 @@ export class BdlocaleService {
   */
   async getCountries(): Promise<string[]> {
     let co = await this.getAll<Pays>('pays');
-    let results = [];
     return new Promise<string[]>((resolve, reject) =>{
+      let results = [];
       for (let pays of co) {
-        results.concat(pays.nom);
+        results.push(pays.nom);
       }
       resolve(results);
     });
@@ -425,7 +425,7 @@ export class BdlocaleService {
     let results = [];
     return new Promise<string[]>((resolve, reject)=>{
       for (let region of co) {
-        results.concat(region.nom);
+        results.push(region.nom);
       }
       resolve(results);
     });
@@ -441,7 +441,7 @@ export class BdlocaleService {
     let results = [];
     return new Promise<string[]>((resolve, reject)=>{
       for (let ville of co) {
-        results.concat(ville.nom);
+        results.push(ville.nom);
       }
       resolve(results);
     });

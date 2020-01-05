@@ -22,10 +22,12 @@ export class ChangeLocationModalContentComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private bdlocaleService: BdlocaleService) {
-      this.initPays().then(()=>{
+      /*this.initPays().then(()=>{
         this.createForm();
         console.log("liste pays" + this.countries);
       });
+      */ 
+     this.createForm();
   }
 
   async initPays() {
@@ -53,11 +55,21 @@ export class ChangeLocationModalContentComponent implements OnInit {
   // Ajoutées
 
   /**
+   * 
+   * @param 
+   */
+  async getCountries(): Promise<string[]>{
+    let coun = await this.bdlocaleService.getCountries();
+    let res = [''].concat(coun);
+    console.log(res);
+    return Promise.resolve(res);
+  }
+  /**
    * Retourne les regions du pays selectionné dans le modal
    * @param {countrie : String}
    * * @returns {Array of regions}
    */
-  async getRegionOfSelectedCountrie(countrie) {
+  async getRegionOfSelectedCountrie(countrie): Promise<string[]> {
     let res = await this.bdlocaleService.getRegionsByCountrie(countrie);
     return [''].concat(res);
   }
@@ -67,7 +79,7 @@ export class ChangeLocationModalContentComponent implements OnInit {
    * @param {region : String}
    * * @returns {Array of cities}
    */
-  async getCitiesOfSelectedRegion(region) {
+  async getCitiesOfSelectedRegion(region): Promise<string[]> {
     let res = await this.bdlocaleService.getVillesByRegion(region);
     return [''].concat(res);
   }

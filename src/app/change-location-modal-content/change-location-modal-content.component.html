@@ -12,7 +12,7 @@
                 id="country"
                 name="country"
                 formControlName="country">
-          <option *ngFor="let c of countries">{{c}}</option>
+          <option *ngFor="let c of getCountries() | async">{{c}}</option>
         </select>
       </div>
     <div class="form-group" *ngIf="country.value">
@@ -21,7 +21,7 @@
               id="region"
               name="region"
               formControlName="region">
-        <option *ngFor="let r of getRegionOfSelectedCountrie(country.value)">{{r}}</option>
+        <option *ngFor="let r of getRegionOfSelectedCountrie(country.value) | async">{{r}}</option>
       </select>
     </div>
     <div class="form-group" *ngIf="region.value">
@@ -30,7 +30,7 @@
               id="city"
               name="city"
               formControlName="city">
-        <option *ngFor="let c of getCitiesOfSelectedRegion(region.value)">{{c}}</option>
+        <option *ngFor="let c of getCitiesOfSelectedRegion(region.value) | async">{{c}}</option>
       </select>
     </div>
   </form>
