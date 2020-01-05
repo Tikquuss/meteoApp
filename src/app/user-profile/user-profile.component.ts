@@ -34,7 +34,6 @@ export class UserProfileComponent implements OnInit {
   createForm() {
     // Mengong : refaire le formulaire comme suit
     this.user = LoginComponent.bdComponent.getUserCourant();
-    const user = this.user;
     this.form = this.fb.group({
       nom: [this.user.nom, Validators.required],
       dateNaissance: ['', Validators.required],
@@ -67,7 +66,8 @@ export class UserProfileComponent implements OnInit {
   ngOnInit() {
   }
 
-  OnSave(){
+  OnSave() {
+    this.submitting = true;
     if (this.form.valid) {
 
       let user = new Utilisateur();
@@ -81,8 +81,9 @@ export class UserProfileComponent implements OnInit {
       LoginComponent.bdComponent.updateUser(user);
       this.bdService.removeUser(LoginComponent.bdComponent.getUserCourant())
       LoginComponent.bdComponent.setUserCourant(user);
-      
+      this.editState = false;
     }
+    this.submitting = false;
   }
 
 }

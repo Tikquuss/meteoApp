@@ -71,10 +71,11 @@ export class SignupComponent implements OnInit {
         );
         // */
         this.router.navigate(['']);
-      }else{
+      } else{
         this.errorMessage = 'Informations invalides';
       }
-  }
+    this.submitting = false;
+    }
 
   triggerClick() {
     let el: HTMLElement = this.profilePicture.nativeElement;
