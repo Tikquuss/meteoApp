@@ -59,10 +59,10 @@ export class SignupComponent implements OnInit {
           (success) => {
             if (success) {
               LoginComponent.bdComponent.setUserCourant(user);
-              console.log('inscription reussi', success);
-            } else{
-              this.errorMessage = 'Informations invalides';
-              console.log('inscription échouée', success);
+              console.log("inscription reussie", success);
+            }else{
+              this.errorMessage = "Informations invalides";
+              console.log("inscription échouée", success);
             }
           },
           (error) => {

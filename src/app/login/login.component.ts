@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Router} from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserStoreService } from '../services/user-store.service';
 
 // Fandio to Mengong
-import {TestbdComponent} from '../components/testbd/testbd.component'
+import { TestbdComponent } from '../components/testbd/testbd.component'
 import { BdlocaleService } from '../services/bdlocale.service';
 import { Utilisateur } from '../models/utilisateur';
 
@@ -22,9 +22,9 @@ export class LoginComponent implements OnInit {
   public errorMessage: string = '';
 
   constructor(private fb: FormBuilder,
-              private router: Router,
-              private userStore: UserStoreService,
-              private bdService: BdlocaleService) {
+    private router: Router,
+    private userStore: UserStoreService,
+    private bdService: BdlocaleService) {
     this.createForm();
     LoginComponent.bdComponent = new TestbdComponent(bdService);  
     LoginComponent.bdComponent.ngOnInit();
@@ -45,15 +45,15 @@ export class LoginComponent implements OnInit {
       console.log(this.form.value);
       LoginComponent.bdComponent.assignUser(username, password).then(
         (success) => {
-          if(success){
+          if (success) {
             this.userStore.isLoggedIn = true;
             this.bdService.getUserByUserName(username).then(
               (user: Utilisateur) => {
                 LoginComponent.bdComponent.setUserCourant(user);
               }
             );
-            console.log("connexion reussi");
-          }else{
+            console.log("connexion reussie");
+          } else {
             this.errorMessage = "Utilisateur introuvable";
             this.userStore.isLoggedIn = false;
             console.log("connexion échouée")
