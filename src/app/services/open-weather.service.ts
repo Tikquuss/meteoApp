@@ -20,15 +20,22 @@ export class OpenWeatherService {
   }
 
   getValuesByVille(ville){
+    let r = {
+      'temperature':0, // °C
+      'pluviometrie': 'ESE 0 m/s', // respecter cette nommenclature, genre 'ESE 66 m/s', 'ESE 20 m/s',...               
+      'humidite':  0, //%
+      'pression': 0, // hpa
+      'vent': 0 //m/s
+    };
+
     this.getWeather(ville).subscribe(data => {
-      return {
-        'temperature':Math.round(data.main.temp-273), // °C
-        'pluviometrie': 'ESE 0 m/s', // respecter cette nommenclature, genre 'ESE 66 m/s', 'ESE 20 m/s',...               
-        'humidite':  Math.round(data.main.humidity), //%
-        'pression': Math.round(data.main.pressure), // hpa
-        'vent': data.wind.speed //m/s
-      }
+      r['temperature'] = Math.round(data.main.temp-273); // °C
+      r['pluviometrie'] = 'ESE 0 m/s';
+      r['humidite'] = Math.round(data.main.humidity); //%
+      r['pression'] = Math.round(data.main.pressure); // hpa
+      r['vent'] = data.wind.speed; //m/s
     });
+    return r;
   }
 
   // Autre methodes à implémenter
@@ -39,15 +46,23 @@ export class OpenWeatherService {
   */
   getValuesByCoord(coordonnees:{latitude:number, longitude:number}){
     console.log(coordonnees.latitude, coordonnees.longitude)
+    let r = {
+      'temperature':0, // °C
+      'pluviometrie': 'ESE 0 m/s', // respecter cette nommenclature, genre 'ESE 66 m/s', 'ESE 20 m/s',...               
+      'humidite':  0, //%
+      'pression': 0, // hpa
+      'vent': 0 //m/s
+    };
+
     this.getWeather('--------------------').subscribe(data => {
-      return {
-        'temperature':Math.round(data.main.temp-273),
-        'pluviometrie': 'ESE 0 m/s', // respecter cette nommenclature, genre 'ESE 66 m/s', 'ESE 20 m/s',...
-        'humidite':  Math.round(data.main.humidity),
-        'pression': Math.round(data.main.pressure),
-        'vent': data.wind.speed
-      }
+      r['temperature'] = Math.round(data.main.temp-273); // °C
+      r['pluviometrie'] = 'ESE 0 m/s';
+      r['humidite'] = Math.round(data.main.humidity); //%
+      r['pression'] = Math.round(data.main.pressure); // hpa
+      r['vent'] = data.wind.speed; //m/s
     });
+    
+    return r;
   }
 
   /** @description rétourner  le temps actuel (entre ['cloudy', 'rainy', 'sunny', 'stormy']) 

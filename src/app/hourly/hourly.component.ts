@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hourly.component.css']
 })
 export class HourlyComponent implements OnInit {
-
+  
   times = ['cloudy', 'rain', 'sunny', 'thunderstorm'];
   public meteoHours: Array<any>;
   constructor() {

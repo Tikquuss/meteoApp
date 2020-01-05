@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // Fandio to Mengong
 import { BdlocaleService } from '../services/bdlocale.service';
@@ -20,10 +20,13 @@ export class ChangeLocationModalContentComponent implements OnInit {
   public countries: string[];
 
   constructor(public activeModal: NgbActiveModal,
-              private fb: FormBuilder,
-              private bdlocaleService : BdlocaleService) {
-    this.countries = [''].concat(this.bdlocaleService.getCountries());
-    this.createForm();
+    private fb: FormBuilder,
+    private bdlocaleService: BdlocaleService) {
+    let coun = this.bdlocaleService.getCountries();
+    coun.then((co: string[]) => {
+      this.countries = [''].concat(co);
+      this.createForm();
+    });
   }
 
   createForm() {
@@ -47,32 +50,35 @@ export class ChangeLocationModalContentComponent implements OnInit {
 
   /**
    * Retourne les regions du pays selectionné dans le modal
-   * @param {countrie : String} 
-   * @returns {Array of regions}
-  */
-  getRegionOfSelectedCountrie(countrie){
-    return [''].concat(this.bdlocaleService.getRegionsByCountrie(countrie));
+   * @param {countrie : String}
+   * * @returns {Array of regions}
+   */
+  async getRegionOfSelectedCountrie(countrie) {
+    let res = await this.bdlocaleService.getRegionsByCountrie(countrie);
+    return [''].concat(res);
   }
 
   /**
    * Retourne les villes de la region selectionnée dans le modal
-   * @param {region : String} 
-   * @returns {Array of cities}
-  */
-  getCitiesOfSelectedRegion(region){
-    return [''].concat(this.bdlocaleService.getVillesByRegion(region));
+   * @param {region : String}
+   * * @returns {Array of cities}
+   */
+  async getCitiesOfSelectedRegion(region) {
+    let res = await this.bdlocaleService.getVillesByRegion(region);
+    return [''].concat(res);
   }
 
   /**
    * Ecouteur du boutton enregistré
-   * @param {} 
-   * @returns {}
-  */
-  onSave(){
+   * @param {}
+   * * @returns {}
+   */
+  onSave() {
     // Todo : faire en sorte que le modal se ferme
     console.log(this.country.value);
     console.log(this.region.value);
     console.log(this.city.value);
     InterfaceMeteoComponent.city = this.city.value;
+    this.activeModal.close('Close click');
   }
 }

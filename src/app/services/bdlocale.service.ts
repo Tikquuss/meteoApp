@@ -117,11 +117,11 @@ export class BdlocaleService {
       })
     });
   }
-  
+
   /**
-   * initialisation des ce du Cameroun
+   * initialisation des Regions du Cameroun
    */
-  async initce() {
+  async initRegions() {
     let db = await this.openDB();
 
     await this.setValue(db, "pays",
@@ -161,13 +161,13 @@ export class BdlocaleService {
     let db = await this.openDB();
 
     //initialisation d'un utilisateur par defaut
-    await this.setValue(db, "utilisateur", { nom: "Fandio", sexe: "Homme", ville: "Yaounde", photo: "tof", mdp: "esdras" });
+    //await this.setValue(db, "utilisateur", { nom: "Fandio", sexe: "Homme", ville: "Yaounde", photo: "tof", mdp: "esdras" });
 
     //initialisation du pays
     await this.setValue(db, "pays",
       { nom: "Cameroun" });
 
-    this.initce();
+    this.initRegions();
     this.initVilles();
   }
 
@@ -340,6 +340,16 @@ export class BdlocaleService {
   }
 
   // Ajouté
+  /**
+   * Pour supprimer un utilisateur de la BD
+   * @param {key : Utilisateur} 
+   * @returns {}
+  */
+  async removeUser(key: any): Promise<Boolean> {
+    let db = await this.openDB();
+    return this.delete(db, 'utilisateur', key);
+  }
+
   async getUserByUserName(username: string): Promise<Utilisateur> {
     let db = await this.openDB();
     return new Promise<Utilisateur>((resolve, reject) => {
@@ -366,15 +376,6 @@ export class BdlocaleService {
         reject(event.error);
       };
     });
-  }
-
-  /**
-   * 
-   * @param key 
-   */
-  async removeUser(key: any): Promise<Boolean>{
-    let db = await this.openDB();
-    return this.delete(db, 'utilisateur', key);
   }
 
   /**
@@ -409,9 +410,15 @@ export class BdlocaleService {
    * @param {} 
    * @returns {Array of countries}
   */
-  async getCountries(): Promise<Pays[]> {
-    let co = this.getAll<Pays>('pays');
-    return co;
+  async getCountries(): Promise<string[]> {
+    let co = await this.getAll<Pays>('pays');
+    let results = [];
+    return new Promise<string[]>((resolve, reject) =>{
+      for (let pays of co) {
+        results.concat(pays.nom);
+      }
+      resolve(results);
+    });
   }
 
   /**
@@ -419,10 +426,16 @@ export class BdlocaleService {
    * @param {countrie : String} 
    * @returns {Array of cities}
   */
-  async getRegionsByCountrie(country): Promise<Region[]> {
+  async getRegionsByCountrie(country): Promise<string[]> {
     let db = await this.openDB();
-    let co = this.getByIndex<Region>(db, 'region', 'pays', country);
-    return co;
+    let co = await this.getByIndex<Region>(db, 'region', 'pays', country);
+    let results = [];
+    return new Promise<string[]>((resolve, reject)=>{
+      for (let region of co) {
+        results.concat(region.nom);
+      }
+      resolve(results);
+    });
   }
 
   /**
@@ -430,8 +443,15 @@ export class BdlocaleService {
    * @param {region : String} 
    * @returns {Array of cities}
   */
-  async getVillesByRegion(region): Promise<Ville[]> {
-      return this.getVilleByRegion(region);
+  async getVillesByRegion(region): Promise<string[]> {
+    let co = await this.getVilleByRegion(region);
+    let results = [];
+    return new Promise<string[]>((resolve, reject)=>{
+      for (let ville of co) {
+        results.concat(ville.nom);
+      }
+      resolve(results);
+    });
   }
 
   /**
@@ -439,7 +459,7 @@ export class BdlocaleService {
    * @param {} 
    * @returns {Map of <pays, [ce pays]>}
   */
-  public async getRegions(){
+  public async getRegions() {
     let ce = new Map(); // <pays, [ce]>
     let countries = await this.getCountries();
     for (let countrie of countries) {

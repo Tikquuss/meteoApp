@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router} from '@angular/router';
 
@@ -18,12 +18,12 @@ export class SignupComponent implements OnInit {
 
   public form: FormGroup;
   public submitting: boolean = false;
+  public errorMessage: string = '';
+  public bdComponent: TestbdComponent;
 
-  public errorMessage : String ="rr";
+  @ViewChild('profilePicture', { static: false}) profilePicture: ElementRef<HTMLElement>;
 
-  public bdComponent : TestbdComponent;
-
-  constructor(private fb: FormBuilder, 
+  constructor(private fb: FormBuilder,
               private router: Router,
               private bdService: BdlocaleService) {
     this.createForm();
@@ -52,12 +52,12 @@ export class SignupComponent implements OnInit {
         user.photo = this.form.get('photo').value;
         user.ville = this.form.get('ville').value;
         user.mdp = this.form.get('password').value;
-        
-        //this.bdComponent.updateUser(user);
-        //*
+
+        // this.bdComponent.updateUser(user);
+        // *
         this.bdService.setUser(user).then(
           (success) => {
-            if(success){
+            if (success) {
               LoginComponent.bdComponent.setUserCourant(user);
               console.log("inscription reussie", success);
             }else{
@@ -66,12 +66,20 @@ export class SignupComponent implements OnInit {
             }
           },
           (error) => {
-            console.log("erreur de connexion", error)
+            console.log('erreur de connexion', error)
           }
         );
-        //*/
+        // */
         this.router.navigate(['']);
+      } else{
+        this.errorMessage = 'Informations invalides';
+      }
+    this.submitting = false;
     }
+
+  triggerClick() {
+    let el: HTMLElement = this.profilePicture.nativeElement;
+    el.click();
   }
 
   ngOnInit() {
