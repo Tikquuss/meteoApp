@@ -13,7 +13,7 @@ export class OpenWeatherService {
   
   public times=['Clouds', 'Rain', 'Clear', 'Snow','Haze'];
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient  : HttpClient){}
 
   goodtimes(){
     // faire correspondre à ['clouds', 'Rain', 'Clear', 'Snow','Haze'];
@@ -30,7 +30,6 @@ export class OpenWeatherService {
   }
 
   getValuesByVille(ville){
-    
     var r = {
       'temperature':0, // °C
       'pluviometrie': 'ESE 0 m/s', // respecter cette nommenclature, genre 'ESE 66 m/s', 'ESE 20 m/s',...               
@@ -58,8 +57,6 @@ export class OpenWeatherService {
     );
     return r;
   }
-
-  // Autre methodes à implémenter
 
   /** @description récupere les parametres grace aux coordonnées géorgraphique
     * @param {latitude, longitude}
@@ -92,8 +89,7 @@ export class OpenWeatherService {
       }
     );
     
-    return r;
-  }
+  };
 
   /** @description rétourner  le temps actuel (entre ['cloudy', 'rainy', 'sunny', 'stormy']) 
    * en fonction des conditions métérologiques.
