@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // Fandio to Mengong
 import { BdlocaleService } from '../services/bdlocale.service';
@@ -18,12 +18,25 @@ export class ChangeLocationModalContentComponent implements OnInit {
   @Input() name;
   public form: FormGroup;
   public countries: string[];
+  public regions: string[];
 
   constructor(public activeModal: NgbActiveModal,
-              private fb: FormBuilder,
-              private bdlocaleService: BdlocaleService) {
-    this.countries = [''].concat(this.bdlocaleService.getCountries());
-    this.createForm();
+    private fb: FormBuilder,
+    private bdlocaleService: BdlocaleService) {
+      /*this.initPays().then(()=>{
+        this.createForm();
+        console.log("liste pays" + this.countries);
+      });
+      */
+      this.getCountries().then((co) =>  {
+        this.countries = co;
+     });
+      this.createForm();
+  }
+
+  async initPays() {
+    let coun = await this.bdlocaleService.getCountries();
+    this.countries.concat(coun);
   }
 
   createForm() {
@@ -40,18 +53,30 @@ export class ChangeLocationModalContentComponent implements OnInit {
 
   get city() { return this.form.get('city'); }
 
-  ngOnInit() {
+  async ngOnInit() {
   }
 
   // Ajoutées
 
   /**
+   *
+   * @param
+   */
+  async getCountries(): Promise<string[]>{
+    let coun = await this.bdlocaleService.getCountries();
+    let res = [''].concat(coun);
+    console.log(res);
+    return Promise.resolve(res);
+  }
+  /**
    * Retourne les regions du pays selectionné dans le modal
    * @param {countrie : String}
    * * @returns {Array of regions}
    */
-  getRegionOfSelectedCountrie(countrie){
-    return [''].concat(this.bdlocaleService.getRegionsByCountrie(countrie));
+  async getRegionOfSelectedCountrie(countrie): Promise<string[]> {
+    let res = await this.bdlocaleService.getRegionsByCountrie(countrie);
+    //console.log(res);
+    return [''].concat(res);
   }
 
   /**
@@ -59,9 +84,11 @@ export class ChangeLocationModalContentComponent implements OnInit {
    * @param {region : String}
    * * @returns {Array of cities}
    */
-  getCitiesOfSelectedRegion(region){
-    return [''].concat(this.bdlocaleService.getVillesByRegion(region));
+  async getCitiesOfSelectedRegion(region): Promise<string[]> {
+    let res = await this.bdlocaleService.getVillesByRegion(region);
+    return [''].concat(res);
   }
+  
 
   /**
    * Ecouteur du boutton enregistré
