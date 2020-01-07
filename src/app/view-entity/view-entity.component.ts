@@ -9,23 +9,33 @@ import { Router } from '@angular/router';
 })
 export class ViewEntityComponent implements OnInit {
 
-  entitysList : {
-    entityLabel : string,
-    routerLink : string,
-  }[];
+  
+  entitysNameList : Iterator<String>;
 
   constructor(private entitysService : EntitysService,
               private router: Router) { 
-    this.entitysList = entitysService.getEntitysList()
+    this.entitysNameList = entitysService.getEntitysList().keys();
+    if('Type_organisme' in this.entitysNameList){
+      console.log("Type_organisme-----------");
+    }
   }
 
   ngOnInit() {
   }
 
+  /**
+   * @description ecouteur du bouton liste
+   * @param link=nom de la classe de l'entité
+   */
   List(link){
+    console.log('rrrrrrrrrrrrrrrrr',link)
     this.router.navigate(['/form/'+link]);
   }
   
+  /**
+   * @description ecouteur du bouton Nouveau
+   * @param link=nom de la classe de l'entité
+   */
   New(link){
     this.router.navigate(['/form/'+link+'/new']);
   }

@@ -1,0 +1,51 @@
+.foko-kija-container {
+    width: 100%;
+    margin: 0%;
+}
+
+.foko-kija-cell {
+    padding: 0px 20px 0px 0px;
+    width: 200px;
+    text-align: left;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.scroll {
+    overflow-x: scroll;
+}
+
+.foko-kija-paginator {
+    position: relative;
+    left: 0px;
+}
+
+.foko-kija-action {
+    padding: 0px;
+    margin: 0px;
+    width: 150px;
+}
+
+.button-action {
+    margin: 0px 2px 0px 0px;
+    width: 40px ;
+}
+
+.foko-kija-id {
+    width: 70px;
+}
+
+.button-add {
+    margin: 0px 0px 10px 0px;
+}
+
+mat-icon {
+    font-size: 20px;    
+}

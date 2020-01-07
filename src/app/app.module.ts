@@ -22,6 +22,22 @@ import { SigninComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
 import { Utils } from './models/entitys.model'; // Très important
+/////////***************************/
+import { TableComponent } from './components/table/table.component'; /****************************/
+import { RemplissageService } from './services/remplissage.service'; /****************************/
+import { ModificationService } from './services/modification.service'; /****************************/
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; /****************************/
+// import { MatSliderModule } from '@angular/material/slider';
+import { MatTableModule } from '@angular/material/table'; /****************************/
+import { MatPaginatorModule } from '@angular/material/paginator'; /****************************/
+import { MatSortModule } from '@angular/material/sort'; /****************************/
+import { MatFormFieldModule } from '@angular/material/form-field'; /****************************/
+import { MatInputModule } from '@angular/material/input'; /****************************/
+import { CdkColumnDef } from '@angular/cdk/table'; /****************************/
+import { MatButtonModule } from '@angular/material/button'; /****************************/
+
+import {MatIconModule} from '@angular/material/icon';
+
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -39,8 +55,8 @@ export var appRoutes: Routes = [
   { path: 'form/:entity_class', component:   ViewDataOfEntityComponent },
   // voir les informations de l’entité de type entity_class ayant l’identifiant  entity_id
   { path: 'form/view/:entity_class/:entity_id', component:  ViewSingleEntityComponent },
-  // modifier  les informations de l’entité de type entity_class ayant l’id entity_id
-  { path: 'form/:entity_class/:entity_id', component:  AppFormComponent },
+  // modifier  les informations de l’entité entity de type entity_class 
+  { path: 'form/:entity_class/:entity', component:  AppFormComponent },
   // Créer une nouvelle entité de type entity_class
   { path: 'form/:entity_class/new', component:  AppFormComponent },
   // Authentification
@@ -65,7 +81,8 @@ export var appRoutes: Routes = [
     ViewDataOfEntityComponent,
     SigninComponent,
     SignupComponent,
-    FourOhFourComponent
+    FourOhFourComponent,
+    TableComponent /****************************/
   ],
   exports: [
     RouterModule
@@ -75,14 +92,26 @@ export var appRoutes: Routes = [
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    // 
+    BrowserAnimationsModule, /****************************/
+    MatTableModule, /****************************/
+    MatPaginatorModule, /****************************/
+    MatSortModule, /****************************/
+    MatFormFieldModule, /****************************/
+    MatInputModule, /****************************/
+    MatButtonModule, /****************************/
+    MatIconModule
   ],
   providers: [
     FieldService, 
     EntitysService, 
     AuthService,
-    //AuthGuardService
-    Utils
+    //AuthGuardService,
+    Utils,
+    RemplissageService, /****************************/
+    ModificationService, /****************************/
+    CdkColumnDef /****************************/
   ],
   bootstrap: [AppComponent]
 })

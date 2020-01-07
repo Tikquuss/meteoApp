@@ -1,6 +1,71 @@
 import {Field} from './field.model';
 import {Validator, ValidatorEmail} from './validator.model';
 
+export class FormStructure{
+  entityClassName : string;
+  entity? : Object;
+  fields : {
+    legend? : string,
+    fields? : Field<any>[],
+    nb_elements_per_colonne? : number
+  }[] = [];
+
+  constructor(
+    options : {entityClassName : string, entity? : Object, jsonOfForm? : {}}, 
+    entity : Entity 
+  ){
+    this.entityClassName = options.entityClassName;
+    this.entity = options.entity;
+    this.fields = entity.generateFormStructureField(
+      {jsonOfForm : options.jsonOfForm, data:options.entity}
+    );
+  }
+}
+
+export class Entity{
+  generateFormStructureField(options: {jsonOfForm?, data?}){
+    let fields = Entity.BuiltFormStructureFieldForOneFieldset(options, "own_information");
+    let r = [{legend : '', fields : fields, nb_elements_per_colonne : 2}]
+    if(options.jsonOfForm["champs_systemes"]){
+      r.push(champsSysteme.generateFormStructureField(options))
+    }
+    if(options.jsonOfForm["info_personne"]){
+      r.push(personneInfo.generateFormStructureField(options));
+    }
+    return r;
+  }
+
+  public static BuiltFormStructureFieldForOneFieldset(options:{jsonOfForm?,data?},...args){
+    let fields : Field<any>[]=[];
+    if(options.jsonOfForm){
+      let jsonfieldSet = options.jsonOfForm
+      args.forEach(singleField => {
+        jsonfieldSet = jsonfieldSet[singleField]
+      });
+      for(let jsonfield of jsonfieldSet){
+        fields.push(
+          new Field({
+            label:jsonfield.label,
+            validator : (jsonfield.type!='email') ? new Validator(jsonfield.validator||{}):
+                                           new ValidatorEmail(jsonfield.validator||{}),
+            name: jsonfield.name,
+            type : jsonfield.type,
+            value: jsonfield.value || '',
+            meta_data : jsonfield.meta_data || {type : 'void'}
+          })
+        )
+      }
+    }
+    if(options.data){
+      for(let field of fields){
+        field.value = options.data[field.name]
+        field.meta_data.checked = field.value;
+      }
+    }
+    return fields;
+  }
+}
+
 /**
  * json
  * @class
@@ -13,97 +78,12 @@ export class adresseJson{
   email : [];
   BP : string;
 
-  constructor(options: {
-    TEL_MOBILE? : [],
-    TEL_FIXE? : [],
-    ICE? : [],
-    email? : [],
-    BP? : string
-  }={}) {
-    this.TEL_MOBILE  = options.TEL_MOBILE || [];
-    this.TEL_FIXE = options.TEL_FIXE || [];
-    this.ICE = options.ICE || [];
-    this.email = options.email || [];
-    this.BP = options.BP || '';
-  }
-
-  generateFormStructureField(data?){
-    let fields: Field<any>[] = [
-      new Field({
-        label:'TELEPHONE MOBILE',
-        validator : new Validator(),
-        name: 'TEL_MOBILE',
-        type : {
-            type: 'text',
-            id: 'TEL_MOBILE',
-            show : ''
-        },
-        value: '',
-        meta_data : {
-          type : 'set'
-        }
-      }), 
-      new Field({
-        label:'TELEPHONE FIXE',
-        validator : new Validator(),
-        name: 'TEL_FIXE',
-        type : {
-            type: 'text',
-            id: 'TEL_FIXE',
-            show : ''
-        },
-        value: '',
-        meta_data : {
-          type : 'set'
-        }
-      }), 
-      new Field({
-        label:'ICE',
-        validator : new Validator(),
-        name: 'ICE',
-        type : {
-            type: 'text',
-            id: 'ICE',
-            show : ''
-        },
-        value: '',
-        meta_data : {
-          type : 'set'
-        }
-      }), 
-      new Field({
-        label:'email',
-        validator : new ValidatorEmail(),
-        name: 'email',
-        type : {
-            type: 'email',
-            id: 'email',
-            show : ''
-        },
-        value: '',
-        meta_data : {
-          type : 'set'
-        }
-      }),  
-      new Field({
-            label:'Boite Postale',
-            validator : new Validator(),
-            name: 'BP',
-            type : {
-                type: 'text',
-                id: 'BP',
-                show : ''
-            },
-            value: ''
-        })
-      ]
-
-      if(data){
-        for(let field of fields){
-          field.value = data[field.name];
-        }
-      }
-      return fields;
+  public static generateFormStructureField(options: {jsonOfForm?, data?}){
+    return Entity.BuiltFormStructureFieldForOneFieldset(
+      options,
+      "info_personne", 
+      "adresseJson"
+    )
   }
 }
 
@@ -118,81 +98,11 @@ export class contactJson{
   email : [];
   localisation : string;
   
-  constructor(options: {
-    TEL_MOBILE? : [],
-    TEL_FIXE? : [],
-    email? : [],
-    localisation? : string
-  }={}) {
-    this.TEL_MOBILE  = options.TEL_MOBILE || [];
-    this.TEL_FIXE = options.TEL_FIXE || [];
-    this.email = options.email || [];
-    this.localisation = options.localisation || '';
-  }
-
-  generateFormStructureField(data?){
-    let fields: Field<any>[] = [
-      new Field({
-        label:'TELEPHONE MOBILE',
-        validator : new Validator(),
-        name: 'TEL_MOBILE',
-        type : {
-            type: 'text',
-            id: 'TEL_MOBILE',
-            show : ''
-        },
-        value: '',
-        meta_data : {
-          type : 'set'
-        }
-      }), 
-      new Field({
-        label:'TELEPHONE FIXE',
-        validator : new Validator(),
-        name: 'TEL_FIXE',
-        type : {
-            type: 'text',
-            id: 'TEL_FIXE',
-            show : ''
-        },
-        value: '',
-        meta_data : {
-          type : 'set'
-        }
-      }), 
-      new Field({
-        label:'email',
-        validator : new ValidatorEmail(),
-        name: 'email',
-        type : {
-            type: 'email',
-            id: 'email',
-            show : ''
-        },
-        value: '',
-        meta_data : {
-          type : 'set'
-        }
-      }),
-      new Field({
-          label:'Localisation',
-          validator : new Validator(),
-          name: 'localisation',
-          type : {
-              type: 'text',
-              id: 'localisation',
-              show : ''
-            },
-            value: ''
-        })
-      ]
-
-      if(data){
-        for(let field of fields){
-          field.value = data[field.name]
-        }
-      }
-      return fields;
+  generateFormStructureField(options: {jsonOfForm?, data?}){
+    return Entity.BuiltFormStructureFieldForOneFieldset(
+      options,
+      "contact_json"
+    );
   }
 }
 
@@ -203,88 +113,14 @@ export class champsSysteme{
   date_creation : Date;
   date_dernier_modification  : Date;
 
-  constructor(options: {
-    code_createur?: string,
-    code_modificateur? : string,
-    statut_vie? : string,
-    date_creation? : Date,
-    date_dernier_modification? : Date
-  } = {}) {
-    this.code_createur  = options.code_createur || '';
-    this.code_modificateur = options.code_modificateur || '';
-    this.statut_vie = options.statut_vie || '';
-    this.date_creation = options.date_creation || new Date();
-    this.date_dernier_modification = options.date_dernier_modification || new Date();
-  }
-
-  generateFormStructureField(data?){
-    let fields: Field<any>[] = [
-        new Field({
-            label:'Code créateur',
-            validator : new Validator(),
-            name: 'code_createur',
-            type : {
-                type: 'text',
-                id: 'code_createur',
-                show : ''
-            },
-            value: ''
-        }),
-        new Field({
-            label:'Code modificateur',
-            validator : new Validator(),
-            name: 'code_modificateur',
-            type : {
-                type: 'text',
-                id: 'code_modificateur',
-                show : ''
-            },
-            value: ''
-        }),
-        new Field({
-          label:'Statut vie',
-          validator : new Validator(),
-          name: 'statut_vie',
-          type : {
-              type: 'text',
-              id: 'statut_vie',
-              show : ''
-          },
-          value: '',
-          meta_data : {
-            type : 'dropdown_list',
-            data : ['actif', 'cloturée']
+  public static generateFormStructureField(options: {jsonOfForm?, data?}){
+    return {legend : 'Champs systemes', 
+            fields : Entity.BuiltFormStructureFieldForOneFieldset(
+                        options,
+                        "champs_systemes"
+                    ), 
+            nb_elements_per_colonne : 5
           }
-        }),
-        new Field({
-          label:'Date de creation',
-          validator : new Validator(),
-          name: 'date_creation',
-          type : {
-              type: 'date',
-              id: 'date_creation',
-              show : ''
-          },
-          value: ''
-        }),
-        new Field({
-          label:'Date de dernier modification',
-          validator : new Validator(),
-          name: 'dernier_modification',
-          type : {
-              type: 'date',
-              id: 'dernier_modification',
-              show : ''
-          },
-          value: ''
-        })
-      ]
-      if(data){
-        for(let field of fields){
-          field.value = data[field.name]
-        }
-      }
-      return {legend : 'Champs systemes', fields, nb_elements_per_colonne : 5}
   }
 }
 
@@ -294,112 +130,17 @@ export class personneInfo{
   dateNaissance: Date;
   sexe : string;
   adresse : adresseJson;
-    
-  constructor(options: {
-    nom?: string,
-    prenom? : string,
-    dateNaissance? : Date;
-    sexe? : string,
-    adresse? : adresseJson
-    } = {}) {
-        this.nom  = options.nom || '';
-        this. prenom = options.prenom || '';
-        this.dateNaissance = options.dateNaissance || new Date();
-        this.sexe  = options.sexe || '';
-        this.adresse = options.adresse || new adresseJson();
+
+  public static generateFormStructureField(options: {jsonOfForm?, data?}){
+    return {
+      legend : 'Informations personnelles', 
+      fields :  Entity.BuiltFormStructureFieldForOneFieldset(
+                    options, "info_personne","personneInfo"
+                ).concat(adresseJson.generateFormStructureField(options)),
+      nb_elements_per_colonne : 3
     }
-
-    generateFormStructureField(data?){
-      let fields: Field<any>[] = [
-          new Field({
-              label:'Nom',
-              validator : new Validator(),
-              name: 'nom',
-              type : {
-                  type: 'text',
-                  id: 'nom',
-                  show : ''
-              },
-              value: ''
-          }),
-          new Field({
-              label:'Prenom',
-              validator : new Validator(),
-              name: 'prenom',
-              type : {
-                  type: 'text',
-                  id: 'prenom',
-                  show : ''
-              },
-              value: ''
-          }),
-          new Field({
-            label:'Date de naissance',
-            validator : new Validator(),
-            name: 'date_naissance',
-            type : {
-                type: 'date',
-                id: 'date_naissance',
-                show : ''
-            },
-            value: ''
-          }),
-          new Field({
-            label:'Sexe',
-            validator : new Validator(),
-            name: 'sexe',
-            type : {
-                type: 'radio',
-                id: 'sexe',
-                show : ''
-            },
-            value: '',
-            meta_data : {
-              type : 'radio-button',
-              data : ['M', 'F']
-            }
-          })
-        ]
-         
-        if(data){
-          for(let field of fields){
-            field.value = data[field.name]
-          }
-        }
-        return {
-          legend : 'Informations personnelles', 
-          fields : fields.concat(this.adresse.generateFormStructureField(data)),
-          nb_elements_per_colonne : 3
-        }
   }
 }
 
-export class FormStructure{
-  entityClassName : string;
-  type : string; // enregistrement / modification
-  id? : string;
-  fields : {
-    legend? : string,
-    fields? : Field<any>[],
-    nb_elements_per_colonne? : number
-  }[] = [];
 
-  constructor(
-    options : {entityClassName : string ,type : string, id? : string}, 
-    entity : Entity,
-    data? 
-  ){
-    this.entityClassName = options.entityClassName;
-    this.type = options.type;
-    this.id = options.id;
-    this.fields = entity.generateFormStructureField(data);
-  }
-}
-
-export class Entity{
-  constructor(){}
-  generateFormStructureField(data?){
-    return [];
-  }
-}
 

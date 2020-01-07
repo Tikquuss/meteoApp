@@ -1,6 +1,6 @@
 <div class="form-group" [formGroup]="fieldForm">
     <label [attr.for]="field.type.id" class="form_col">{{field.label}} </label>
-    <input *ngIf="field.meta_data.type == ''"
+    <input *ngIf="field.meta_data.type == 'void'"
             [type]="field.type.type" 
             class="form-control" 
             [formControlName]="field.name"
@@ -21,13 +21,14 @@
             </textarea>
         </div>
     </div>       
-    <div *ngIf="field.type.type == 'radio'" class="form-row">  
-        <label *ngFor="let data of field.meta_data.data" >
+    <div *ngIf="field.meta_data.type == 'radio'" class="form-row">  
+        <label *ngFor="let data of field.meta_data.data; let i = index" >
             <input  
                 [name]="field.name" 
-                [type]="field.type.type" 
+                [type]="field.meta_data.type" 
                 [value]="data"
-                [formControlName]="field.name" 
+                [formControlName]="field.name"
+                [checked]="data === field.meta_data.checked" 
             />
             <label [attr.for]="field.name"> {{data}}</label>
         </label>

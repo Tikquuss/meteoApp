@@ -36,6 +36,7 @@ export class SingleFieldComponent implements OnInit {
     return valid; 
   }
   
+  // Pour les tableaux, ne marche pas
   onAdd(something) {
     this.value = something;
     /*

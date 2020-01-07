@@ -1,0 +1,78 @@
+<!-- <div class="foko-kija-container mat-elevation-z8">
+    <table>
+        <thead>
+            <tr>
+                <th mat-header-cell *ngFor="let th of table.colonnes">{{th.getName()}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tr of table.lignes">
+                <td mat-cell *ngFor="let td of tr.data">{{td.getContent()}}</td>
+            </tr>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+    <mat-paginator [pageSizeOptions]="[2, 5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
+ -->
+<div class="foko-kija-container">
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrer le tableau" class=".foko-kija-filtre">
+    </mat-form-field>
+    <div class="mat-elevation-z8 scroll">
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="ID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> test </th>
+                <td mat-cell *matCellDef="let element">
+                    <div class="foko-kija-id">
+                        {{element[id]}}        
+                    </div>
+                </td>
+            </ng-container>  
+        
+            <ng-container *ngFor="let colName of displayedColumns" matColumnDef="{{colName}}">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{colName!='✍'?colName:'action'}} </th>
+                <td mat-cell *matCellDef="let element">
+                    <div>
+                        <div *ngIf="colName != '✍'">
+                            <div [ngClass]="{'foko-kija-id': colName == 'id', 'foko-kija-cell': colName != 'id'}">
+                                {{element[colName]}}
+                            </div>
+                        </div>
+                        <div *ngIf="colName == '✍'" class="foko-kija-action">
+                            <button (click)="edit($event)" mat-button color="primary" class="button-action" name="{{element['id']}}">
+                                <mat-icon title="modifier cette ligne">edit</mat-icon>
+                            </button>
+                            <button (click)="delete($event)" mat-button color="primary" class="button-action" name="{{element['id']}}">
+                                <mat-icon title="suprimer cette ligne">delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>            
+
+            <!-- <ng-container matColumnDef="f">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>✍</th>
+                <td mat-cell *matCellDef="let element">
+                    <div class="foko-kija-cell">
+                        <button mat-raised-button color="primary">Moifier!</button>
+                        <button mat-raised-button color="primary">Surpimer!</button>
+                    </div>
+                </td>
+            </ng-container> -->
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div class="foko-kija-paginator">
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>
+<div >
+    <button (click)="add()" mat-raised-button color="primary" class="button-add" title="ajouter un élément">
+        <mat-icon>add</mat-icon>
+        ajouter 
+    </button>
+</div>

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Entity } from '../../models/entitys-util';
 import { EntitysService } from '../../services/entitys.service';
 
 @Component({
@@ -21,11 +20,8 @@ import { EntitysService } from '../../services/entitys.service';
 */
 export class ViewDataOfEntityComponent implements OnInit {
 
-  entityData : Entity[];
-  // todo : enlever ces attribut apres avoir fait le template
+  entityData : string;
   entityClass : string;
-  Table = [1, 2, 3];
-
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -53,7 +49,7 @@ export class ViewDataOfEntityComponent implements OnInit {
   delete(id){
     this.entitysService.deleteEntity(this.entityClass, id);
     // todo : rétirer l'élement de entityData
-    this.Table = this.Table.filter(item => item !== parseInt(id+""))
+    //this.Table = this.Table.filter(item => item !== parseInt(id+""))
   }
 
   update(id){

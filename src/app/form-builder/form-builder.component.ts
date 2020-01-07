@@ -12,19 +12,26 @@ import { EntitysService } from '../services/entitys.service';
   templateUrl: './form-builder.component.html',
   styleUrls: ['./form-builder.component.css']
 })
+
+/**
+ * @class
+ * @classdesc classe qui construit réellement le formulaire
+*/
 export class FormBuilderComponent implements OnInit {
   @Input() formStructure :  FormStructure;
-  @Input() entityId : string;
   form: FormGroup;
-  // todo : enlever apres avoir gerer la communication avec le serveur
-  payLoad = '';
-  cache = {};
-  test : string = '';
+  // permet de restructurer le formulaire en fieldset
   fieldsRestructure : {
     legend? : string,
     fields? : Field<any>[][],
     nb_elements_per_colonne? : number
   }[];
+
+  public static type : string; // modification / enregistrement
+
+  // test unitaires
+  cache = {};
+  test : string = '';
 
   constructor(private fieldService: FieldService, 
               private router: Router,
@@ -34,39 +41,13 @@ export class FormBuilderComponent implements OnInit {
     this.form = this.fieldService.toFormGroup(this.formStructure.fields); 
     this.fieldsRestructure = this.restructureForm();
     this.fillCache(undefined);
-    /*
-    for(let elements of this.restructureForm()){
-      console.log("legend : "+elements.legend);
-      for(let table of elements.fields){
-        for(let field of table){
-          field = this.toField(field);
-          console.log(field);
-          console.log("type : -- "+field.type);
-        }
-        console.log('------------------');
-      }
-      console.log('end of legend');
-    }
-    //*/
   }
 
   onSubmit() {
-    console.log("Value--------------------------");
-    console.log(this.form.value);
-    this.fillCache(this.form.value);
-    console.log("Cache --------------------------");
-    console.log(this.cache);
-    
-    this.payLoad = JSON.stringify(this.form.value);
-    if(this.formStructure.type == "modif")
-    console.log("payLoad --------------------------");
-    console.log(this.payLoad);
-
-    // ne pas toucher
     this.entitysService.saveORmodify(this.form.value, 
                                      this.formStructure.entityClassName,
-                                    this.formStructure.type,
-                                    this.entityId)
+                                     FormBuilderComponent.type
+                                     )
     this.router.navigate(['/form/view']);
   }
 
@@ -74,6 +55,7 @@ export class FormBuilderComponent implements OnInit {
     //this.onSubmit();
   //}
 
+  // test unitaire
   fillCache(data){
     if(data == undefined){
       this.formStructure.fields.forEach(fields => {
@@ -94,11 +76,12 @@ export class FormBuilderComponent implements OnInit {
     }
   }
 
+  // test unitaire
   onCacheEmit(cache){
     console.log("le cache a été émit");
     console.log(cache);
     for(let s of cache){
-      this.test = this.test + 's' + s; 
+      //this.test = this.test + 's' + s; 
     }
   }
 
@@ -111,6 +94,10 @@ export class FormBuilderComponent implements OnInit {
     //return [elt for idx, elt in enumerate(liste) if idx % 2 != 0]
   }
 
+  /**
+   * @description methode de restructuration, et de gestion des style
+   * @deprecated ne marche pas en core
+   */
   restructureForm(){
     var fieldsRestructure : {
       legend? : string,
@@ -188,16 +175,6 @@ export class FormBuilderComponent implements OnInit {
   }
 
   toField(field){
-    /*
-    return new Field({
-      label : field.label,
-      validator : field.validator,
-      name : field.name,
-      type : field.type,
-      value : field.value,
-      meta_data : field.meta_data 
-    })
-    //*/
     var f : Field<any> =  new Field<any>(field);
     console.log(f);
     return f;

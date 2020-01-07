@@ -1,4 +1,5 @@
-<h1>{{entityClass}} </h1>
+<h1 class="text-center">{{entityClass}} </h1>
+<!--
 <ul class="list-group">    
     <div *ngFor="let i of Table">
         <li [ngClass]="{'list-group-item': true}"> 
@@ -19,6 +20,10 @@
         </li>
     </div>  
 </ul>
+-->
+<div class="fk-container">
+    <app-table [json]="entityData" [entityClass]="entityClass"></app-table>
+</div>
 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
     <button class="btn btn-sm btn-success" (click)="rollback()">
         Retour

@@ -67,25 +67,15 @@ export class FieldService {
         //*/
     }
 
-    // Todo: rendre asynchronous
+    // Todo: rendre asynchrone
     getFormStructure(formStructureParameters : {
                         entityClassName : string,
-                        type : string,
-                        id? : string
+                        entity? : Object,
+                        jsonOfForm? : {}
                     }){
-        if(formStructureParameters.type == "modification")
-            return new FormStructure(
-                formStructureParameters, 
-                this.utils.getClassByName(formStructureParameters.entityClassName),
-                this.entitysService.readEntity(
-                    formStructureParameters.entityClassName, formStructureParameters.id
-                )
-            );
-        else
-            return new FormStructure(
-                formStructureParameters, 
-                this.utils.getClassByName(formStructureParameters.entityClassName)
-            );
-                
+        return new FormStructure(
+            formStructureParameters, 
+            this.utils.getClassByName(formStructureParameters.entityClassName)
+        );        
     }
 }

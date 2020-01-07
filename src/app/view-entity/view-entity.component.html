@@ -1,14 +1,14 @@
 <ul class="list-group">    
-    <div *ngFor="let entity of entitysList">
+    <div *ngFor="let entityName of entitysNameList">
         <li [ngClass]="{'list-group-item': true}"> 
             <h4 [ngStyle]="{color: red}">
-                <strong style="position:absolute; top:0px;"> {{ entity.entityLabel }} </strong >
+                <strong style="position:absolute; top:0px;"> {{ entityName  }} </strong >
             </h4> 
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                 <button class="btn btn-sm btn-success"
-                    (click)="List(entity.routerLink)">Liste</button>
+                    (click)="List(entityName )">Liste</button>
                 <button class="btn btn-sm btn-success"
-                    (click)="New(entity.routerLink)">Nouveau</button>
+                    (click)="New(entityName)">Nouveau</button>
             </div>
         </li>
     </div>  
