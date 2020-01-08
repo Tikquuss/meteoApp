@@ -11,13 +11,13 @@ export class OpenWeatherService {
   private API_KEY = "d28e38bb181eda122ee70b1387568a14";
   private ROOT_URL ="https://api.openweathermap.org/data/2.5/weather?";
   
-  public times=['Clouds', 'Rain', 'Clear', 'Snow','Haze'];
+  public times=['Clouds', 'Rain', 'Clear', 'Snow','Haze', 'Mist'];
 
   constructor(private httpClient  : HttpClient){}
 
   goodtimes(){
     // faire correspondre à ['clouds', 'Rain', 'Clear', 'Snow','Haze'];
-    return ['cloudy', 'rainy', 'sunny', 'stormy', 'stormy'];
+    return ['cloudy', 'rainy', 'sunny', 'stormy', 'stormy', 'cloudy'];
   }
 
   getWeather(ville): Observable<any> {

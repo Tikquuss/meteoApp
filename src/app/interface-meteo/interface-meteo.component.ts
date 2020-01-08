@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { UserStoreService } from '../services/user-store.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
+//Mengong to Mengong
+import { UserStoreService } from '../services/user-store.service';
+import { LoginComponent} from '../login/login.component';
 // Nanda to Mengong
 import * as L from 'leaflet';
 import {OpenStreetMapService} from '../services/open-street-map.service';
-
 // Penano to Mengong
 import { OpenWeatherService } from '../services/open-weather.service';
-
-import { LoginComponent} from '../login/login.component';
+//Fandio to Mengong
 import {Utilisateur} from '../models/utilisateur';
+import { BdlocaleService } from '../services/bdlocale.service';
 
 @Component({
   selector: 'app-interface-meteo',
@@ -21,8 +23,10 @@ import {Utilisateur} from '../models/utilisateur';
 export class InterfaceMeteoComponent implements OnInit {
 
   public static city: string;
+  villeSubscription: Subscription;
+
   public times = [];
-  public time= 'string';
+  public time : string;
   public temperature: number;
   public pluviometry: string;
   public humidity: number;
@@ -34,14 +38,25 @@ export class InterfaceMeteoComponent implements OnInit {
   constructor(private userStore: UserStoreService,
               private router: Router,
               private  openStreetMapService: OpenStreetMapService,
-              private openWeatherService: OpenWeatherService) {
+              private openWeatherService: OpenWeatherService,
+              private bdlocaleService : BdlocaleService) {
+    
+    this.times =  this.openWeatherService.goodtimes();
+    
     this.user = LoginComponent.bdComponent.getUserCourant();
     InterfaceMeteoComponent.city = this.user.ville;
-    openStreetMapService.ville =  this.user.ville;
-    //openStreetMapService.latitude = this.user.ville.posX;
-    //openStreetMapService.longitude = this.user.ville.posY;
-    this.times =  this.openWeatherService.goodtimes();
-    this.updateInterface();
+    OpenStreetMapService.ville =  this.user.ville;
+    bdlocaleService.getVilleByNom(this.user.ville).then(
+      (ville) => {
+        OpenStreetMapService.latitude = ville.posX; 
+        OpenStreetMapService.longitude = ville.posY;
+        this.updateInterface();
+      },
+      (error) => {
+        console.log("erreur de connexion\n", error)
+      }
+    );
+    console.log('ville 2', OpenStreetMapService.latitude, OpenStreetMapService.longitude);
   }
 
   updateInterface(){
@@ -62,11 +77,9 @@ export class InterfaceMeteoComponent implements OnInit {
     );
   }
 
-  updateCity(){
-    if(OpenStreetMapService.ville != InterfaceMeteoComponent.city){
-        InterfaceMeteoComponent.city = OpenStreetMapService.ville;
-        this.updateInterface();
-    }
+  updateCity(event){
+    //ecouteur de la map
+    console.log('yyyyyyyyyy',event);
   }
 
   get city(): string {
@@ -79,6 +92,15 @@ export class InterfaceMeteoComponent implements OnInit {
 
   ngOnInit() {
     this.openStreetMapService.initMap(L, 'open-street-map', '4GI_Tikquuss_Team');
+    this.villeSubscription = OpenStreetMapService.villeSubject.subscribe(
+      (ville: string) => {
+        if(ville != InterfaceMeteoComponent.city){
+          InterfaceMeteoComponent.city = ville;
+          this.updateInterface();
+        }
+      }
+    );
+    OpenStreetMapService.emitVilleSubject();
   }
 
   logOut() {
