@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['']);
         },
         (error) => {
-          console.log("erreur de connexion", error)
+          console.log("erreur de connexion\n", error)
         }
       );
     }

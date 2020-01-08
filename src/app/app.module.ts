@@ -19,7 +19,6 @@ import { UserStoreService } from './services/user-store.service';
 import { AuthGuardService } from './services/auth-guard.service';
 
 import { TestbdComponent } from './components/testbd/testbd.component';
-import { InterfaceMeteoComponent } from './interface-meteo/interface-meteo.component';
 
 const appRoutes: Routes = [
   { path: '', loadChildren: './hourly-weekly/hourly-weekly.module#HourlyWeeklyModule', canActivate: [AuthGuardService] },

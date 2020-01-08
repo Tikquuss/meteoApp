@@ -52,9 +52,6 @@ export class SignupComponent implements OnInit {
         user.photo = this.form.get('photo').value;
         user.ville = this.form.get('ville').value;
         user.mdp = this.form.get('password').value;
-
-        // this.bdComponent.updateUser(user);
-        // *
         this.bdService.setUser(user).then(
           (success) => {
             if (success) {
@@ -62,11 +59,11 @@ export class SignupComponent implements OnInit {
               console.log("inscription reussie", success);
             }else{
               this.errorMessage = "Informations invalides";
-              console.log("inscription échouée", success);
+              console.log("inscription échouée\n", success);
             }
           },
           (error) => {
-            console.log('erreur de connexion', error)
+            console.log('erreur de connexion\n', error)
           }
         );
         // */
@@ -74,7 +71,7 @@ export class SignupComponent implements OnInit {
       } else{
         this.errorMessage = 'Informations invalides';
       }
-    this.submitting = false;
+      this.submitting = false;
     }
 
   triggerClick() {
