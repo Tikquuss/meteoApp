@@ -19,6 +19,7 @@ import { UserStoreService } from './services/user-store.service';
 import { AuthGuardService } from './services/auth-guard.service';
 
 import { TestbdComponent } from './components/testbd/testbd.component';
+import { HourlyWeeklyService } from './services/hourly-weekly.service';
 
 const appRoutes: Routes = [
   { path: '', loadChildren: './hourly-weekly/hourly-weekly.module#HourlyWeeklyModule', canActivate: [AuthGuardService] },
@@ -49,7 +50,8 @@ const appRoutes: Routes = [
     // ajoutés
     UserStoreService,
     OpenWeatherService,
-    OpenStreetMapService
+    OpenStreetMapService,
+    HourlyWeeklyService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

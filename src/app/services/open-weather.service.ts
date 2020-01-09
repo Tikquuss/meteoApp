@@ -32,4 +32,6 @@ export class OpenWeatherService {
   getTimeIndex(time:string){
     return this.times.indexOf(time);
   }
+
+  
 }

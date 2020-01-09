@@ -56,8 +56,7 @@ export class InterfaceMeteoComponent implements OnInit {
         console.log("erreur de connexion\n", error)
       }
     );
-    console.log('ville 2', OpenStreetMapService.latitude, OpenStreetMapService.longitude);
-  }
+ }
 
   updateInterface(){
     this.openWeatherService.getWeather(InterfaceMeteoComponent.city).subscribe(
