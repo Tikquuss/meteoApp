@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="fr">
+
 <head>
   <meta charset="utf-8">
   <title>MeteoApp</title>
@@ -8,7 +9,6 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
   <style media="screen">
-
     #loader {
       position: absolute;
       display: block;
@@ -22,17 +22,24 @@
       -o-transform: translate3d(0, -50%, 0);
       -ms-transform: translate3d(0, -50%, 0);
       transform: translate3d(0, -50%, 0);
+      -webkit-animation-duration: 50s;
+      -moz-animation-duration: 50s;
+      -ms-animation-duration: 50s;
+      -o-animation-duration: 50s;
+      animation-duration: 50s;
       text-align: center;
       border-radius: 50%;
       width: 45px;
       height: 45px;
-      top: 50%; }
-
-    </style>
+      top: 50%;
+    }
+  </style>
 </head>
+
 <body>
   <app-root>
     <div id="loader"><img src="assets/img/loader-preview.svg" alt="loading"></div>
   </app-root>
 </body>
+
 </html>
