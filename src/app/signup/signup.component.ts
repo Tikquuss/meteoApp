@@ -7,7 +7,8 @@ import { TestbdComponent } from '../components/testbd/testbd.component'
 import { BdlocaleService } from '../services/bdlocale.service';
 import { Utilisateur } from '../models/utilisateur';
 
-import { LoginComponent } from '../login/login.component';
+import { LoginComponent} from '../login/login.component';
+import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-signup',
@@ -25,8 +26,9 @@ export class SignupComponent implements OnInit {
   @ViewChild('profilePicture', { static: false }) profilePicture: ElementRef<HTMLElement>;
 
   constructor(private fb: FormBuilder,
-    private router: Router,
-    private bdService: BdlocaleService) {
+              private router: Router,
+              private bdService: BdlocaleService,
+              private parserFormatter: NgbDateParserFormatter) {
     this.createForm();
     this.files = null;
     this.bdComponent = new TestbdComponent(bdService);
@@ -81,7 +83,7 @@ export class SignupComponent implements OnInit {
       let img = await this.bdService.getImg('img0');
       let user = new Utilisateur();
       user.nom = this.form.get('nom').value;
-      user.dateNaissance = this.form.get('dateNaissance').value;
+      user.dateNaissance = new Date(this.parserFormatter.format(this.form.get('dateNaissance').value));
       user.sexe = this.form.get('sexe').value;
       if(img !== undefined)
         user.photo = img.img;

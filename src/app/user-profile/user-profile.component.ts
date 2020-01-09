@@ -9,6 +9,7 @@ import { LoginComponent } from '../login/login.component';
 // Fandio to Mengong
 import { Utilisateur } from '../models/utilisateur';
 import { BdlocaleService } from '../services/bdlocale.service';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-user-profile',
@@ -21,18 +22,20 @@ export class UserProfileComponent implements OnInit {
   public submitting: boolean = false;
   public editState: boolean = false;
   public user: Utilisateur;
-  public url: string = "assets/img/user.jpg";
+  public url: string;
+  public files: FileList;
 
   @ViewChild('profilePicture', { static: false }) profilePicture: ElementRef<HTMLElement>;
 
   constructor(private fb: FormBuilder,
     private userStore: UserStoreService,
     private router: Router,
-    private bdService: BdlocaleService) {
-
+    private bdService: BdlocaleService,
+    private parserFormatter: NgbDateParserFormatter) {
     this.user = LoginComponent.bdComponent.getUserCourant();
     this.url = "assets/img/user.jpg";
     this.createForm();
+    this.files = null;
   }
 
   createForm() {
@@ -69,35 +72,73 @@ export class UserProfileComponent implements OnInit {
   ngOnInit() {
     if (this.user.photo !== null) {
       var reader = new FileReader();
+      reader.readAsDataURL(this.user.photo);
       reader.onload = (function (theFile) {
         return function (e) {
-          let img = document.getElementById("profil");
-          img.setAttribute('src',e.target.result);
+          let img = document.getElementById("profiluser");
+          console.log("avant" + img.getAttribute('src'));
+          img.setAttribute('src', e.target.result);
         };
       })(this.user.photo);
-
-      reader.readAsDataURL(this.user.photo);
     }
   }
 
-  OnSave() {
+  edit(){
+    this.editState = true;
+    document.getElementById("customFileLangHTML").addEventListener('change', this.handleFileSelect, false);
+  }
+  async OnSave() {
     this.submitting = true;
     if (this.form.valid) {
-
+      let img = await this.bdService.getImg('img0');
       let user = new Utilisateur();
       user.nom = this.form.get('nom').value;
-      user.dateNaissance = this.form.get('dateNaissance').value;
+      user.dateNaissance = new Date(this.parserFormatter.format(this.form.get('dateNaissance').value));
       user.sexe = this.form.get('sexe').value;
-      user.photo = this.form.get('photo').value;
+      if(img !== undefined)
+        user.photo = img.img;
+      else
+        user.photo = null;
+
       user.ville = this.form.get('ville').value;
       user.mdp = this.form.get('password').value;
 
       LoginComponent.bdComponent.updateUser(user);
-      this.bdService.removeUser(LoginComponent.bdComponent.getUserCourant())
+      this.bdService.removeUser(LoginComponent.bdComponent.getUserCourant());
       LoginComponent.bdComponent.setUserCourant(user);
       this.editState = false;
     }
     this.submitting = false;
   }
 
+  handleFileSelect(evt) {
+    this.files = evt.target.files;
+    console.log("fichier 1 ", this.files);
+    let bdService = new BdlocaleService();
+    var file = this.files[0];
+    if (file.type.match('image.*')) {
+      var reader = new FileReader();
+      reader.onload = (function (theFile) {
+        return function (e) {
+          let item = document.getElementById("idSpan");
+          if (item !== null) {
+            item.remove();
+            console.log("suppression des spans");
+          }
+
+          var span = document.createElement('span');
+          span.id = "idSpan";
+          span.innerHTML = ['<img class="thumbnail" src="', e.target.result,
+            '" title="', escape(theFile.name), '" width=50 height=50/>'].join('');
+          document.getElementById('list').insertBefore(span, null);
+        };
+      })(file);
+
+      reader.readAsDataURL(file);
+      bdService.setImg({'nom': 'img0', 'img':this.files[0]});
+    }
+    else{
+      bdService.setImg({'nom': 'img0', 'img':null});
+    }
+  }
 }

@@ -5,7 +5,8 @@
          height="60"
          class="d-inline-block align-middle rounded-circle bg-white"
          alt=""
-         style="object-fit: cover">
+         id="profiluser"
+    style="object-fit: cover">
     {{user.nom}}
   </a>
   <ul class="nav">
@@ -17,7 +18,7 @@
     </li>
   </ul>
 </nav>
-<div class="container-fluid container-sm mx-auto mt-3">
+<div class="container-fluid container-sm mx-auto my-3">
   <div class="card text-white bg-transparent mx-auto" style="min-height: 60vh; max-width: 36rem">
     <div class="card-body rounded" style="background-color: rgba(0, 0, 0, .4);">
       <h4 class="card-title text-capitalize text-center">informations générales</h4>
@@ -55,7 +56,7 @@
             <h6>{{user.ville}}</h6>
           </div>
         </div>
-        <button class="btn btn-light btn-block w-50 mx-auto mt-4" (click)="editState = true;">Modifier</button>
+        <button class="btn btn-light btn-block w-50 mx-auto mt-4" (click)="edit()">Modifier</button>
       </div>
       <form [formGroup]="form" *ngIf="editState">
         <div class="form-group" >
@@ -138,6 +139,7 @@
                  #profilePicture>
           <label class="custom-file-label" for="customFileLangHTML" data-browse="Choisir">Changer la photo de profil</label>
         </div>
+        <div><output id="list"></output></div>
         <button type="submit" class="btn btn-light btn-block mt-4 mx-auto" style="max-width: 18rem" (click)="OnSave()">
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="submitting"></span>
           Enregistrer
