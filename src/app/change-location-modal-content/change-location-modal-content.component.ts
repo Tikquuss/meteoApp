@@ -7,6 +7,7 @@ import { BdlocaleService } from '../services/bdlocale.service';
 
 // Mengong to Mengong
 import { InterfaceMeteoComponent } from '../interface-meteo/interface-meteo.component';
+import { __await } from 'tslib';
 
 @Component({
   selector: 'app-change-location-modal-content',
@@ -19,6 +20,7 @@ export class ChangeLocationModalContentComponent implements OnInit {
   public form: FormGroup;
   public countries: string[];
   public regions: string[];
+  public cities: string[];
 
   constructor(public activeModal: NgbActiveModal,
     private fb: FormBuilder,
@@ -35,6 +37,23 @@ export class ChangeLocationModalContentComponent implements OnInit {
       this.createForm();
   }
 
+  onChangePays(pays){
+    if(pays){
+      console.log(pays);
+      this.getRegionOfSelectedCountrie(pays).then((re)=>{
+        this.regions = re;
+      });
+    }
+  }
+
+  onChangeRegion(region){
+    if(region){
+      console.log(region);
+      this.getCitiesOfSelectedRegion(region).then((ci)=>{
+        this.cities = ci;
+      });
+    }
+  }
   async initPays() {
     let coun = await this.bdlocaleService.getCountries();
     this.countries.concat(coun);
