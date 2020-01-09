@@ -30,12 +30,17 @@ export class InterfaceMeteoComponent implements OnInit {
   public hourly: boolean = true;
   public weekly: boolean = false;
   public user: Utilisateur;
+  public url: string = "assets/img/user.jpg";
 
   constructor(private userStore: UserStoreService,
               private router: Router,
               private  openStreetMapService: OpenStreetMapService,
               private openWeatherService: OpenWeatherService) {
+
     this.user = LoginComponent.bdComponent.getUserCourant();
+    this.url = "assets/img/user.jpg";
+
+    console.log(this.url);
     InterfaceMeteoComponent.city = this.user.ville;
     openStreetMapService.ville =  this.user.ville;
     //openStreetMapService.latitude = this.user.ville.posX;
@@ -79,6 +84,17 @@ export class InterfaceMeteoComponent implements OnInit {
 
   ngOnInit() {
     this.openStreetMapService.initMap(L, 'open-street-map', '4GI_Tikquuss_Team');
+    if (this.user.photo !== null) {
+      var reader = new FileReader();
+      reader.onload = (function (theFile) {
+        return function (e) {
+          let img = document.getElementById("profil");
+          img.setAttribute('src',e.target.result);
+        };
+      })(this.user.photo);
+
+      reader.readAsDataURL(this.user.photo);
+    }
   }
 
   logOut() {

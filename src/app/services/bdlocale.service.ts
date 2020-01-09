@@ -5,6 +5,7 @@ import { Utilisateur } from '../models/utilisateur';
 import { Ville } from '../models/ville';
 import { Pays } from '../models/pays';
 import { Region } from '../models/region';
+import { Image } from '../models/image';
 
 /**
     * Le service permettant d'accéder et de modifier les données de la BD
@@ -23,7 +24,7 @@ export class BdlocaleService {
   */
   openDB(): Promise<IDBDatabase> {
     return new Promise<IDBDatabase>((resolve, reject) => {
-      const request = window.indexedDB.open("myDatabase", 6);
+      const request = window.indexedDB.open("myDatabase", 7);
 
       request.onupgradeneeded = (event: any) => {
         //C'est ici qu'on créé ou modifie la structure de la base
@@ -61,6 +62,12 @@ export class BdlocaleService {
           store2.createIndex('posY', 'posY', { unique: false });
           store2.createIndex('region', 'region', { unique: false });
           store2.createIndex('pays', 'pays', { unique: false });
+        }
+
+        //creation de image
+        if (!db.objectStoreNames.contains("image")) {
+          let store2 = db.createObjectStore("image", { keyPath: "nom" });
+          store2.createIndex('img', 'img', { unique: false });
         }
       }
 
@@ -405,7 +412,7 @@ export class BdlocaleService {
   */
   async getCountries(): Promise<string[]> {
     let co = await this.getAll<Pays>('pays');
-    return new Promise<string[]>((resolve, reject) =>{
+    return new Promise<string[]>((resolve, reject) => {
       let results = [];
       for (let pays of co) {
         results.push(pays.nom);
@@ -423,7 +430,7 @@ export class BdlocaleService {
     let db = await this.openDB();
     let co = await this.getByIndex<Region>(db, 'region', 'pays', country);
     let results = [];
-    return new Promise<string[]>((resolve, reject)=>{
+    return new Promise<string[]>((resolve, reject) => {
       for (let region of co) {
         results.push(region.nom);
       }
@@ -439,7 +446,7 @@ export class BdlocaleService {
   async getVillesByRegion(region): Promise<string[]> {
     let co = await this.getVilleByRegion(region);
     let results = [];
-    return new Promise<string[]>((resolve, reject)=>{
+    return new Promise<string[]>((resolve, reject) => {
       for (let ville of co) {
         results.push(ville.nom);
       }
@@ -772,5 +779,85 @@ export class BdlocaleService {
     await this.setValue(db, "ville",
       { nom: "Muyuka", posX: 4.290, posY: 9.420, region: so, pays: "Cameroun" });
 
+  }
+  /*
+    async putImage(image: string, user: Utilisateur) {
+      // Creation de xhr
+      var xhr = new XMLHttpRequest(),
+        blob;
+  
+      xhr.open("GET", image, true);
+  
+      xhr.responseType = "blob";
+  
+      let db = await this.openDB();
+  
+      xhr.addEventListener("load", function () {
+        if (xhr.status === 200) {
+          console.log("Image récupérée");
+  
+          // Blob as response
+          blob = xhr.response;
+          console.log("Blob:" + blob);
+  
+          user.img = blob;
+  
+          let storeName = "utilisateur";
+          // mettre le blob dans la bd
+          const transaction: IDBTransaction = db.transaction(storeName, 'readwrite');
+          const store: IDBObjectStore = transaction.objectStore(storeName);
+          //La méthode put ajoute où met à jour une valeur dans la base
+          const request: IDBRequest = store.put(user);
+  
+          request.onsuccess = event => {
+            console.log("image enregistrée");
+          };
+          request.onerror = (event: any) => {
+            console.log("echec d'enregistrement");
+            transaction.abort();
+          };
+  
+          // Récupérer l'url de l'image
+          transaction.objectStore(storeName).get(user.nom).onsuccess = function (event) {
+            var imgFile = event.target;
+            console.log("fichier " + imgFile);
+            var URL = window.URL;
+            var imgURL = URL.createObjectURL(imgFile);
+            user.photo = imgURL;
+          };
+        }
+      }, false);
+      // Send XHR
+      xhr.send();
+    }
+  */
+
+  /**
+    * permet d'ajouter ou mettre a jour une image
+    * @param {any} img - valeur qu'on veut stocker dans la table ou mettre a jour 
+  */
+  async setImg(img: any): Promise<Boolean> {
+    let db = await this.openDB();
+    return new Promise<Boolean>((resolve, reject) => {
+      console.log('image');
+      let val = this.setValue(db, 'image', img);
+      val.then((v) => {
+        if (v === true) {
+          resolve(v);
+        }
+        else {
+          reject(v);
+        }
+      })
+    });
+  }
+  async getImg(key: string){
+    let db = await this.openDB();
+    return new Promise<Image>((resolve, reject) => {
+      let img = this.getValue<Image>(db, "image", key);
+      img.then((imag: Image) => {
+        resolve(imag);  
+      });
+    });
   }
 }

@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       const username = this.form.get('username').value;
       const password = this.form.get('password').value;
-      console.log(this.form.value);
+      //console.log(this.form.value);
       LoginComponent.bdComponent.assignUser(username, password).then(
         (success) => {
           if (success) {
