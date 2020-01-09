@@ -31,6 +31,7 @@ export class ChangeLocationModalContentComponent implements OnInit {
       this.getCountries().then((co) =>  {
         this.countries = co;
      });
+     
       this.createForm();
   }
 
@@ -75,8 +76,8 @@ export class ChangeLocationModalContentComponent implements OnInit {
    */
   async getRegionOfSelectedCountrie(countrie): Promise<string[]> {
     let res = await this.bdlocaleService.getRegionsByCountrie(countrie);
-    //console.log(res);
-    return [''].concat(res);
+    console.log(res);
+    return Promise.resolve([''].concat(res));
   }
 
   /**
@@ -86,7 +87,8 @@ export class ChangeLocationModalContentComponent implements OnInit {
    */
   async getCitiesOfSelectedRegion(region): Promise<string[]> {
     let res = await this.bdlocaleService.getVillesByRegion(region);
-    return [''].concat(res);
+    console.log(res);
+    return Promise.resolve([''].concat(res));
   }
   
 
