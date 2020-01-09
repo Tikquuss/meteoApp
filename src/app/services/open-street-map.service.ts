@@ -21,7 +21,7 @@ export class OpenStreetMapService{
     public static openWeatherService : OpenWeatherService;
     public static httpClient : HttpClient;
 
-    public static villeSubject = new Subject<string>();;
+    public static villeSubject = new Subject<string>();
 
     constructor(public httpClient: HttpClient,
                 openWeatherService : OpenWeatherService) {
@@ -75,7 +75,8 @@ export class OpenStreetMapService{
       if(options){
         if(options.e){
           // Déplacement du marqueur
-          OpenStreetMapService.macarte.removeLayer(OpenStreetMapService.marker);
+          console.log(OpenStreetMapService.macarte.removeLayer(OpenStreetMapService.marker));
+          console.log('marker rétiré pour la ville', OpenStreetMapService.ville);
           OpenStreetMapService.latitude=options.e.latlng.lat;
           OpenStreetMapService.longitude=options.e.latlng.lng;  
         }
@@ -95,6 +96,7 @@ export class OpenStreetMapService{
             ).addTo(
               OpenStreetMapService.macarte
             ).openPopup();
+            console.log('marker implanté pour la ville', OpenStreetMapService.ville);
           },
           (error) => {
             console.log('Erreur de recuperation de la ville \n',error);
