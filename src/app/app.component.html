@@ -1,6 +1,6 @@
 
 <div class="card bg-dark border-0 p-0 m-0">
-  <img src="assets/img/bg.jpg" class="card-img" alt="..." style="object-fit: cover; filter: blur(15px); height: 100vh;">
+  <img src="assets/img/bg.jpg" class="card-img" alt="..." style="object-fit: cover; filter: blur(15px); min-height: 100vh;" [style.height]="getDoc().body.scrollHeight+ 'px'">
   <div class="card-img-overlay" style="background-color: rgba(0,0,0,.3)">
     <router-outlet></router-outlet>
   </div>

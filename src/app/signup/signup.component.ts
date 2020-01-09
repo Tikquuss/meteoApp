@@ -8,6 +8,7 @@ import { BdlocaleService } from '../services/bdlocale.service';
 import { Utilisateur } from '../models/utilisateur';
 
 import { LoginComponent} from '../login/login.component';
+import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-signup',
@@ -25,7 +26,8 @@ export class SignupComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private router: Router,
-              private bdService: BdlocaleService) {
+              private bdService: BdlocaleService,
+              private parserFormatter: NgbDateParserFormatter) {
     this.createForm();
     this.bdComponent = new TestbdComponent(bdService);
   }
@@ -47,7 +49,7 @@ export class SignupComponent implements OnInit {
         console.log(this.form.value);
         let user = new Utilisateur();
         user.nom = this.form.get('nom').value;
-        user.dateNaissance = this.form.get('dateNaissance').value;
+        user.dateNaissance = new Date(this.parserFormatter.format(this.form.get('dateNaissance').value));
         user.sexe = this.form.get('sexe').value;
         user.photo = this.form.get('photo').value;
         user.ville = this.form.get('ville').value;
