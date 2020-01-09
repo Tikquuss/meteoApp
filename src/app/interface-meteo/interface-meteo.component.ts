@@ -21,8 +21,11 @@ import {Utilisateur} from '../models/utilisateur';
 export class InterfaceMeteoComponent implements OnInit {
 
   public static city: string;
-  public times = [];
-  public time= 'string';
+  public times: string[];
+  public cTime: string;
+  public frTime: string;
+  public icon: string;
+  public time: string;
   public temperature: number;
   public pluviometry: string;
   public humidity: number;
@@ -30,6 +33,8 @@ export class InterfaceMeteoComponent implements OnInit {
   public hourly: boolean = true;
   public weekly: boolean = false;
   public user: Utilisateur;
+  public tmax: number;
+  public tmin: number;
 
   constructor(private userStore: UserStoreService,
               private router: Router,
@@ -38,8 +43,8 @@ export class InterfaceMeteoComponent implements OnInit {
     this.user = LoginComponent.bdComponent.getUserCourant();
     InterfaceMeteoComponent.city = this.user.ville;
     openStreetMapService.ville =  this.user.ville;
-    //openStreetMapService.latitude = this.user.ville.posX;
-    //openStreetMapService.longitude = this.user.ville.posY;
+    // openStreetMapService.latitude = this.user.ville.posX;
+    // openStreetMapService.longitude = this.user.ville.posY;
     this.times =  this.openWeatherService.goodtimes();
     this.updateInterface();
   }
@@ -47,15 +52,21 @@ export class InterfaceMeteoComponent implements OnInit {
   updateInterface(){
     this.openWeatherService.getWeather(InterfaceMeteoComponent.city).subscribe(
       (data) => {
-        this.temperature = Math.round(data.main.temp-273); // °C
-        this.pluviometry = 'ESE '+ Math.floor(Math.random() * 100)+' m/s'; // l'api ne renvoie pas la pluviometrie
-        this.humidity = Math.round(data.main.humidity); //%
+        this.temperature = Math.round(data.main.temp - 273); // °C
+        this.pluviometry = 'ESE ' + Math.floor(Math.random() * 100) + ' m/s'; // l'api ne renvoie pas la pluviometrie (Penano doit se battre)
+        this.humidity = Math.round(data.main.humidity); // %
         this.time = data.weather["0"].main;
         this.ind = this.openWeatherService.getTimeIndex(this.time);
+        let t = this.openWeatherService.getTimeByValue(data.weather['0'].main);
+        this.frTime = t.fr;
+        this.cTime = t.corresponding;
+        this.icon = t.icon;
+        this.tmin = this.temperature; // Penano doit changer ça
+        this.tmax = this.temperature + 10; // Penano doit changer ça
       },
       (error) => {
-        console.log('Erreur de recuperation de la météo\n',error);
-      }, 
+        console.log('Erreur de recuperation de la météo\n', error);
+      },
       () => {
         console.log('Fin récuperation de la météo');
       }

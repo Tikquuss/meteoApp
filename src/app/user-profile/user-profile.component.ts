@@ -9,6 +9,7 @@ import { LoginComponent} from '../login/login.component';
 // Fandio to Mengong
 import { Utilisateur } from '../models/utilisateur';
 import { BdlocaleService } from '../services/bdlocale.service';
+import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-user-profile',
@@ -27,7 +28,8 @@ export class UserProfileComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private userStore: UserStoreService,
               private router: Router,
-              private bdService: BdlocaleService) {
+              private bdService: BdlocaleService,
+              private parserFormatter: NgbDateParserFormatter) {
     this.createForm();
   }
 
@@ -72,14 +74,14 @@ export class UserProfileComponent implements OnInit {
 
       let user = new Utilisateur();
       user.nom = this.form.get('nom').value;
-      user.dateNaissance = this.form.get('dateNaissance').value;
+      user.dateNaissance = new Date(this.parserFormatter.format(this.form.get('dateNaissance').value));
       user.sexe = this.form.get('sexe').value;
       user.photo = this.form.get('photo').value;
       user.ville = this.form.get('ville').value;
       user.mdp = this.form.get('password').value;
 
       LoginComponent.bdComponent.updateUser(user);
-      this.bdService.removeUser(LoginComponent.bdComponent.getUserCourant())
+      this.bdService.removeUser(LoginComponent.bdComponent.getUserCourant());
       LoginComponent.bdComponent.setUserCourant(user);
       this.editState = false;
     }
