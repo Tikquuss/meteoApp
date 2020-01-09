@@ -14,10 +14,12 @@ export class OpenWeatherService {
 
   public goodTimes = [
     {value: 'Clouds', corresponding: 'cloudy', fr: 'nuageux', icon: 'cloudy'},
-    {value: 'Rain', corresponding: 'rainy', fr: 'pluvieux',icon: 'rain'},
-    {value: 'Clear', corresponding: 'sunny', fr: 'ensoleillé', icon: 'sunny'},
+    {value: 'Rain', corresponding: 'rainy', fr: 'pluvieux', icon: 'rain'},
+    {value: 'Clear', corresponding: 'sunny', fr: 'dégagé', icon: 'sunny'},
     {value: 'Thunderstorm', corresponding: 'stormy', fr: 'orageux', icon: 'thunderstorm'},
     {value: 'Haze', corresponding: 'hazy', fr: 'brumeux', icon: 'haze'},
+    {value: 'Mist', corresponding: 'mist', fr: 'brumeux', icon: 'haze'},
+    {value: 'Snow', corresponding: 'snow', fr: 'enneigé', icon: 'snow'},
   ];
 
   constructor(private httpClient: HttpClient) {}
