@@ -49,7 +49,7 @@ const appRoutes: Routes = [
     // ajoutés
     UserStoreService,
     OpenWeatherService,
-    OpenStreetMapService,
+    OpenStreetMapService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

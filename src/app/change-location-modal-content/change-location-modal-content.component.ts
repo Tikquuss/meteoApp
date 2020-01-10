@@ -10,6 +10,7 @@ import { BdlocaleService } from '../services/bdlocale.service';
 import { InterfaceMeteoComponent } from '../interface-meteo/interface-meteo.component';
 import { LoginComponent } from '../login/login.component';
 import { __await } from 'tslib';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-change-location-modal-content',
@@ -26,6 +27,8 @@ export class ChangeLocationModalContentComponent implements OnInit {
   public afficheRegion: boolean = false;
   public afficheVille: boolean = false;
 
+  public static villeSubject = new Subject<string>();
+
   constructor(public activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private bdlocaleService: BdlocaleService,
@@ -40,6 +43,10 @@ export class ChangeLocationModalContentComponent implements OnInit {
      });
      
       this.createForm();
+  }
+
+  public static emitVilleSubject(othercity) {
+    ChangeLocationModalContentComponent.villeSubject.next(othercity);
   }
 
   onChangePays(pays){
@@ -136,6 +143,7 @@ export class ChangeLocationModalContentComponent implements OnInit {
     LoginComponent.bdComponent.updateUser(LoginComponent.bdComponent.getUserCourant()).then((cc)=>{
       //recharger la page INTERFACE METEO
       //this.router.navigate(['']);
+      ChangeLocationModalContentComponent.emitVilleSubject(this.city.value);
     });
 
     this.activeModal.close('Close click');

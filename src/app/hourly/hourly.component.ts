@@ -35,7 +35,7 @@ export class HourlyComponent implements OnInit {
       let ind = Math.floor(Math.random() * 4);
       this.meteoHours.push(
         {
-          hour: 10 + i,
+          hour: (i+'').length == 1 ? '0' + i : i,
           time: this.times[ind],
           temperature: Math.floor(Math.random() * 5) + 18,
           humidity: 92
@@ -46,5 +46,4 @@ export class HourlyComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

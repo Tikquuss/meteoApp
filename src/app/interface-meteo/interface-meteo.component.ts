@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 //Mengong to Mengong
 import { UserStoreService } from '../services/user-store.service';
 import { LoginComponent} from '../login/login.component';
+import { ChangeLocationModalContentComponent } from '../change-location-modal-content/change-location-modal-content.component';
 // Nanda to Mengong
 import * as L from 'leaflet';
 import {OpenStreetMapService} from '../services/open-street-map.service';
@@ -130,6 +131,27 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy  {
     );
     OpenStreetMapService.emitVilleSubject();
 
+    this.villeSubscription = ChangeLocationModalContentComponent.villeSubject.subscribe(
+      (ville: string) => {
+        if(ville != InterfaceMeteoComponent.city){
+          InterfaceMeteoComponent.city = ville;
+          OpenStreetMapService.ville =  ville;
+          this.bdlocaleService.getVilleByNom(ville).then(
+            (ville) => {
+              OpenStreetMapService.latitude = ville.posX;
+              OpenStreetMapService.longitude = ville.posY;
+              this.updateInterface();
+              OpenStreetMapService.updateParameter({ville:ville.nom});
+            },
+            (error) => {
+              console.log("erreur de connexion\n", error)
+            }
+          );
+        }
+      }
+    );
+    ChangeLocationModalContentComponent.emitVilleSubject(InterfaceMeteoComponent.city);
+
     this.openWeatherService.getWeather(InterfaceMeteoComponent.city).subscribe(
       (data) => {
         let date = new Date();
@@ -213,5 +235,4 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy  {
   ngOnDestroy(){
     clearInterval(this.idIntervalleSave);
   }
- 
 }
