@@ -15,16 +15,16 @@
           <option *ngFor="let c of countries">{{c}}</option>
         </select>
       </div>
-    <div class="form-group" *ngIf="country.value">
+    <div class="form-group" *ngIf="afficheRegion">
       <label for="region" class="font-weight-bold">Choisir la région:</label>
       <select class="form-control bg-transparent border-light text-black font-weight-bold"
               id="region"
               name="region"
               formControlName="region" #mySelect2 (change)= 'onChangeRegion(mySelect2.value)'>
-        <option *ngFor="let r of regions$">{{r}}</option>
+        <option *ngFor="let r of regions">{{r}}</option>
       </select>
     </div>
-    <div class="form-group" *ngIf="region.value">
+    <div class="form-group" *ngIf="afficheVille">
       <label for="city" class="font-weight-bold">Choisir la ville:</label>
       <select class="form-control bg-transparent border-light text-black font-weight-bold"
               id="city"

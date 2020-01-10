@@ -372,7 +372,7 @@ export class BdlocaleService {
    */
   delete<T>(db: IDBDatabase, storeName: string, key: string): Promise<Boolean> {
     return new Promise<Boolean>((resolve, reject) => {
-      const transaction = db.transaction(storeName, 'readonly');
+      const transaction = db.transaction(storeName, 'readwrite');
       const store = transaction.objectStore(storeName);
       const request = store.delete(key);
       request.onsuccess = event => {

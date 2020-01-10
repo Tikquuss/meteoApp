@@ -24,7 +24,8 @@ export class UserProfileComponent implements OnInit {
   public user: Utilisateur;
   public url: string;
   public files: FileList;
-
+  public errorMessage: string = '';
+  
   @ViewChild('profilePicture', { static: false }) profilePicture: ElementRef<HTMLElement>;
 
   constructor(private fb: FormBuilder,
@@ -44,7 +45,7 @@ export class UserProfileComponent implements OnInit {
       nom: [this.user.nom, Validators.required],
       dateNaissance: ['', Validators.required],
       sexe: [this.user.sexe, Validators.required],
-      photo: [''/*user.photo*/, Validators.required],
+      photo: [''/*user.photo*/],
       ville: [this.user.ville, Validators.required],
       password: [this.user.mdp, Validators.required]
     });
@@ -70,43 +71,56 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.updatePhoto();
+  }
+
+  updatePhoto() {
     if (this.user.photo !== null) {
       var reader = new FileReader();
       reader.readAsDataURL(this.user.photo);
       reader.onload = (function (theFile) {
         return function (e) {
           let img = document.getElementById("profiluser");
-          console.log("avant" + img.getAttribute('src'));
           img.setAttribute('src', e.target.result);
         };
       })(this.user.photo);
     }
+    else {
+      let img = document.getElementById("profiluser");
+      img.setAttribute('src', this.url);
+    }
   }
-
-  edit(){
-    this.editState = true;
+  edit() {
     document.getElementById("customFileLangHTML").addEventListener('change', this.handleFileSelect, false);
   }
   async OnSave() {
     this.submitting = true;
-    if (this.form.valid) {
+    let ville = await this.bdService.getVilleByNom(this.form.get('ville').value);
+    console.log("ville" + ville);
+    if (ville && this.form.valid) {
+      this.errorMessage = '';
       let img = await this.bdService.getImg('img0');
       let user = new Utilisateur();
       user.nom = this.form.get('nom').value;
       user.dateNaissance = new Date(this.parserFormatter.format(this.form.get('dateNaissance').value));
       user.sexe = this.form.get('sexe').value;
-      if(img !== undefined)
+      if (img)
         user.photo = img.img;
       else
-        user.photo = null;
+        user.photo = this.user.photo;
 
       user.ville = this.form.get('ville').value;
       user.mdp = this.form.get('password').value;
 
+      this.bdService.removeUser(LoginComponent.bdComponent.getUserCourant().nom);
       LoginComponent.bdComponent.updateUser(user);
-      this.bdService.removeUser(LoginComponent.bdComponent.getUserCourant());
       LoginComponent.bdComponent.setUserCourant(user);
+      this.user = user;
+      this.updatePhoto();
       this.editState = false;
+    }
+    else{
+      this.errorMessage = 'Informations invalides. Remplissez tous les champs et vérifiez que votre ville est correcte';
     }
     this.submitting = false;
   }
@@ -135,10 +149,10 @@ export class UserProfileComponent implements OnInit {
       })(file);
 
       reader.readAsDataURL(file);
-      bdService.setImg({'nom': 'img0', 'img':this.files[0]});
+      bdService.setImg({ 'nom': 'img0', 'img': this.files[0] });
     }
-    else{
-      bdService.setImg({'nom': 'img0', 'img':null});
+    else {
+      bdService.setImg({ 'nom': 'img0', 'img': null });
     }
   }
 }

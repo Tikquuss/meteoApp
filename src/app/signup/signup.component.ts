@@ -39,7 +39,7 @@ export class SignupComponent implements OnInit {
       nom: ['', Validators.required],
       dateNaissance: ['', Validators.required],
       sexe: ['', Validators.required],
-      photo: ['', Validators.required],
+      photo: [''],
       ville: ['', Validators.required],
       password: ['', Validators.required]
     });
@@ -50,7 +50,7 @@ export class SignupComponent implements OnInit {
     console.log("fichier 1 ", this.files);
     let bdService = new BdlocaleService();
     var file = this.files[0];
-    if (file.type.match('image.*')) {
+    if (this.files!=null && file.type.match('image.*')) {
       var reader = new FileReader();
       reader.onload = (function (theFile) {
         return function (e) {
@@ -78,14 +78,17 @@ export class SignupComponent implements OnInit {
 
   async submit() {
     this.submitting = true;
-    if (this.form.valid) {
+    let ville = await this.bdService.getVilleByNom(this.form.get('ville').value);
+    console.log("ville" + ville);
+    if (ville && this.form.valid) {
       //console.log(this.form.value);
+      this.errorMessage = '';
       let img = await this.bdService.getImg('img0');
       let user = new Utilisateur();
       user.nom = this.form.get('nom').value;
       user.dateNaissance = new Date(this.parserFormatter.format(this.form.get('dateNaissance').value));
       user.sexe = this.form.get('sexe').value;
-      if(img !== undefined)
+      if(img)
         user.photo = img.img;
       else
         user.photo = null;
@@ -108,7 +111,7 @@ export class SignupComponent implements OnInit {
       // */
       this.router.navigate(['']);
     } else {
-      this.errorMessage = 'Informations invalides';
+      this.errorMessage = 'Informations invalides. Remplissez tous les champs et vérifiez que votre ville est correcte';
     }
     this.submitting = false;
   }

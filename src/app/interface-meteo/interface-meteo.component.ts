@@ -51,7 +51,7 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy  {
     this.user = LoginComponent.bdComponent.getUserCourant();
     this.url = "assets/img/user.jpg";
 
-    console.log(this.url);
+    //console.log(this.url);
     InterfaceMeteoComponent.city = this.user.ville;
     openStreetMapService.ville =  this.user.ville;
     this.times =  this.openWeatherService.goodtimes();

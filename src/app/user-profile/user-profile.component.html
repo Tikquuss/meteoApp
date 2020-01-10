@@ -56,7 +56,7 @@
             <h6>{{user.ville}}</h6>
           </div>
         </div>
-        <button class="btn btn-light btn-block w-50 mx-auto mt-4" (click)="edit()">Modifier</button>
+        <button class="btn btn-light btn-block w-50 mx-auto mt-4" (click)="editState=true">Modifier</button>
       </div>
       <form [formGroup]="form" *ngIf="editState">
         <div class="form-group" >
@@ -130,16 +130,17 @@
           </div>
         </fieldset>
         <a class="btn btn-link text-decoration-none p-0 text-primary" role="button" (click)="triggerClick()">Changer la photo de profil</a>
-        <div class="custom-file" style="display: none" >
+        <div class="custom-file" style="display: none">
           <input type="file"
                  class="custom-file-input"
                  id="customFileLangHTML"
                  name="profilePicture"
                  formControlName="photo"
                  #profilePicture>
-          <label class="custom-file-label" for="customFileLangHTML" data-browse="Choisir">Changer la photo de profil</label>
+          <label class="custom-file-label" for="customFileLangHTML" data-browse="Choisir" *ngIf="editState; then edit()">Changer la photo de profil</label>
         </div>
         <div><output id="list"></output></div>
+        <p class="card-text mt-3 text-center text-danger">{{errorMessage}}</p>
         <button type="submit" class="btn btn-light btn-block mt-4 mx-auto" style="max-width: 18rem" (click)="OnSave()">
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="submitting"></span>
           Enregistrer
