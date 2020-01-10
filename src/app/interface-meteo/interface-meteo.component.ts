@@ -43,6 +43,8 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy  {
   public url: string = "assets/img/user.jpg";
   private idIntervalleSave;
 
+  public static nbClick = 0;
+
   constructor(private userStore: UserStoreService,
               private router: Router,
               private  openStreetMapService: OpenStreetMapService,
@@ -94,7 +96,14 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy  {
   }
 
   updateCity(event){
-    //ecouteur de la map
+    let element = document.getElementById('open-street-map');
+    if(InterfaceMeteoComponent.nbClick == 0){
+      /*
+      todo : rendre l'element non cliquable pendant 2 secondes
+      */
+      InterfaceMeteoComponent.nbClick = 1;
+    }
+    InterfaceMeteoComponent.nbClick = 0;
     console.log("updateCity",event);
   }
 
