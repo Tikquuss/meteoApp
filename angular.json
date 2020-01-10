@@ -27,7 +27,8 @@
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/assets/fonts/weather-font/css/weather-icons.min.css",
-              "src/assets/fonts/font-awesome/css/all.min.css"
+              "src/assets/fonts/font-awesome/css/all.min.css",
+              "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": []
           },

@@ -1,0 +1,16 @@
+input {
+    outline: none;
+}
+
+.fk-color-valid {
+    color: #45b5ff;
+}
+
+.fk-alert {
+    text-align: center;
+    justify-content: center;
+}
+
+.fk-color-invalid {
+    color: #ff1c1c;
+}

@@ -1,6 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+// Fandio to Mengong
+import { BdlocaleService } from '../services/bdlocale.service';
+
+// Mengong to Mengong
+import { InterfaceMeteoComponent } from '../interface-meteo/interface-meteo.component';
+import { __await } from 'tslib';
 
 @Component({
   selector: 'app-change-location-modal-content',
@@ -14,12 +21,42 @@ export class ChangeLocationModalContentComponent implements OnInit {
   public countries: string[];
   public regions: string[];
   public cities: string[];
+
   constructor(public activeModal: NgbActiveModal,
-              private fb: FormBuilder) {
-    this.countries = ['', 'Cameroon', 'Nigeria', 'South Africa'];
-    this.regions = ['', 'Center', 'Littoral', 'South', 'East', 'North'];
-    this.cities = ['', 'Yaoundé', 'Douala'];
-    this.createForm();
+    private fb: FormBuilder,
+    private bdlocaleService: BdlocaleService) {
+      /*this.initPays().then(()=>{
+        this.createForm();
+        console.log("liste pays" + this.countries);
+      });
+      */
+      this.getCountries().then((co) =>  {
+        this.countries = co;
+     });
+     
+      this.createForm();
+  }
+
+  onChangePays(pays){
+    if(pays){
+      console.log(pays);
+      this.getRegionOfSelectedCountrie(pays).then((re)=>{
+        this.regions = re;
+      });
+    }
+  }
+
+  onChangeRegion(region){
+    if(region){
+      console.log(region);
+      this.getCitiesOfSelectedRegion(region).then((ci)=>{
+        this.cities = ci;
+      });
+    }
+  }
+  async initPays() {
+    let coun = await this.bdlocaleService.getCountries();
+    this.countries.concat(coun);
   }
 
   createForm() {
@@ -36,7 +73,55 @@ export class ChangeLocationModalContentComponent implements OnInit {
 
   get city() { return this.form.get('city'); }
 
-  ngOnInit() {
+  async ngOnInit() {
   }
 
+  // Ajoutées
+
+  /**
+   *
+   * @param
+   */
+  async getCountries(): Promise<string[]>{
+    let coun = await this.bdlocaleService.getCountries();
+    let res = [''].concat(coun);
+    console.log(res);
+    return Promise.resolve(res);
+  }
+  /**
+   * Retourne les regions du pays selectionné dans le modal
+   * @param {countrie : String}
+   * * @returns {Array of regions}
+   */
+  async getRegionOfSelectedCountrie(countrie): Promise<string[]> {
+    let res = await this.bdlocaleService.getRegionsByCountrie(countrie);
+    console.log(res);
+    return Promise.resolve([''].concat(res));
+  }
+
+  /**
+   * Retourne les villes de la region selectionnée dans le modal
+   * @param {region : String}
+   * * @returns {Array of cities}
+   */
+  async getCitiesOfSelectedRegion(region): Promise<string[]> {
+    let res = await this.bdlocaleService.getVillesByRegion(region);
+    console.log(res);
+    return Promise.resolve([''].concat(res));
+  }
+  
+
+  /**
+   * Ecouteur du boutton enregistré
+   * @param {}
+   * * @returns {}
+   */
+  onSave() {
+    // Todo : faire en sorte que le modal se ferme
+    console.log(this.country.value);
+    console.log(this.region.value);
+    console.log(this.city.value);
+    InterfaceMeteoComponent.city = this.city.value;
+    this.activeModal.close('Close click');
+  }
 }

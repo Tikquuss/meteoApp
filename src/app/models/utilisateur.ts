@@ -6,7 +6,7 @@ export class Utilisateur {
     nom: string;
     dateNaissance: Date;
     sexe: string;
-    photo: string;
+    photo: any;
     ville: string;
     mdp: string;
 }

@@ -6,12 +6,32 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hourly.component.css']
 })
 export class HourlyComponent implements OnInit {
-
+  
   times = ['cloudy', 'rain', 'sunny', 'thunderstorm'];
   public meteoHours: Array<any>;
   constructor() {
     this.meteoHours = [];
-    for (let i of [...Array(12).keys()]) {
+
+    // Bonne methode
+    /*
+    let date = new Date().getDate().toString();
+    for(let i = 0; i <= 23; i++){
+      let keyhour = date + '-' + i.toString() //+'-'+ date.getSeconds().toString();
+      let data = JSON.parse(localStorage.getItem(keyhour));
+      this.meteoHours.push(
+        {
+          hour: i,
+          time: this.times[Math.floor(Math.random() * 4)],
+          temperature:  parseInt(data.temperature),
+          humidity: parseInt(data.humidity),
+          pluviometry : parseInt(data.pluviometry)
+        }
+      );
+    }
+    //*/
+    
+    //*
+    for (let i = 0; i <= 23; i++) {
       let ind = Math.floor(Math.random() * 4);
       this.meteoHours.push(
         {
@@ -21,6 +41,7 @@ export class HourlyComponent implements OnInit {
           humidity: 92
         });
     }
+    //*/
   }
 
   ngOnInit() {

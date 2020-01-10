@@ -11,20 +11,18 @@ import { Ville } from 'src/app/models/ville';
   */
 @Component({
   selector: 'app-testbd',
-  templateUrl: './testbd.component.html',
-  styleUrls: ['./testbd.component.css']
+  template: ''
 })
 export class TestbdComponent implements OnInit {
-  
+  private _bdService: BdlocaleService;
 
   //userCourant est l'utilisateur courant de l'application.
   private _userCourant: Utilisateur;
 
-  private _bdService: BdlocaleService;
   constructor(private bdService: BdlocaleService) { 
     this._bdService = bdService;
   }
-  
+
   public getUserCourant(): Utilisateur{
     return this._userCourant;
   }
@@ -77,21 +75,6 @@ export class TestbdComponent implements OnInit {
   }
 
   async ngOnInit() {
-   
-    console.log("entree");
     this._bdService.initValues();
-    let user = new Utilisateur();
-    user.dateNaissance = new Date();
-    user.mdp = "emma";
-    user.nom = "emma";
-    user.photo = "link";
-    user.sexe = "Homme";
-    user.ville = "Douala";
-    console.log("test");
-    this.updateUser(user);
-    let villes = await this._bdService.getVilleByRegion("Centre");
-    console.log(villes);
-    
   }
-
 }
