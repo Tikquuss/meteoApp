@@ -1,19 +1,24 @@
-<div class="d-flex" #scrollable>
-  <button type="button" class="btn text-light px-2 my-auto btn-custom" style="max-height: 2.4rem">
-    <i class="fal fa-chevron-left font-weight-bold"></i>
-  </button>
-  <div class="list-group list-group-horizontal mx-auto" [style.overflow-x]="scrollable.clientWidth<720?'scroll':'auto'">
-    <a class="list-group-item bg-transparent border-top-0 border-bottom-0 border-left-0 border-white rounded-0 text-center text-white py-0 px-4"
-       *ngFor="let meteoHour of meteoHours, index as i" [class.border-0]="i >= meteoHours.length - 1">
-      <small>{{meteoHour.hour}}h00</small>
-      <h5 class="my-1 py-0"><i class="wi wi-{{meteoHour.hour >= 18? 'night': 'day'}}-{{meteoHour.time}}"></i></h5>
-      <p class="my-0 py-0">{{meteoHour.temperature}}°C</p>
-      <p class="card-text my-0 py-0 font-weight-lighter">
-        <small> <i class="fa fa-humidity"></i>&nbsp;&nbsp;{{meteoHour.humidity}} %</small>
-      </p>
-    </a>
+<div class="fk-load-hourly">
+  <div class="d-flex" #scrollable>
+    <button type="button" class="btn text-light px-2 my-auto btn-custom" style="max-height: 2.4rem"
+      (mousedown)="fkStartScroll('right')" (mouseup)="fkEndScroll()">
+      <i class="fal fa-chevron-left font-weight-bold"></i>
+    </button>
+    <div class="list-group list-group-horizontal mx-auto"
+      [style.overflow-x]="scrollable.clientWidth<720?'scroll':'auto'" id="fkScrollable">
+      <a class="list-group-item bg-transparent border-top-0 border-bottom-0 border-left-0 border-white rounded-0 text-center text-white py-0 px-4"
+        *ngFor="let meteoHour of meteoHours, index as i" [class.border-0]="i >= meteoHours.length - 1">
+        <small>{{meteoHour.hour}}h00</small>
+        <h5 class="my-1 py-0"><i class="wi wi-{{meteoHour.hour >= 18? 'night': 'day'}}-{{meteoHour.time}}"></i></h5>
+        <p class="my-0 py-0">{{meteoHour.temperature}}°C</p>
+        <p class="card-text my-0 py-0 font-weight-lighter">
+          <small> <i class="fa fa-humidity"></i>&nbsp;&nbsp;{{meteoHour.humidity}} %</small>
+        </p>
+      </a>
+    </div>
+    <button type="button" class="btn text-light px-2 my-auto btn-custom" style="max-height: 2.4rem"
+      (mousedown)="fkStartScroll('left')" (mouseup)="fkEndScroll()">
+      <i class="fal fa-chevron-right font-weight-bold"></i>
+    </button>
   </div>
-  <button type="button" class="btn text-light px-2 my-auto btn-custom" style="max-height: 2.4rem">
-    <i class="fal fa-chevron-right font-weight-bold"></i>
-  </button>
 </div>

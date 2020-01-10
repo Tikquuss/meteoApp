@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserStoreService } from '../services/user-store.service';
@@ -14,7 +14,7 @@ import { Utilisateur } from '../models/utilisateur';
     styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewChecked {
 
     public static bdComponent: TestbdComponent;
     public form: FormGroup;
@@ -66,11 +66,19 @@ export class LoginComponent implements OnInit {
                 }
             );
         } else {
-            this.errorMessage = 'Veuillez spécifier les champs requis';
+            this.errorMessage = 'Certains champs sont invalides';
         }
         this.submitting = false;
     }
 
     ngOnInit() {
+    }
+
+    ngAfterViewChecked() {
+        const container = document.querySelector('.fk-load-login') as HTMLElement;
+        if (container) {
+            container.style.opacity = '1';
+            container.style.marginLeft = '0px';
+        }
     }
 }

@@ -1,69 +1,75 @@
-<div class="container-fluid container-sm mx-auto mb-3">
-  <div class="card mx-auto mt-5 bg-transparent text-white border-0 pt-0 mt-0" style="max-width: 36rem">
-    <div class="card-body">
-      <h3 class="card-title text-center">Inscription</h3>
-      <form [formGroup]="form" (ngSubmit)="submit()">
-        <div class="form-group">
-          <label for="nom">Nom d'utilisateur:</label>
-          <input type="text" class="form-control bg-transparent border-light text-white" id="nom"
-            placeholder="entrez votre nom d'utilisateur" name="nom" formControlName="nom">
-        </div>
-        <div class="form-group">
-          <label for="password">Mot de passe:</label>
-          <input type="password" class="form-control bg-transparent border-light text-white" id="password"
-            placeholder="entrez un mot de passe" name="password" formControlName="password">
-        </div>
-        <div class="form-group">
-          <label for="dateNaissance">Date de naissance:</label>
-          <div class="input-group">
-            <input class="form-control bg-transparent border-light text-white" id="dateNaissance"
-              placeholder="yyyy-mm-dd" name="dateNaissance" formControlName="dateNaissance" ngbDatepicker
-              #d="ngbDatepicker">
-            <div class="input-group-append">
-              <button class="btn btn-outline-light fal fa-calendar-day" (click)="d.toggle()" type="button"></button>
+<div class="fk-load-signup">
+  <div class="container-fluid container-sm mx-auto mb-3">
+    <div class="card mx-auto mt-5 bg-transparent text-white border-0 pt-0 mt-0" style="max-width: 36rem">
+      <div class="card-body">
+        <h3 class="card-title text-center">Inscription</h3>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <div class="form-group">
+            <label for="nom">Nom d'utilisateur:</label>
+            <input type="text" class="form-control bg-transparent border-light text-white" id="nom"
+              placeholder="entrez votre nom d'utilisateur" name="nom" formControlName="nom">
+          </div>
+          <div class="form-group">
+            <label for="password">Mot de passe:</label>
+            <input type="password" class="form-control bg-transparent border-light text-white" id="password"
+              placeholder="entrez un mot de passe" name="password" formControlName="password">
+          </div>
+          <div class="form-group">
+            <label for="dateNaissance">Date de naissance:</label>
+            <div class="input-group">
+              <input class="form-control bg-transparent border-light text-white" id="dateNaissance"
+                placeholder="yyyy-mm-dd" name="dateNaissance" formControlName="dateNaissance" ngbDatepicker
+                #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-light fal fa-calendar-day" (click)="d.toggle()" type="button"></button>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="ville">Ville:</label>
-          <input type="text" class="form-control bg-transparent border-light text-white" id="ville"
-            placeholder="entrez une ville" name="ville" formControlName="ville">
-        </div>
-
-        <fieldset class="form-group">
-          <div class="btn-group btn-group-toggle fk-radio" data-toggle="buttons">
-            <label class="btn btn-dark active" title="sexe">
-              <input type="radio" name="sexe" formControlName="sexe" id="gridRadios1" value="Homme" autocomplete="off" checked> Sexe :
-            </label>
-            <label class="btn btn-light" (click)="fkActivateRadio($event)">
-              <input type="radio" name="sexe" formControlName="sexe" id="gridRadios2" value="Femme" autocomplete="off"> Homme
-            </label>
-            <label class="btn btn-light" (click)="fkActivateRadio($event)">
-              <input type="radio" name="options" id="option3" autocomplete="off"> Femme
-            </label>
+          <div class="form-group">
+            <label for="ville">Ville:</label>
+            <input type="text" class="form-control bg-transparent border-light text-white" id="ville"
+              placeholder="entrez une ville" name="ville" formControlName="ville">
           </div>
-        </fieldset>
 
-        <a class="btn btn-link text-decoration-none p-0 fk-color-valid " role="button"
-          (click)="triggerClick()">Sélectionner une photo de profil</a>
-        <div class="custom-file" style="display: none">
-          <input type="file" class="custom-file-input" id="customFileLangHTML" name="profilePicture"
-            formControlName="photo" #profilePicture>
-          <label class="custom-file-label" for="customFileLangHTML" data-browse="Choisir">Choisir une photo de
-            profil</label>
-        </div>
-        <div><output id="list"></output></div>
-        <div class="alert alert-danger fk-alert" role="alert" *ngIf="errorMessage">
-          {{errorMessage}}
-        </div>
-        <!-- <p class="card-text mt-3 text-center text-danger">{{errorMessage}}</p> -->
-        <button type="submit" class="btn btn-light btn-block mt-4 mx-auto" style="max-width: 18rem">
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="submitting"></span>
-          S'inscrire
-        </button>
-        <p class="card-text mt-3 text-center mb-5">Vous avez déjà un compte ? <a
-            class="fk-color-valid text-decoration-none" href="#" routerLink="/login">Connectez-vous</a></p>
-      </form>
+          <fieldset class="form-group">
+            <div class="btn-group btn-group-toggle fk-radio" data-toggle="buttons">
+              <label class="btn btn-dark active" title="sexe">
+                <input type="radio" name="sexe" formControlName="sexe" id="gridRadios0" value="Sexe" autocomplete="off">
+                Sexe :
+              </label>
+              <label class="btn btn-light active" (click)="fkActivateRadio($event)">
+                <input type="radio" name="sexe" formControlName="sexe" id="gridRadios1" value="Home" autocomplete="off"
+                  checked> Homme
+              </label>
+              <label class="btn btn-light" (click)="fkActivateRadio($event)">
+                <input type="radio" name="sexe" formControlName="sexe" id="gridRadios2" value="Femme"
+                  autocomplete="off"> Femme
+              </label>
+            </div>
+          </fieldset>
+
+          <a class="btn btn-link text-decoration-none p-0 fk-color-valid " role="button"
+            (click)="triggerClick()">Sélectionner une photo de profil</a>
+          <div class="custom-file" style="display: none">
+            <input type="file" class="custom-file-input" id="customFileLangHTML" name="profilePicture"
+              formControlName="photo" #profilePicture>
+            <label class="custom-file-label" for="customFileLangHTML" data-browse="Choisir">Choisir une photo de
+              profil</label>
+          </div>
+          <div><output id="list"></output></div>
+          <div class="alert alert-danger fk-alert" role="alert" *ngIf="errorMessage">
+            {{errorMessage}}
+          </div>
+          <!-- <p class="card-text mt-3 text-center text-danger">{{errorMessage}}</p> -->
+          <button type="submit" class="btn btn-light btn-block mt-4 mx-auto" style="max-width: 18rem">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="submitting"></span>
+            S'inscrire
+          </button>
+          <p class="card-text mt-3 text-center mb-5">Vous avez déjà un compte ? <a
+              class="fk-color-valid text-decoration-none" href="#" routerLink="/login">Connectez-vous</a></p>
+        </form>
+      </div>
     </div>
   </div>
+
 </div>

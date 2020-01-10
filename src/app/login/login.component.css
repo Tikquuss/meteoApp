@@ -14,3 +14,11 @@ input {
 .fk-color-invalid {
     color: #ff1c1c;
 }
+
+.fk-load-login {
+    opacity: 0;
+    margin-left: 1000px;
+    transition-property: opacity, margin-left;    
+    transition-duration: 0.4s;
+    transition-delay: 0s;
+}

@@ -1,0 +1,7 @@
+.fk-load-interface {
+    opacity: 0;
+    margin-left: 1000px;
+    transition-property: opacity, margin-left;
+    transition-duration: 0.25s;
+    transition-delay: 0s;
+}

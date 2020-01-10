@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,7 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
     templateUrl: './signup.component.html',
     styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, AfterViewChecked{
 
     public form: FormGroup;
     public submitting: boolean = false;
@@ -120,6 +120,14 @@ export class SignupComponent implements OnInit {
 
     ngOnInit() {
         document.getElementById("customFileLangHTML").addEventListener('change', this.handleFileSelect, false);
+    }
+
+    ngAfterViewChecked() {
+        const container = document.querySelector('.fk-load-signup') as HTMLElement;
+        if (container) {
+            container.style.opacity = '1';
+            container.style.marginLeft = '0px';
+        }
     }
 
     fkActivateRadio(event: Event) {

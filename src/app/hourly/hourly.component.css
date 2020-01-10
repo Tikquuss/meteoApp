@@ -1,0 +1,20 @@
+button,
+i {
+  outline: none;
+}
+
+#fkScrollable {
+  scroll-padding-top: 200px;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+}
+
+.fk-load-hourly {
+    opacity: 0;
+    margin-left: 1000px;
+    transition-property: opacity, margin-left;
+    transition-duration: 0.4s;
+    transition-delay: 0s;
+}

@@ -1,4 +1,3 @@
-
 .fk-color-valid {
     color: #45b5ff;
 }
@@ -10,4 +9,12 @@
 
 .fk-radio {
     margin-top: 20px;
+}
+
+.fk-load-signup {
+    opacity: 0;
+    margin-left: 1000px;
+    transition-property: opacity, margin-left;    
+    transition-duration: 0.4s;
+    transition-delay: 0s;
 }
