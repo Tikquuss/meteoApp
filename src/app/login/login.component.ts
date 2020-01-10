@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
+=======
+import { Component, OnInit } from '@angular/core';
+>>>>>>> 86fa10fbcf98c469b36fb90684312a04eb7e79ac
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserStoreService } from '../services/user-store.service';
@@ -16,6 +20,7 @@ import { Utilisateur } from '../models/utilisateur';
 
 export class LoginComponent implements OnInit, AfterViewChecked {
 
+<<<<<<< HEAD
     public static bdComponent: TestbdComponent;
     public form: FormGroup;
     public submitting: boolean = false;
@@ -30,6 +35,21 @@ export class LoginComponent implements OnInit, AfterViewChecked {
         LoginComponent.bdComponent = new TestbdComponent(bdService);
         LoginComponent.bdComponent.ngOnInit();
     }
+=======
+  public static bdComponent: TestbdComponent;
+  public form: FormGroup;
+  public submitting: boolean = false;
+  public errorMessage: string = '';
+
+  constructor(private fb: FormBuilder,
+    private router: Router,
+    private userStore: UserStoreService,
+    private bdService: BdlocaleService) {
+    this.createForm();
+    LoginComponent.bdComponent = new TestbdComponent(bdService);  
+    LoginComponent.bdComponent.ngOnInit();
+  }
+>>>>>>> 86fa10fbcf98c469b36fb90684312a04eb7e79ac
 
     createForm() {
         this.form = this.fb.group({
@@ -38,6 +58,7 @@ export class LoginComponent implements OnInit, AfterViewChecked {
         });
     }
 
+<<<<<<< HEAD
     submit() {
         this.submitting = true;
         if (this.form.valid) {
@@ -94,4 +115,39 @@ export class LoginComponent implements OnInit, AfterViewChecked {
             }, duration);
         }
     }
+=======
+  submit() {
+    this.submitting = true;
+    if (this.form.valid) {
+      const username = this.form.get('username').value;
+      const password = this.form.get('password').value;
+      //console.log(this.form.value);
+      LoginComponent.bdComponent.assignUser(username, password).then(
+        (success) => {
+          if (success) {
+            this.userStore.isLoggedIn = true;
+            this.bdService.getUserByUserName(username).then(
+              (user: Utilisateur) => {
+                LoginComponent.bdComponent.setUserCourant(user);
+              }
+            );
+            console.log("connexion reussie");
+          } else {
+            this.errorMessage = "Utilisateur introuvable";
+            this.userStore.isLoggedIn = false;
+            console.log("connexion échouée")
+          }
+          this.router.navigate(['']);
+        },
+        (error) => {
+          console.log("erreur de connexion\n", error)
+        }
+      );
+    }
+    this.submitting = false;
+  }
+
+  ngOnInit() {
+  }
+>>>>>>> 86fa10fbcf98c469b36fb90684312a04eb7e79ac
 }

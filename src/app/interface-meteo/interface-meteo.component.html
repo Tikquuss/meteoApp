@@ -1,7 +1,17 @@
 <nav class="navbar navbar-light bg-transparent border-bottom text-white">
   <a class="navbar-brand align-middle text-white" href="#">
+<<<<<<< HEAD
     <img src="{{url}}" width="60" height="60" class="d-inline-block align-middle rounded-circle bg-white" alt=""
       id="profil" style="object-fit: cover">
+=======
+    <img src="{{url}}"
+         width="60"
+         height="60"
+         class="d-inline-block align-middle rounded-circle bg-white"
+         alt=""
+         id="profil"
+         style="object-fit: cover">
+>>>>>>> 86fa10fbcf98c469b36fb90684312a04eb7e79ac
     {{user.nom}}
   </a>
   <ul class="nav">
@@ -13,6 +23,7 @@
     </li>
   </ul>
 </nav>
+<<<<<<< HEAD
 <div class="fk-load-interface">
   <div class="container-fluid mt-3">
     <div class="row">
@@ -65,6 +76,61 @@
             <input type="radio" name="options" id="option2"> semaine
           </label>
         </div>
+=======
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div class="col-lg-5 mb-3">
+      <div class="card border-0 text-white bg-transparent" style="min-height: 50vh;">
+        <img src="assets/img/{{cTime}}.gif" class="card-img" alt="..." style="object-fit: cover; height: 50vh; opacity: .4">
+        <div class="card-img-overlay" style="background-color: rgba(0, 0, 0, .4);">
+          <h5 class="card-title mb-4">
+            <i class="fas fa-map-marker-check"></i>
+            <span id='ville-name' class="text-capitalize"> {{city}}</span>
+            <small class="text-white-50"> • Maintenant</small>
+            <small class="float-right">
+              <app-change-location-modal class="d-inline"></app-change-location-modal>
+            </small>
+          </h5>
+          <h2 class="card-title display-4 text-center mb-2"><i class="wi wi-day-{{icon}}"></i> {{temperature}}°C</h2>
+          <h4 class="card-text text-center font-weight-normal">{{frTime}}</h4>
+          <p class="card-text text-center text-white-50"
+             [class.mb-5]="hourlyContainer.scrollWidth>720"
+             [class.mb-3]="hourlyContainer.scrollWidth<720">
+            {{tmax}}°/{{tmin}}° Ressentie {{temperature}}°
+          </p>
+          <p class="card-text mb-sm-2">
+            <small> <i class="fa fa-humidity"></i>&nbsp;&nbsp;{{humidity}} %</small>
+          </p>
+          <p class="card-text mt-0">
+            <small> <i class="fa fa-pennant"></i>&nbsp;{{pluviometry}}</small>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md">
+      <div class="card border-0" style="background-color: rgba(0, 0, 0, .4); min-height: 50vh;">
+        <!-- Déclaration du conteneur de la carte avec l'id "open-street-map" -->
+        <div class="card-body" id="open-street-map" (click)="updateCity($event)">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mt-3 border-0 pb-3" style="background-color: rgba(0, 0, 0, .4); min-height: 20vh;">
+    <div class="card-header bg-transparent border-0" #hourlyContainer [class.text-center]="hourlyContainer.scrollWidth<720">
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-sm btn-light active px-5"
+               routerLink=""
+               [class.active]="hourly"
+               (click)="hourly=true; weekly=false;">
+          <input type="radio" name="options" id="option1" checked> Heures
+        </label>
+        <label class="btn btn-sm btn-light px-5"
+               routerLink="weekly" [class.active]="weekly"
+               (click)="hourly=false;
+               weekly=true;">
+          <input type="radio" name="options" id="option2"> Jours
+        </label>
+>>>>>>> 86fa10fbcf98c469b36fb90684312a04eb7e79ac
       </div>
       <router-outlet></router-outlet>
     </div>
