@@ -22,6 +22,7 @@ export class SignupComponent implements OnInit, AfterViewChecked{
     public errorMessage: string = '';
     public bdComponent: TestbdComponent;
     public files: FileList;
+    private printed: boolean;
 
     @ViewChild('profilePicture', { static: false }) profilePicture: ElementRef<HTMLElement>;
 
@@ -124,9 +125,21 @@ export class SignupComponent implements OnInit, AfterViewChecked{
 
     ngAfterViewChecked() {
         const container = document.querySelector('.fk-load-signup') as HTMLElement;
-        if (container) {
-            container.style.opacity = '1';
-            container.style.marginLeft = '0px';
+        const duration = 200; // 400ms
+        const dt = 25;
+        if (container && !this.printed) {
+            this.printed = true;
+            const max = parseInt(container.style.marginLeft, 10);
+            //console.log('chargement du login');
+            const tmp = setInterval(() => {
+                container.style.opacity = parseFloat(container.style.opacity) + String(1 / (duration / dt));
+                container.style.marginLeft = String(parseFloat(container.style.marginLeft) - (max / (duration / dt))) + 'px';
+            }, dt);
+            setTimeout(() => {
+                clearInterval(tmp);
+                container.style.opacity = '1';
+                container.style.marginLeft = '0px';
+            }, duration);
         }
     }
 

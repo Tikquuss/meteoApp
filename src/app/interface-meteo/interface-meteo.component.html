@@ -23,23 +23,23 @@
           <div class="card-img-overlay" style="background-color: rgba(0, 0, 0, .4);">
             <h5 class="card-title mb-4">
               <i class="fas fa-map-marker-check"></i>
-              <span id='ville-name' class="text-capitalize"> {{city}}</span>
+              <span id='ville-name' class="text-capitalize"> {{city?city:'...'}}</span>
               <small class="text-white-50"> • Maintenant</small>
               <small class="float-right">
                 <app-change-location-modal class="d-inline"></app-change-location-modal>
               </small>
             </h5>
-            <h2 class="card-title display-4 text-center mb-2"><i class="wi wi-day-{{icon}}"></i> {{temperature}}°C</h2>
-            <h4 class="card-text text-center font-weight-normal">{{frTime}}</h4>
+            <h2 class="card-title display-4 text-center mb-2"><i class="wi wi-day-{{icon}}"></i> {{temperature?temptemperature:'...'}}°C</h2>
+            <h4 class="card-text text-center font-weight-normal">{{frTime?frTime:'...'}}</h4>
             <p class="card-text text-center text-white-50" [class.mb-5]="hourlyContainer.scrollWidth>720"
               [class.mb-3]="hourlyContainer.scrollWidth<720">
               {{tmax}}°/{{tmin}}° Ressentie {{temperature}}°
             </p>
             <p class="card-text mb-sm-2">
-              <small> <i class="fa fa-humidity"></i>&nbsp;&nbsp;{{humidity}} %</small>
+              <small> <i class="fa fa-humidity"></i>&nbsp;&nbsp;{{humidity?humidity:'...'}} %</small>
             </p>
             <p class="card-text mt-0">
-              <small> <i class="fa fa-pennant"></i>&nbsp;{{pluviometry}}</small>
+              <small> <i class="fa fa-pennant"></i>&nbsp;{{pluviometry?pluviometry:'...'}}</small>
             </p>
           </div>
         </div>
@@ -52,17 +52,17 @@
         </div>
       </div>
     </div>
-    <div class="card mt-3 border-0 pb-3" style="background-color: rgba(0, 0, 0, .4); min-height: 20vh;">
+    <div class="card mt-3 border-0 pb-3 fk-frequency" style="background-color: rgba(0, 0, 0, .4); min-height: 20vh;">
       <div class="card-header bg-transparent border-0" #hourlyContainer
         [class.text-center]="hourlyContainer.scrollWidth<720">
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
           <label class="btn btn-sm btn-light active px-5" routerLink="" [class.active]="hourly"
             (click)="hourly=true; weekly=false;">
-            <input type="radio" name="options" id="option1" checked> Heures
+            <input type="radio" name="options" id="option1" checked> jour
           </label>
           <label class="btn btn-sm btn-light px-5" routerLink="weekly" [class.active]="weekly" (click)="hourly=false;
                      weekly=true;">
-            <input type="radio" name="options" id="option2"> Jours
+            <input type="radio" name="options" id="option2"> semaine
           </label>
         </div>
       </div>

@@ -4,14 +4,14 @@
       (mousedown)="fkStartScroll('right')" (mouseup)="fkEndScroll()">
       <i class="fal fa-chevron-left font-weight-bold"></i>
     </button>
-    <div class="list-group list-group-horizontal mx-auto"
+    <div class="list-group list-group-horizontal mx-auto fk-container-week"
       [style.overflow-x]="scrollable.clientWidth<720?'scroll':'auto'" id="fkScrollable">
       <a class="list-group-item bg-transparent border-top-0 border-bottom-0 border-left-0 border-white rounded-0 text-center text-white py-0 px-4"
         *ngFor="let meteoHour of meteoHours, index as i" [class.border-0]="i >= meteoHours.length - 1">
         <small>{{meteoHour.hour}}h00</small>
         <h5 class="my-1 py-0"><i class="wi wi-{{meteoHour.hour >= 18? 'night': 'day'}}-{{meteoHour.time}}"></i></h5>
-        <p class="my-0 py-0">{{meteoHour.temperature}}°C</p>
-        <p class="card-text my-0 py-0 font-weight-lighter">
+        <p class="py-0 fk-a fk-t">{{meteoHour.temperature}}°C</p>
+        <p class="card-text py-0 font-weight-lighter fk-a">
           <small> <i class="fa fa-humidity"></i>&nbsp;&nbsp;{{meteoHour.humidity}} %</small>
         </p>
       </a>

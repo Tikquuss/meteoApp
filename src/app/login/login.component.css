@@ -17,8 +17,8 @@ input {
 
 .fk-load-login {
     opacity: 0;
-    margin-left: 1000px;
+    /* margin-left: 1000px; */
     transition-property: opacity, margin-left;    
-    transition-duration: 0.4s;
+    transition-duration: 2s;
     transition-delay: 0s;
 }

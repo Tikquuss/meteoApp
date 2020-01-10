@@ -77,7 +77,32 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy, AfterViewChec
                 this.time = data.weather["0"].main;
                 this.ind = this.openWeatherService.getTimeIndex(this.time);
                 let t = this.openWeatherService.getTimeByValue(data.weather['0'].main);
-                this.frTime = t.fr;
+                const id = String(data.weather[0].id);
+                switch (id[0]) {
+                    case '2':
+                        console.log(2);
+                        break;
+                    case '3':
+                        console.log(3);
+                        break;
+                    case '5':
+                        console.log(5);
+                        break;
+                    case '7':
+                        console.log(7);
+                        break;
+                    case '8':
+                        if (id.slice(0, 2) === '80') {
+                            console.log(80);
+                        } else {
+                            console.log(8);
+                        }
+                        break;
+                    default:
+                        console.log('default');
+                        break;
+                }
+                this.frTime = 'ciel ' + t.fr;
                 this.cTime = t.corresponding;
                 this.icon = t.icon;
                 this.tmin = this.temperature; // Penano doit changer ça
