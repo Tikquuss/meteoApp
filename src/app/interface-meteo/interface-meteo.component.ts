@@ -142,81 +142,33 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy, AfterViewChec
             reader.readAsDataURL(this.user.photo);
         }
 
-        this.openStreetMapService.initMap(L, 'open-street-map', '4GI_Tikquuss_Team');
-
-        this.villeSubscription = OpenStreetMapService.villeSubject.subscribe(
-            (ville: string) => {
-                if (ville != InterfaceMeteoComponent.city) {
-                    InterfaceMeteoComponent.city = ville;
-                    this.updateInterface();
-                }
-            }
-        );
-        OpenStreetMapService.emitVilleSubject();
-
-        this.openWeatherService.getWeather(InterfaceMeteoComponent.city).subscribe(
-            (data) => {
-                let date = new Date();
-                for (let i = 0; i <= 23; i++) {
-                    let keyhour = date.getDate().toString() + '-' + i.toString()
-                    if (!localStorage.getItem(keyhour)) {
-                        localStorage.setItem(keyhour, JSON.stringify(
-                            {
-                                time: data.weather["0"].main,
-                                temperature: Math.floor(Math.random() * 5) + 22 /*Math.round(data.main.temp - 273)*/,
-                                pluviometry: Math.floor(Math.random() * 100),
-                                humidity: Math.floor(Math.random() * 5) + 50 // Math.round(data.main.humidity)
-                            }
-                        ));
+        setTimeout(() => {
+            this.openStreetMapService.initMap(L, 'open-street-map', '4GI_Tikquuss_Team');
+            this.villeSubscription = OpenStreetMapService.villeSubject.subscribe(
+                (ville: string) => {
+                    if (ville != InterfaceMeteoComponent.city) {
+                        InterfaceMeteoComponent.city = ville;
+                        this.updateInterface();
                     }
                 }
-            },
-            (error) => {
-                console.log('Erreur de recuperation de la météo\n', error);
-            },
-            () => {
-                console.log('Fin récuperation de la météo');
-            }
-        );
+            );
+            OpenStreetMapService.emitVilleSubject();
 
-        this.idIntervalleSave = setInterval(() => {
-            let date = new Date();
-            let keyhour = date.getDate().toString() + '-' + date.getHours().toString() //+'-'+ date.getSeconds().toString();
-            let keyday = date.getMonth().toString() + '-' + date.getDay().toString()//+'-'+ date.getSeconds().toString();
-            if (localStorage.getItem(keyhour)) {
-                localStorage.removeItem(keyhour);
-            }
-            this.openWeatherService.getWeather(this.user.ville).subscribe(
+            this.openWeatherService.getWeather(InterfaceMeteoComponent.city).subscribe(
                 (data) => {
-                    localStorage.setItem(keyhour, JSON.stringify(
-                        {
-                            time: data.weather["0"].main,
-                            temperature: Math.round(data.main.temp - 273),
-                            pluviometry: Math.floor(Math.random() * 100),
-                            humidity: Math.round(data.main.humidity)
+                    let date = new Date();
+                    for (let i = 0; i <= 23; i++) {
+                        let keyhour = date.getDate().toString() + '-' + i.toString()
+                        if (!localStorage.getItem(keyhour)) {
+                            localStorage.setItem(keyhour, JSON.stringify(
+                                {
+                                    time: data.weather["0"].main,
+                                    temperature: Math.floor(Math.random() * 5) + 22 /*Math.round(data.main.temp - 273)*/,
+                                    pluviometry: Math.floor(Math.random() * 100),
+                                    humidity: Math.floor(Math.random() * 5) + 50 // Math.round(data.main.humidity)
+                                }
+                            ));
                         }
-                    ));
-
-                    if (localStorage.getItem(keyday)) {
-                        let before = JSON.parse(localStorage.getItem(keyday));
-                        localStorage.removeItem(keyday);
-                        localStorage.setItem(keyday, JSON.stringify(
-                            {
-                                time: (data.weather["0"].main),
-                                temperature: Math.floor((Math.round(data.main.temp - 273) + parseInt(before.temperature)) / 2),
-                                pluviometry: Math.floor((Math.floor(Math.random() * 100) + parseInt(before.pluviometry)) / 2),
-                                humidity: Math.round((Math.round(data.main.humidity) + parseInt(before.humidity)) / 2)
-                            }
-                        ));
-                    } else {
-                        localStorage.setItem(keyday, JSON.stringify(
-                            {
-                                time: data.weather["0"].main,
-                                temperature: Math.round(data.main.temp - 273),
-                                pluviometry: Math.floor(Math.random() * 100),
-                                humidity: Math.round(data.main.humidity)
-                            }
-                        ));
                     }
                 },
                 (error) => {
@@ -226,7 +178,57 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy, AfterViewChec
                     console.log('Fin récuperation de la météo');
                 }
             );
-        }, 3600000); // 1h
+
+            this.idIntervalleSave = setInterval(() => {
+                let date = new Date();
+                let keyhour = date.getDate().toString() + '-' + date.getHours().toString() //+'-'+ date.getSeconds().toString();
+                let keyday = date.getMonth().toString() + '-' + date.getDay().toString()//+'-'+ date.getSeconds().toString();
+                if (localStorage.getItem(keyhour)) {
+                    localStorage.removeItem(keyhour);
+                }
+                this.openWeatherService.getWeather(this.user.ville).subscribe(
+                    (data) => {
+                        localStorage.setItem(keyhour, JSON.stringify(
+                            {
+                                time: data.weather["0"].main,
+                                temperature: Math.round(data.main.temp - 273),
+                                pluviometry: Math.floor(Math.random() * 100),
+                                humidity: Math.round(data.main.humidity)
+                            }
+                        ));
+
+                        if (localStorage.getItem(keyday)) {
+                            let before = JSON.parse(localStorage.getItem(keyday));
+                            localStorage.removeItem(keyday);
+                            localStorage.setItem(keyday, JSON.stringify(
+                                {
+                                    time: (data.weather["0"].main),
+                                    temperature: Math.floor((Math.round(data.main.temp - 273) + parseInt(before.temperature)) / 2),
+                                    pluviometry: Math.floor((Math.floor(Math.random() * 100) + parseInt(before.pluviometry)) / 2),
+                                    humidity: Math.round((Math.round(data.main.humidity) + parseInt(before.humidity)) / 2)
+                                }
+                            ));
+                        } else {
+                            localStorage.setItem(keyday, JSON.stringify(
+                                {
+                                    time: data.weather["0"].main,
+                                    temperature: Math.round(data.main.temp - 273),
+                                    pluviometry: Math.floor(Math.random() * 100),
+                                    humidity: Math.round(data.main.humidity)
+                                }
+                            ));
+                        }
+                    },
+                    (error) => {
+                        console.log('Erreur de recuperation de la météo\n', error);
+                    },
+                    () => {
+                        console.log('Fin récuperation de la météo');
+                    }
+                );
+            }, 3600000);
+        }, 400);
+         // 1h
     }
 
     ngAfterViewChecked() {

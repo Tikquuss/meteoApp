@@ -5,8 +5,7 @@ import { Component, OnInit, AfterViewChecked } from '@angular/core';
     templateUrl: './weekly.component.html',
     styleUrls: ['./weekly.component.css']
 })
-<<<<<<< HEAD
-export class WeeklyComponent implements OnInit, AfterViewChecked{
+export class WeeklyComponent implements OnInit, AfterViewChecked {
 
     times = ['cloudy', 'rain', 'sunny', 'thunderstorm'];
     days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
@@ -71,11 +70,6 @@ export class WeeklyComponent implements OnInit, AfterViewChecked{
         }
     }
 
-    // mois entre 0 et 11
-    nombreJours(mois, annee) {
-        return new Date(annee, mois + 1, 0).getDate();
-    }
-
     fkStartScroll(direction: string) {
         const speed = 500; // en px/s
         if (direction === 'left') {
@@ -84,58 +78,6 @@ export class WeeklyComponent implements OnInit, AfterViewChecked{
             this.scroll(-speed);
         }
     }
-=======
-export class WeeklyComponent implements OnInit {
-
-  times = ['cloudy', 'rain', 'sunny', 'thunderstorm'];
-  days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
-  public meteoDays: Array<any>;
-  constructor() {
-    this.meteoDays = [];
-    /*
-    let map = new Map<number, Array<{
-                                    day: string,
-                                    time: string,
-                                    temperature: number,
-                                    humidity: number,
-                                    pluviometry : number
-                                  }>
-                  >();
-    for(let i = 0; i <= 6; i++){
-      map.set(i, []);
-    }
-
-    let date = new Date();
-    let annee = date.getFullYear();
-    let mois = new Date().getMonth();
-
-    for(let i = 0; i <= this.nombreJours(mois, annee); i++){
-      let jour = new Date(annee,mois,i).getDay();
-      let keyday = mois.toString() + '-' + jour.toString();
-      let data = JSON.parse(localStorage.getItem(keyday));
-      map.get(i).push({
-        day: this.days[jour],
-        time: this.times[Math.floor(Math.random() * 4)],
-        temperature:  parseInt(data.temperature),
-        humidity: parseInt(data.humidity),
-        pluviometry : parseInt(data.pluviometry)
-      })
-    }
-    //*/
-    //*
-    for (let day of this.days) {
-      let ind = Math.floor(Math.random() * 4);
-      this.meteoDays.push(
-        {
-          day: day,
-          time: this.times[ind],
-          temperature: Math.floor(Math.random() * 5) + 18,
-          humidity: 92
-        });
-    }
-    //*/
-  }
->>>>>>> 86fa10fbcf98c469b36fb90684312a04eb7e79ac
 
     scroll(speed: number) {
         const dt = 25;
@@ -148,14 +90,9 @@ export class WeeklyComponent implements OnInit {
         clearInterval(this.scroller);
     }
 
-  // mois entre 0 et 11
-  nombreJours(mois, annee) { 
-    return new Date(annee, mois+1, 0).getDate(); 
-  }
-
-  // mois entre 0 et 11
-  nombreJours(mois, annee) { 
-    return new Date(annee, mois+1, 0).getDate(); 
-  }
+    // mois entre 0 et 11
+    nombreJours(mois, annee) {
+        return new Date(annee, mois + 1, 0).getDate();
+    }
 
 }

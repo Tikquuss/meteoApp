@@ -34,7 +34,7 @@
                 <app-change-location-modal class="d-inline"></app-change-location-modal>
               </small>
             </h5>
-            <h2 class="card-title display-4 text-center mb-2"><i class="wi wi-day-{{icon}}"></i> {{temperature?temptemperature:'...'}}°C</h2>
+            <h2 class="card-title display-4 text-center mb-2"><i class="wi wi-day-{{icon}}"></i> {{temperature?temperature:'...'}}°C</h2>
             <h4 class="card-text text-center font-weight-normal">{{frTime?frTime:'...'}}</h4>
             <p class="card-text text-center text-white-50" [class.mb-5]="hourlyContainer.scrollWidth>720"
               [class.mb-3]="hourlyContainer.scrollWidth<720">
