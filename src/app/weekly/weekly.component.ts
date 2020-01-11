@@ -153,4 +153,9 @@ export class WeeklyComponent implements OnInit {
     return new Date(annee, mois+1, 0).getDate(); 
   }
 
+  // mois entre 0 et 11
+  nombreJours(mois, annee) { 
+    return new Date(annee, mois+1, 0).getDate(); 
+  }
+
 }

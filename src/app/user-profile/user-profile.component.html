@@ -1,17 +1,7 @@
 <nav class="navbar navbar-light bg-transparent border-bottom text-white">
   <a class="navbar-brand align-middle text-white" href="#">
-<<<<<<< HEAD
     <img src="{{url}}" width="60" height="60" class="d-inline-block align-middle rounded-circle bg-white" alt=""
       id="profiluser" style="object-fit: cover">
-=======
-    <img src="{{url}}"
-         width="60"
-         height="60"
-         class="d-inline-block align-middle rounded-circle bg-white"
-         alt=""
-         id="profiluser"
-    style="object-fit: cover">
->>>>>>> 86fa10fbcf98c469b36fb90684312a04eb7e79ac
     {{user.nom}}
   </a>
   <ul class="nav">
@@ -23,7 +13,6 @@
     </li>
   </ul>
 </nav>
-<<<<<<< HEAD
 <div class="fk-load-user-profile">
   <div class="container-fluid container-sm mx-auto my-3">
     <div class="card text-white bg-transparent mx-auto" style="min-height: 60vh; max-width: 36rem">
@@ -62,48 +51,9 @@
             <div class="col-7">
               <h6>{{user.ville}}</h6>
             </div>
-=======
-<div class="container-fluid container-sm mx-auto my-3">
-  <div class="card text-white bg-transparent mx-auto" style="min-height: 60vh; max-width: 36rem">
-    <div class="card-body rounded" style="background-color: rgba(0, 0, 0, .4);">
-      <h4 class="card-title text-capitalize text-center">informations générales</h4>
-      <hr class="bg-light">
-      <div class="container-fluid" *ngIf="!editState">
-        <div class="row">
-          <div class="col-5 text-white-50 px-0 mr-0 text-right">
-            <h6>Noms et Prénoms :</h6>
-          </div>
-          <div class="col-7">
-            <h6 class="text-uppercase">{{user.nom}}</h6>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-5 text-white-50 px-0 mr-0 text-right">
-            <h6>Date de Naissance :</h6>
-          </div>
-          <div class="col-7">
-            <h6>{{user.dateNaissance.toISOString().split('T')[0]}}</h6>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-5 text-white-50 px-0 mr-0 text-right">
-            <h6>Sexe :</h6>
-          </div>
-          <div class="col-7">
-            <h6>{{user.sexe}}</h6>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-5 text-white-50 px-0 mr-0 text-right">
-            <h6>Ville :</h6>
-          </div>
-          <div class="col-7">
-            <h6>{{user.ville}}</h6>
->>>>>>> 86fa10fbcf98c469b36fb90684312a04eb7e79ac
           </div>
           <button class="btn btn-light btn-block w-50 mx-auto mt-4" (click)="edit()">Modifier</button>
         </div>
-<<<<<<< HEAD
         <form [formGroup]="form" *ngIf="editState">
           <div class="form-group">
             <label for="firstName">Nom:</label>
@@ -147,78 +97,6 @@
                   </label>
                 </div>
               </fieldset>
-=======
-        <button class="btn btn-light btn-block w-50 mx-auto mt-4" (click)="editState=true">Modifier</button>
-      </div>
-      <form [formGroup]="form" *ngIf="editState">
-        <div class="form-group" >
-          <label for="firstName">Nom:</label>
-          <input type="text"
-                 class="form-control bg-transparent border-light text-white"
-                 id="firstName"
-                 placeholder="entrez votre nom"
-                 name="firstName"
-                 formControlName="nom">
-        </div>
-        <div class="form-group">
-          <label for="password">Mot de passe:</label>
-          <input type="password"
-                 class="form-control bg-transparent border-light text-white"
-                 id="password"
-                 placeholder="entrez un mot de passe"
-                 name="password"
-                 formControlName="password">
-        </div>
-        <div class="form-group">
-          <label for="birthDate">Date de naissance:</label>
-          <div class="input-group">
-            <input class="form-control bg-transparent border-light text-white"
-                   id="birthDate"
-                   placeholder="yyyy-mm-dd"
-                   name="dateNaissance"
-                   formControlName="dateNaissance"
-                   ngbDatepicker #d="ngbDatepicker">
-            <div class="input-group-append">
-              <button class="btn btn-outline-light fal fa-calendar-day" (click)="d.toggle()" type="button"></button>
-            </div>
-          </div>
-        </div>
-        <div class="form-group" >
-          <label for="ville">Ville:</label>
-          <input type="text"
-                 class="form-control bg-transparent border-light text-white"
-                 id="ville"
-                 placeholder="entrez une ville"
-                 name="ville"
-                 formControlName="ville">
-        </div>
-        <fieldset class="form-group">
-          <div class="row">
-            <legend class="col-form-label col-sm-2 pt-0">Sexe:</legend>
-            <div class="col-sm-10">
-              <div class="form-check">
-                <input class="form-check-input"
-                       type="radio"
-                       name="sexe"
-                       formControlName="sexe"
-                       id="gridRadios1"
-                       value="Homme">
-                <label class="form-check-label" for="gridRadios1">
-                  Homme
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input"
-                       type="radio"
-                       name="sexe"
-                       formControlName="sexe"
-                       id="gridRadios2"
-                       value="Femme">
-                <label class="form-check-label" for="gridRadios2">
-                  Femme
-                </label>
-              </div>
->>>>>>> 86fa10fbcf98c469b36fb90684312a04eb7e79ac
             </div>
           </fieldset>
           <a class="btn btn-link text-decoration-none p-0 fk-color-valid" role="button" (click)="triggerClick()">Changer
@@ -229,7 +107,6 @@
             <label class="custom-file-label" for="customFileLangHTML" data-browse="Choisir">Changer la photo de
               profil</label>
           </div>
-<<<<<<< HEAD
           <div><output id="list"></output></div>
           <button type="submit" class="btn btn-light btn-block mt-4 mx-auto" style="max-width: 18rem"
             (click)="OnSave()">
@@ -238,26 +115,6 @@
           </button>
         </form>
       </div>
-=======
-        </fieldset>
-        <a class="btn btn-link text-decoration-none p-0 text-primary" role="button" (click)="triggerClick()">Changer la photo de profil</a>
-        <div class="custom-file" style="display: none">
-          <input type="file"
-                 class="custom-file-input"
-                 id="customFileLangHTML"
-                 name="profilePicture"
-                 formControlName="photo"
-                 #profilePicture>
-          <label class="custom-file-label" for="customFileLangHTML" data-browse="Choisir" *ngIf="editState; then edit()">Changer la photo de profil</label>
-        </div>
-        <div><output id="list"></output></div>
-        <p class="card-text mt-3 text-center text-danger">{{errorMessage}}</p>
-        <button type="submit" class="btn btn-light btn-block mt-4 mx-auto" style="max-width: 18rem" (click)="OnSave()">
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="submitting"></span>
-          Enregistrer
-        </button>
-      </form>
->>>>>>> 86fa10fbcf98c469b36fb90684312a04eb7e79ac
     </div>
   </div>
 

@@ -370,13 +370,9 @@ export class BdlocaleService {
   /**
      * permet de supprimer un element d'un tableau
    */
-  delete<T>(db: IDBDatabase, storeName: string, key: string): Promise<Boolean> {
-    return new Promise<Boolean>((resolve, reject) => {
-<<<<<<< HEAD
-      const transaction = db.transaction(storeName, 'readonly');
-=======
+  delete<T>(db: IDBDatabase, storeName: string, key: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
       const transaction = db.transaction(storeName, 'readwrite');
->>>>>>> 86fa10fbcf98c469b36fb90684312a04eb7e79ac
       const store = transaction.objectStore(storeName);
       const request = store.delete(key);
       request.onsuccess = event => {
