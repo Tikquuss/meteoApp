@@ -55,6 +55,7 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy, AfterViewChec
         this.dataAvailable = false;
         this.dataAvailableTimer = setInterval(() => {
             const loadingTime = 2000; // 2s
+            window.scrollTo(0, 0);
             window.onscroll = () => {
                 window.scrollTo(0, 0);
             };
