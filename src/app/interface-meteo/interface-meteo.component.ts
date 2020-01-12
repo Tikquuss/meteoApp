@@ -60,8 +60,9 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy, AfterViewChec
             };
             if (this.temperature) { // le données sont disponnibles
                 (document.querySelector('.fk-loader') as HTMLElement).style.opacity = '0';
-                (document.querySelector('.fk-loader-animation') as HTMLElement).style.opacity = '0';
+                // (document.querySelector('.fk-loader-animation') as HTMLElement).style.opacity = '0';
                 (document.querySelector('.fk-loader-text') as HTMLElement).style.opacity = '0';
+                (document.querySelector('.lds-default') as HTMLElement).style.opacity = '0';
                 setTimeout(() => {
                     console.log('chargement du fk-loader terminé');
                     this.dataAvailable = true;
