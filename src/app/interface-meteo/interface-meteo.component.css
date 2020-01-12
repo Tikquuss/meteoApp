@@ -1,7 +1,72 @@
 .fk-load-interface {
-    opacity: 0;
-    margin-left: 1000px;
-    transition-property: opacity, margin-left;
-    transition-duration: 0.25s;
-    transition-delay: 0s;
+  opacity: 0;
+  margin-left: 1000px;
+  transition-property: opacity, margin-left;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
+}
+
+.fk-loader {
+  background-color: rgb(24, 24, 24);
+  opacity: 0.9;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  right: 0px;
+  transform: translateY(-50px);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition-property: opacity;
+  transition-duration: 2s;
+  transition-delay: 0s;
+}
+
+.fk-loader-text {
+  color: white;
+  margin: 20px 0px 0px 0px;
+  font-family: calibri light;
+  font-size: 18px;
+  transition-property: opacity;
+  transition-duration: 0.4s;
+  transition-delay: 0s;
+}
+
+.fk-loader-popup {
+    position: absolute;
+    color: #111;
+    background-color: white;
+    font-family: calibri light;
+    font-size: 15px;
+    padding: 10px 50px 10px 50px;
+    border-radius: 10px;
+    right: 30px;
+    bottom: 30px;
+}
+
+.fk-loader-animation {
+  border: 6px solid #f3f3f3;
+  /* Light grey */
+  border-top: 6px solid #242424;
+  /* Blue */
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
+  transition-property: opacity;
+  transition-duration: 0.4s;
+  transition-delay: 0s;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

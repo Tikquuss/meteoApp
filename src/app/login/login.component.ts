@@ -77,14 +77,15 @@ export class LoginComponent implements OnInit, AfterViewChecked {
 
     ngAfterViewChecked() {
         const container = document.querySelector('.fk-load-login') as HTMLElement;
-        const duration = 200; // 400ms
-        const dt = 25;
+        const duration = 400; // 200ms
+        const dt = 100;
+        const initialOpacity = 1;
         if (container && !this.printed) {
             this.printed = true;
             const max = parseInt(container.style.marginLeft, 10);
-            //console.log('chargement du login');
+            // console.log('chargement du login');
             const tmp = setInterval(() => {
-                container.style.opacity = parseFloat(container.style.opacity) + String(1 / (duration / dt));
+                container.style.opacity = '1';
                 // container.style.marginLeft = String(parseFloat(container.style.marginLeft) - (max / (duration / dt))) + 'px';
             }, dt);
             setTimeout(() => {

@@ -14,6 +14,9 @@ import { OpenWeatherService } from '../services/open-weather.service';
 import { Utilisateur } from '../models/utilisateur';
 import { BdlocaleService } from '../services/bdlocale.service';
 
+/**
+ * @todo créer une animation entre le login et l'interface utilisateur
+ */
 @Component({
     selector: 'app-interface-meteo',
     templateUrl: './interface-meteo.component.html',
@@ -40,12 +43,33 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy, AfterViewChec
     public tmin: number;
     public url: string = "assets/img/user.jpg";
     private idIntervalleSave;
+    private animationTimer;
+    private dataAvailable: boolean;
+    private dataAvailableTimer;
 
     constructor(private userStore: UserStoreService,
         private router: Router,
         private openStreetMapService: OpenStreetMapService,
         private openWeatherService: OpenWeatherService,
         private bdlocaleService: BdlocaleService) {
+        this.dataAvailable = false;
+        this.dataAvailableTimer = setInterval(() => {
+            const loadingTime = 2000; // 2s
+            window.onscroll = () => {
+                window.scrollTo(0, 0);
+            };
+            if (this.temperature) { // le données sont disponnibles
+                (document.querySelector('.fk-loader') as HTMLElement).style.opacity = '0';
+                (document.querySelector('.fk-loader-animation') as HTMLElement).style.opacity = '0';
+                (document.querySelector('.fk-loader-text') as HTMLElement).style.opacity = '0';
+                setTimeout(() => {
+                    console.log('chargement du fk-loader terminé');
+                    this.dataAvailable = true;
+                    window.onscroll = () => {};
+                    clearInterval(this.dataAvailableTimer);
+                }, loadingTime);
+            }
+        }, 100);
         this.times = this.openWeatherService.goodtimes();
         this.user = LoginComponent.bdComponent.getUserCourant();
         this.url = "assets/img/user.jpg";
@@ -142,7 +166,17 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy, AfterViewChec
             reader.readAsDataURL(this.user.photo);
         }
 
-        setTimeout(() => {
+        this.animationTimer = setInterval(() => {
+            let garbageCollector: () => void = () => {};
+            // si l'animation est terminée
+            if ((document.querySelector('.fk-load-interface') as HTMLElement).style.marginLeft === '0px') {
+                garbageCollector = () => {
+                    clearInterval(this.animationTimer);
+                    console.log('arrêt de l\'animation');
+                };
+            } else { // l'animation n'est pas terminée
+                return;
+            }
             this.openStreetMapService.initMap(L, 'open-street-map', '4GI_Tikquuss_Team');
             this.villeSubscription = OpenStreetMapService.villeSubject.subscribe(
                 (ville: string) => {
@@ -226,9 +260,9 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy, AfterViewChec
                         console.log('Fin récuperation de la météo');
                     }
                 );
-            }, 3600000);
-        }, 400);
-         // 1h
+            }, 3600000); // 1h
+            garbageCollector();
+        }, 333); // 0.333s
     }
 
     ngAfterViewChecked() {
