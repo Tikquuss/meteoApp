@@ -54,7 +54,7 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy, AfterViewChec
         private bdlocaleService: BdlocaleService) {
         this.dataAvailable = false;
         this.dataAvailableTimer = setInterval(() => {
-            const loadingTime = 2000; // 2s
+            const loadingTime = 1000; // 1s
             window.scrollTo(0, 0);
             window.onscroll = () => {
                 window.scrollTo(0, 0);

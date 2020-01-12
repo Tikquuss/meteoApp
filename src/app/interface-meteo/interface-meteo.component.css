@@ -19,9 +19,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   transition-property: opacity;
-  transition-duration: 2s;
+  transition-duration: 1s;
   transition-delay: 0s;
 }
 
@@ -72,6 +71,7 @@
 }
 
 .lds-default {
+  margin-top: 200px;
   transition-property: opacity;
   transition-duration: 0.5s;
   transition-delay: 0s;
