@@ -1,6 +1,6 @@
 <div class='fk-loader' *ngIf='!dataAvailable'>
   <!-- <div class='fk-loader-animation'></div> -->
-  <div class="lds-default">
+  <!-- <div class="lds-default">
     <div></div>
     <div></div>
     <div></div>
@@ -13,9 +13,11 @@
     <div></div>
     <div></div>
     <div></div>
-  </div>
+  </div> -->
+  <img src="../../assets/svg-loaders/ball-triangle.svg"
+    alt="" width="90px" id='fk-load-img'>
   <div class="fk-loader-text">
-    Veuillez patienter...
+    Veuillez patienter
   </div>
   <!-- <div class='fk-loader-popup'>
         chargement des données météo en cours...
@@ -53,7 +55,7 @@
               </small>
             </h5>
             <h2 class="card-title display-4 text-center mb-2"><i class="wi wi-day-{{icon}}"></i>
-              {{temperature?temperature:'...'}}°C</h2>
+                {{temperature?temperature:'...'}}°C</h2>
             <h4 class="card-text text-center font-weight-normal">{{frTime?frTime:'...'}}</h4>
             <p class="card-text text-center text-white-50" [class.mb-5]="hourlyContainer.scrollWidth>720"
               [class.mb-3]="hourlyContainer.scrollWidth<720">
@@ -82,11 +84,11 @@
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
           <label class="btn btn-sm btn-light active px-5" routerLink="" [class.active]="hourly"
             (click)="hourly=true; weekly=false;">
-            <input type="radio" name="options" id="option1" checked> jour
+            <input type="radio" name="options" id="option1" checked> Heures
           </label>
           <label class="btn btn-sm btn-light px-5" routerLink="weekly" [class.active]="weekly" (click)="hourly=false;
                      weekly=true;">
-            <input type="radio" name="options" id="option2"> semaine
+            <input type="radio" name="options" id="option2"> Jours
           </label>
         </div>
       </div>

@@ -1,4 +1,3 @@
-
 <div class="fk-load-signup">
   <div class="container-fluid container-sm mx-auto mb-3">
     <div class="card mx-auto mt-5 bg-transparent text-white border-0 pt-0 mt-0" style="max-width: 36rem">
@@ -8,12 +7,12 @@
           <div class="form-group">
             <label for="nom">Nom d'utilisateur:</label>
             <input type="text" class="form-control bg-transparent border-light text-white" id="nom"
-              placeholder="entrez votre nom d'utilisateur" name="nom" formControlName="nom" autocomplete="off">
+              placeholder="entrez votre nom d'utilisateur" name="nom" formControlName="nom">
           </div>
           <div class="form-group">
             <label for="password">Mot de passe:</label>
             <input type="password" class="form-control bg-transparent border-light text-white" id="password"
-              placeholder="entrez un mot de passe" name="password" formControlName="password" autocomplete="off">
+              placeholder="entrez un mot de passe" name="password" formControlName="password">
           </div>
           <div class="form-group">
             <label for="dateNaissance">Date de naissance:</label>
@@ -31,30 +30,33 @@
             <input type="text" class="form-control bg-transparent border-light text-white" id="ville"
               placeholder="entrez une ville" name="ville" formControlName="ville">
           </div>
-
           <fieldset class="form-group">
-            <div class="btn-group btn-group-toggle fk-radio" data-toggle="buttons">
-              <label class="btn btn-dark active" title="sexe">
-                <input type="radio" name="sexe" formControlName="sexe" id="gridRadios0" value="Sexe" autocomplete="off">
-                Sexe :
-              </label>
-              <label class="btn btn-light active" (click)="fkActivateRadio($event)">
-                <input type="radio" name="sexe" formControlName="sexe" id="gridRadios1" value="Home" autocomplete="off"
-                  checked> Homme
-              </label>
-              <label class="btn btn-light" (click)="fkActivateRadio($event)">
-                <input type="radio" name="sexe" formControlName="sexe" id="gridRadios2" value="Femme"
-                  autocomplete="off"> Femme
-              </label>
+            <div class="row">
+              <legend class="col-form-label col-sm-2 pt-0">Sexe:</legend>
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexe" formControlName="sexe" id="gridRadios1"
+                    value="Homme" checked>
+                  <label class="form-check-label" for="gridRadios1">
+                    Homme
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexe" formControlName="sexe" id="gridRadios2"
+                    value="Femme">
+                  <label class="form-check-label" for="gridRadios2">
+                    Femme
+                  </label>
+                </div>
+              </div>
             </div>
           </fieldset>
-
-          <a class="btn btn-link text-decoration-none p-0 fk-color-valid " role="button"
-            (click)="triggerClick()">Sélectionner une photo de profil</a>
+          <a class="btn btn-link text-decoration-none p-0 fk-color-valid" role="button"
+            (click)="triggerClick()">Sélectionner la photo de profil</a>
           <div class="custom-file" style="display: none">
             <input type="file" class="custom-file-input" id="customFileLangHTML" name="profilePicture"
               formControlName="photo" #profilePicture>
-            <label class="custom-file-label" for="customFileLangHTML" data-browse="Choisir">Choisir une photo de
+            <label class="custom-file-label" for="customFileLangHTML" data-browse="Choisir">Choisir la photo de
               profil</label>
           </div>
           <div><output id="list"></output></div>
@@ -72,5 +74,4 @@
       </div>
     </div>
   </div>
-
 </div>

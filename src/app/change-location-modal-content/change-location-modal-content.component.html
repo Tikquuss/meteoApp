@@ -2,28 +2,28 @@
   <div class="modal-header fk-head">
     <h4 class="modal-title">Localisation</h4>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-      <span aria-hidden="true" style="color: #EEE;">×</span>
+      <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body fk-body">
     <form [formGroup]="form">
       <div class="form-group">
         <label for="country" class="font-weight-bold">Choisir le pays:</label>
-        <select class="form-control bg-transparent border-secondary text-black font-weight-bold" id="country"
-          name="country" formControlName="country" #mySelect (change)='onChangePays(mySelect.value)'>
+        <select class="form-control text-black font-weight-bold" id="country" name="country"
+          formControlName="country" #mySelect (change)='onChangePays(mySelect.value)'>
           <option *ngFor="let c of countries">{{c}}</option>
         </select>
       </div>
-      <div class="form-group" *ngIf="country.value">
+      <div class="form-group" *ngIf="afficheRegion">
         <label for="region" class="font-weight-bold">Choisir la région:</label>
-        <select class="form-control bg-transparent border-secondary text-black font-weight-bold" id="region"
-          name="region" formControlName="region" #mySelect2 (change)='onChangeRegion(mySelect2.value)'>
-          <option *ngFor="let r of regions$">{{r}}</option>
+        <select class="form-control font-weight-bold" id="region" name="region"
+          formControlName="region" #mySelect2 (change)='onChangeRegion(mySelect2.value)'>
+          <option *ngFor="let r of regions">{{r}}</option>
         </select>
       </div>
-      <div class="form-group" *ngIf="region.value">
+      <div class="form-group" *ngIf="afficheVille">
         <label for="city" class="font-weight-bold">Choisir la ville:</label>
-        <select class="form-control bg-transparent border-secondary text-black font-weight-bold" id="city" name="city"
+        <select class="form-control text-black font-weight-bold" id="city" name="city"
           formControlName="city">
           <option *ngFor="let c of cities">{{c}}</option>
         </select>

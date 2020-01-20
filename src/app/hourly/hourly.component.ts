@@ -33,18 +33,18 @@ export class HourlyComponent implements OnInit, AfterViewChecked {
         }
         //*/
 
-        //*
+        // *
         for (let i = 0; i <= 23; i++) {
-            let ind = Math.floor(Math.random() * 4);
+            const ind = Math.floor(Math.random() * 4);
             this.meteoHours.push(
                 {
-                    hour: 10 + i,
+                    hour: (i + '').length === 1 ? '0' + i : i,
                     time: this.times[ind],
                     temperature: Math.floor(Math.random() * 5) + 18,
                     humidity: 92
                 });
         }
-        //*/
+        // */
     }
 
     ngOnInit() {
@@ -79,4 +79,3 @@ export class HourlyComponent implements OnInit, AfterViewChecked {
         clearInterval(this.scroller);
     }
 }
-

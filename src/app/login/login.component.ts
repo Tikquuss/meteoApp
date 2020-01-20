@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { UserStoreService } from '../services/user-store.service';
 
 // Fandio to Mengong
-import { TestbdComponent } from '../components/testbd/testbd.component'
+import { TestbdComponent } from '../components/testbd/testbd.component';
 import { BdlocaleService } from '../services/bdlocale.service';
 import { Utilisateur } from '../models/utilisateur';
 
@@ -18,11 +18,12 @@ export class LoginComponent implements OnInit, AfterViewChecked {
 
     public static bdComponent: TestbdComponent;
     public form: FormGroup;
-    public submitting: boolean = false;
-    public errorMessage: string = '';
+    public submitting = false;
+    public errorMessage = '';
     private printed: boolean;
 
-    constructor(private fb: FormBuilder,
+    constructor(
+        private fb: FormBuilder,
         private router: Router,
         private userStore: UserStoreService,
         private bdService: BdlocaleService) {
@@ -41,10 +42,9 @@ export class LoginComponent implements OnInit, AfterViewChecked {
     submit() {
         this.submitting = true;
         if (this.form.valid) {
-            this.errorMessage = '';
             const username = this.form.get('username').value;
             const password = this.form.get('password').value;
-            //console.log(this.form.value);
+            // console.log(this.form.value);
             LoginComponent.bdComponent.assignUser(username, password).then(
                 (success) => {
                     if (success) {
@@ -54,20 +54,18 @@ export class LoginComponent implements OnInit, AfterViewChecked {
                                 LoginComponent.bdComponent.setUserCourant(user);
                             }
                         );
-                        console.log("connexion reussie");
+                        console.log('connexion reussie');
                     } else {
-                        this.errorMessage = "Utilisateur introuvable";
+                        this.errorMessage = 'Utilisateur introuvable';
                         this.userStore.isLoggedIn = false;
-                        console.log("connexion échouée");
+                        console.log('connexion échouée');
                     }
                     this.router.navigate(['']);
                 },
                 (error) => {
-                    console.log("erreur de connexion\n", error);
+                    console.log('erreur de connexion\n', error);
                 }
             );
-        } else {
-            this.errorMessage = 'Certains champs sont invalides';
         }
         this.submitting = false;
     }

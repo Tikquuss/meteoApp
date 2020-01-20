@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 // Fandio to Mengong
-import { TestbdComponent } from '../components/testbd/testbd.component'
+import { TestbdComponent } from '../components/testbd/testbd.component';
 import { BdlocaleService } from '../services/bdlocale.service';
 import { Utilisateur } from '../models/utilisateur';
 
@@ -15,18 +15,19 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
     templateUrl: './signup.component.html',
     styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit, AfterViewChecked{
+export class SignupComponent implements OnInit, AfterViewChecked {
 
     public form: FormGroup;
-    public submitting: boolean = false;
-    public errorMessage: string = '';
+    public submitting = false;
+    public errorMessage = '';
     public bdComponent: TestbdComponent;
     public files: FileList;
     private printed: boolean;
 
     @ViewChild('profilePicture', { static: false }) profilePicture: ElementRef<HTMLElement>;
 
-    constructor(private fb: FormBuilder,
+    constructor(
+        private fb: FormBuilder,
         private router: Router,
         private bdService: BdlocaleService,
         private parserFormatter: NgbDateParserFormatter) {
@@ -40,7 +41,7 @@ export class SignupComponent implements OnInit, AfterViewChecked{
             nom: ['', Validators.required],
             dateNaissance: ['', Validators.required],
             sexe: ['', Validators.required],
-            photo: ['', Validators.required],
+            photo: [''],
             ville: ['', Validators.required],
             password: ['', Validators.required]
         });
@@ -48,21 +49,21 @@ export class SignupComponent implements OnInit, AfterViewChecked{
 
     handleFileSelect(evt) {
         this.files = evt.target.files;
-        console.log("fichier 1 ", this.files);
-        let bdService = new BdlocaleService();
-        var file = this.files[0];
-        if (file.type.match('image.*')) {
-            var reader = new FileReader();
-            reader.onload = (function (theFile) {
-                return function (e) {
-                    let item = document.getElementById("idSpan");
+        console.log('fichier 1 ', this.files);
+        const bdService = new BdlocaleService();
+        const file = this.files[0];
+        if (this.files != null && file.type.match('image.*')) {
+            const reader = new FileReader();
+            reader.onload = (theFile => {
+                return e => {
+                    const item = document.getElementById('idSpan');
                     if (item !== null) {
                         item.remove();
-                        console.log("suppression des spans");
+                        console.log('suppression des spans');
                     }
 
-                    var span = document.createElement('span');
-                    span.id = "idSpan";
+                    const span = document.createElement('span');
+                    span.id = 'idSpan';
                     span.innerHTML = ['<img class="thumbnail" src="', e.target.result,
                         '" title="', escape(theFile.name), '" width=50 height=50/>'].join('');
                     document.getElementById('list').insertBefore(span, null);
@@ -70,36 +71,39 @@ export class SignupComponent implements OnInit, AfterViewChecked{
             })(file);
 
             reader.readAsDataURL(file);
-            bdService.setImg({ 'nom': 'img0', 'img': this.files[0] });
-        }
-        else {
-            bdService.setImg({ 'nom': 'img0', 'img': null });
+            bdService.setImg({ nom: 'img0', img: this.files[0] });
+        } else {
+            bdService.setImg({ nom: 'img0', img: null });
         }
     }
 
     async submit() {
         this.submitting = true;
-        if (this.form.valid) {
-            //console.log(this.form.value);
-            let img = await this.bdService.getImg('img0');
-            let user = new Utilisateur();
+        const ville = await this.bdService.getVilleByNom(this.form.get('ville').value);
+        console.log('ville' + ville);
+        if (ville && this.form.valid) {
+            // console.log(this.form.value);
+            this.errorMessage = '';
+            const img = await this.bdService.getImg('img0');
+            const user = new Utilisateur();
             user.nom = this.form.get('nom').value;
             user.dateNaissance = new Date(this.parserFormatter.format(this.form.get('dateNaissance').value));
             user.sexe = this.form.get('sexe').value;
-            if (img !== undefined)
+            if (img) {
                 user.photo = img.img;
-            else
+            } else {
                 user.photo = null;
+            }
             user.ville = this.form.get('ville').value;
             user.mdp = this.form.get('password').value;
             this.bdService.setUser(user).then(
                 (success) => {
                     if (success) {
                         LoginComponent.bdComponent.setUserCourant(user);
-                        console.log("inscription reussie", success);
+                        console.log('inscription reussie', success);
                     } else {
-                        this.errorMessage = "Informations invalides";
-                        console.log("inscription échouée\n", success);
+                        this.errorMessage = 'Informations invalides';
+                        console.log('inscription échouée\n', success);
                     }
                 },
                 (error) => {
@@ -109,18 +113,18 @@ export class SignupComponent implements OnInit, AfterViewChecked{
             // */
             this.router.navigate(['']);
         } else {
-            this.errorMessage = 'Informations invalides';
+            this.errorMessage = 'Informations invalides. Remplissez tous les champs et vérifiez que votre ville est correcte';
         }
         this.submitting = false;
     }
 
     triggerClick() {
-        let el: HTMLElement = this.profilePicture.nativeElement;
+        const el: HTMLElement = this.profilePicture.nativeElement;
         el.click();
     }
 
     ngOnInit() {
-        document.getElementById("customFileLangHTML").addEventListener('change', this.handleFileSelect, false);
+        document.getElementById('customFileLangHTML').addEventListener('change', this.handleFileSelect, false);
     }
 
     ngAfterViewChecked() {
@@ -130,7 +134,7 @@ export class SignupComponent implements OnInit, AfterViewChecked{
         if (container && !this.printed) {
             this.printed = true;
             const max = parseInt(container.style.marginLeft, 10);
-            //console.log('chargement du login');
+            // console.log('chargement du login');
             const tmp = setInterval(() => {
                 container.style.opacity = parseFloat(container.style.opacity) + String(1 / (duration / dt));
                 container.style.marginLeft = String(parseFloat(container.style.marginLeft) - (max / (duration / dt))) + 'px';
@@ -144,9 +148,9 @@ export class SignupComponent implements OnInit, AfterViewChecked{
     }
 
     fkActivateRadio(event: Event) {
-        let target = event.target as Element;
-        let siblins: any = target.parentNode.children;
-        for (let elt of siblins) {
+        const target = event.target as Element;
+        const siblins: any = target.parentNode.children;
+        for (const elt of siblins) {
             if ((elt as Node).nodeName !== 'LABEL' || (elt as Element).getAttribute('title') === 'sexe') {
                 continue;
             }

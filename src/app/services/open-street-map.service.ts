@@ -10,26 +10,27 @@ import { OpenWeatherService } from './open-weather.service';
   providedIn: 'root'
 })
 
-export class OpenStreetMapService {
+export class OpenStreetMapService{
 
     //Il s'agit des coordonnées de Douala
-    public static latitude = 4.04827;
-    public static longitude = 9.70428;
+    public static latitude=4.04827;
+    public static longitude=9.70428; 
     public static macarte;
     public static marker;
-    public static ville: string;
-    public static openWeatherService: OpenWeatherService;
-    public static httpClient: HttpClient;
+    public static ville : string;
+    public static openWeatherService : OpenWeatherService;
+    public static httpClient : HttpClient;
 
     public static villeSubject = new Subject<string>();
 
-    constructor(httpClient: HttpClient,
-                openWeatherService: OpenWeatherService) {
-        OpenStreetMapService.httpClient = httpClient;
+    constructor(public httpClient: HttpClient,
+                openWeatherService : OpenWeatherService) {
+        OpenStreetMapService.httpClient = httpClient;  
         OpenStreetMapService.openWeatherService = openWeatherService;
+        
     }
 
-    set ville(otherVille) {
+    set ville(otherVille){
       OpenStreetMapService.ville = otherVille;
       OpenStreetMapService.emitVilleSubject();
     }
@@ -47,23 +48,24 @@ export class OpenStreetMapService {
     }
     /** @description Initialise la map
      * permet d'afficher la map centrer en latitude et longitude.
-     */
-    initMap(L, id, attribution, minZoom = 1, maxZoom = 15) {
+    */
+    initMap(L, id, attribution, minZoom=1, maxZoom=15) {  
       OpenStreetMapService.macarte = L.map(id).setView([OpenStreetMapService.latitude, OpenStreetMapService.longitude], 12);
       L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: attribution,
-        minZoom: minZoom,
-        maxZoom: maxZoom
+        attribution: attribution, minZoom: minZoom, maxZoom: maxZoom
       }).addTo(OpenStreetMapService.macarte);
-
+      
       OpenStreetMapService.updateParameter({ville:OpenStreetMapService.ville});
 
-      OpenStreetMapService.bornes_podotactiles(L.icon({iconUrl:
+      OpenStreetMapService.bornes_podotactiles(L.icon({iconUrl: 
         'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/images/marker-icon.png'
       }));
     
       // Recupere les coordonnées geographique du lieu choisi(par click) par l'utilisateur.
       OpenStreetMapService.macarte.on('click', function(e) {
+        OpenStreetMapService.updateParameter({e:e});
+      });
+      OpenStreetMapService.macarte.on('dblclick', function(e) {
         OpenStreetMapService.updateParameter({e:e});
       });
     }

@@ -8,9 +8,9 @@ import { Region } from '../models/region';
 import { Image } from '../models/image';
 
 /**
-    * Le service permettant d'accéder et de modifier les données de la BD
-    * @class BDlocaleService
-*/
+ * Le service permettant d'accéder et de modifier les données de la BD
+ * @class BDlocaleService
+ */
 
 @Injectable({
   providedIn: 'root'
@@ -27,25 +27,25 @@ export class BdlocaleService {
       const request = window.indexedDB.open("myDatabase", 7);
 
       request.onupgradeneeded = (event: any) => {
-        //C'est ici qu'on créé ou modifie la structure de la base
+        //  C'est ici qu'on créé ou modifie la structure de la base
 
         let db = event.target.result;
 
-        //console.log("onupgradeneeded")
-        //db.deleteObjectStore("utilisateur");
+        //  console.log("onupgradeneeded")
+        //  db.deleteObjectStore("utilisateur");
 
-        //creation de pays
+        //  creation de pays
         if (!db.objectStoreNames.contains("pays")) {
           let store = db.createObjectStore("pays", { keyPath: "nom" });
         }
 
-        //creation de region
+        // creation de region
         if (!db.objectStoreNames.contains("region")) {
           let store = db.createObjectStore("region", { keyPath: "nom" });
           store.createIndex('pays', 'pays', { unique: false });
         }
 
-        //creation de utilisateur
+        // creation de utilisateur
         if (!db.objectStoreNames.contains("utilisateur")) {
           let store = db.createObjectStore("utilisateur", { keyPath: "nom" });
           store.createIndex('dateNaissance', 'dateNaissance', { unique: false });
@@ -55,7 +55,7 @@ export class BdlocaleService {
           store.createIndex('mdp', 'mdp', { unique: false });
         }
 
-        //creation de ville
+        // creation de ville
         if (!db.objectStoreNames.contains("ville")) {
           let store2 = db.createObjectStore("ville", { keyPath: "nom" });
           store2.createIndex('posX', 'posX', { unique: false });
@@ -64,7 +64,7 @@ export class BdlocaleService {
           store2.createIndex('pays', 'pays', { unique: false });
         }
 
-        //creation de image
+        // creation de image
         if (!db.objectStoreNames.contains("image")) {
           let store2 = db.createObjectStore("image", { keyPath: "nom" });
           store2.createIndex('img', 'img', { unique: false });
@@ -91,10 +91,10 @@ export class BdlocaleService {
   */
   setValue(db: IDBDatabase, storeName: string, value: any): Promise<Boolean> {
     return new Promise<Boolean>((resolve, reject) => {
-      //On commence par ouvrir une transaction d'écriture
+      // On commence par ouvrir une transaction d'écriture
       const transaction: IDBTransaction = db.transaction(storeName, 'readwrite');
       const store: IDBObjectStore = transaction.objectStore(storeName);
-      //La méthode put ajoute où met à jour une valeur dans la base
+      // La méthode put ajoute où met à jour une valeur dans la base
       const request: IDBRequest = store.put(value);
       request.onsuccess = event => {
         resolve(true);
@@ -166,10 +166,10 @@ export class BdlocaleService {
   async initValues() {
     let db = await this.openDB();
 
-    //initialisation d'un utilisateur par defaut
-    //await this.setValue(db, "utilisateur", { nom: "Fandio", sexe: "Homme", ville: "Yaounde", photo: "tof", mdp: "esdras" });
+    // initialisation d'un utilisateur par defaut
+    // await this.setValue(db, "utilisateur", { nom: "Fandio", sexe: "Homme", ville: "Yaounde", photo: "tof", mdp: "esdras" });
 
-    //initialisation du pays
+    // initialisation du pays
     await this.setValue(db, "pays",
       { nom: "Cameroun" });
 
@@ -328,7 +328,7 @@ export class BdlocaleService {
       const transaction = db.transaction(storeName, 'readonly');
       const store = transaction.objectStore(storeName);
       const index = store.index(indexName);
-      //on peut aussi faire index.get si on souhaite lire qu'une seule valeur
+      // on peut aussi faire index.get si on souhaite lire qu'une seule valeur
       const request = index.openCursor(key);
       request.onsuccess = (event: any) => {
         const cursor = event.target.result;
@@ -345,7 +345,7 @@ export class BdlocaleService {
     });
   }
 
-  // Ajouté
+  //  Ajouté
   /**
    * Pour supprimer un utilisateur de la BD
    * @param {key : Utilisateur} 
@@ -370,8 +370,8 @@ export class BdlocaleService {
   /**
      * permet de supprimer un element d'un tableau
    */
-  delete<T>(db: IDBDatabase, storeName: string, key: string): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
+  delete<T>(db: IDBDatabase, storeName: string, key: string): Promise<Boolean> {
+    return new Promise<Boolean>((resolve, reject) => {
       const transaction = db.transaction(storeName, 'readwrite');
       const store = transaction.objectStore(storeName);
       const request = store.delete(key);
@@ -460,7 +460,7 @@ export class BdlocaleService {
    * @returns {Map of <pays, [ce pays]>}
   */
   public async getRegions() {
-    let ce = new Map(); // <pays, [ce]>
+    let ce = new Map(); //  <pays, [ce]>
     let countries = await this.getCountries();
     for (let countrie of countries) {
       ce.set(countrie, this.getRegionsByCountrie(countrie));
@@ -476,7 +476,7 @@ export class BdlocaleService {
    * Dans le second cas c'est un map de map du prémiere cas
   */
   async getCities(limit_to_region = true) {
-    let cities = new Map(); // <pays, [regions]>
+    let cities = new Map(); //  <pays, [regions]>
     if (limit_to_region) {
       for (let ce of (await this.getRegions()).values()) {
         for (let region of ce) {
@@ -509,7 +509,7 @@ export class BdlocaleService {
     let ex = "Extrême-Nord";
 
 
-    //creation des villes de la region de l'adamaoua
+    // creation des villes de la region de l'adamaoua
     await this.setValue(db, "ville",
       { nom: "Ngaoundere", posX: 7.320, posY: 13.580, region: ad, pays: "Cameroun" });
 
@@ -528,7 +528,7 @@ export class BdlocaleService {
     await this.setValue(db, "ville",
       { nom: "Tignere", posX: 7.370, posY: 12.650, region: ad, pays: "Cameroun" });
 
-    //creation des villes de la region du centre
+    // creation des villes de la region du centre
     await this.setValue(db, "ville",
       { nom: "Yaounde", posX: 3.870, posY: 11.520, region: ce, pays: "Cameroun" });
 
@@ -568,7 +568,7 @@ export class BdlocaleService {
     await this.setValue(db, "ville",
       { nom: "Ombessa", posX: 4.600, posY: 11.250, region: ce, pays: "Cameroun" });
 
-    //creation des villes de la region de l'est
+    // creation des villes de la region de l'est
     await this.setValue(db, "ville",
       { nom: "Bertoua", posX: 4.580, posY: 13.680, region: es, pays: "Cameroun" });
 
@@ -597,7 +597,7 @@ export class BdlocaleService {
       { nom: "Doume", posX: 4.250, posY: 13.450, region: es, pays: "Cameroun" });
 
 
-    //creation des villes de la region de l'extreme nord
+    // creation des villes de la region de l'extreme nord
     await this.setValue(db, "ville",
       { nom: "Kousseri", posX: 12.080, posY: 15.030, region: ex, pays: "Cameroun" });
 
@@ -624,7 +624,7 @@ export class BdlocaleService {
     await this.setValue(db, "ville",
       { nom: "Meri", posX: 10.790, posY: 14.100, region: ex, pays: "Cameroun" });
 
-    //creation des villes de la region du littoral
+    // creation des villes de la region du littoral
     await this.setValue(db, "ville",
       { nom: "Douala", posX: 4.060, posY: 9.710, region: li, pays: "Cameroun" });
 
@@ -655,7 +655,7 @@ export class BdlocaleService {
     await this.setValue(db, "ville",
       { nom: "Bonaberi", posX: 4.080, posY: 9.670, region: li, pays: "Cameroun" });
 
-    //creation des villes de la region du nord
+    // creation des villes de la region du nord
 
     await this.setValue(db, "ville",
       { nom: "Garoua", posX: 9.300, posY: 13.390, region: nd, pays: "Cameroun" });
@@ -676,7 +676,7 @@ export class BdlocaleService {
     await this.setValue(db, "ville",
       { nom: "Rey bouba", posX: 8.670, posY: 14.180, region: nd, pays: "Cameroun" });
 
-    //creation des villes de la region du nord-ouest
+    // creation des villes de la region du nord-ouest
     await this.setValue(db, "ville",
       { nom: "Bamenda", posX: 5.960, posY: 10.150, region: no, pays: "Cameroun" });
 
@@ -707,7 +707,7 @@ export class BdlocaleService {
     await this.setValue(db, "ville",
       { nom: "Mbengwi", posX: 6.020, posY: 10.000, region: no, pays: "Cameroun" });
 
-    //creation des villes de la region de l'ouest
+    // creation des villes de la region de l'ouest
     await this.setValue(db, "ville",
       { nom: "Bafoussam", posX: 5.490, posY: 10.410, region: ou, pays: "Cameroun" });
 
@@ -729,7 +729,7 @@ export class BdlocaleService {
     await this.setValue(db, "ville",
       { nom: "Bafang", posX: 5.170, posY: 10.180, region: ou, pays: "Cameroun" });
 
-    //creation des villes de la region du sud
+    // creation des villes de la region du sud
     await this.setValue(db, "ville",
       { nom: "Limbe", posX: 4.020, posY: 9.190, region: sd, pays: "Cameroun" });
     await this.setValue(db, "ville",
@@ -756,7 +756,7 @@ export class BdlocaleService {
     await this.setValue(db, "ville",
       { nom: "Ambam", posX: 2.390, posY: 11.280, region: sd, pays: "Cameroun" });
 
-    //creation des villes de la region du sud-ouest
+    // creation des villes de la region du sud-ouest
     await this.setValue(db, "ville",
       { nom: "Kumba", posX: 4.640, posY: 9.440, region: so, pays: "Cameroun" });
     await this.setValue(db, "ville",
@@ -782,7 +782,7 @@ export class BdlocaleService {
   }
   /*
     async putImage(image: string, user: Utilisateur) {
-      // Creation de xhr
+      //  Creation de xhr
       var xhr = new XMLHttpRequest(),
         blob;
   
@@ -796,17 +796,17 @@ export class BdlocaleService {
         if (xhr.status === 200) {
           console.log("Image récupérée");
   
-          // Blob as response
+          //  Blob as response
           blob = xhr.response;
           console.log("Blob:" + blob);
   
           user.img = blob;
   
           let storeName = "utilisateur";
-          // mettre le blob dans la bd
+          //  mettre le blob dans la bd
           const transaction: IDBTransaction = db.transaction(storeName, 'readwrite');
           const store: IDBObjectStore = transaction.objectStore(storeName);
-          //La méthode put ajoute où met à jour une valeur dans la base
+          // La méthode put ajoute où met à jour une valeur dans la base
           const request: IDBRequest = store.put(user);
   
           request.onsuccess = event => {
@@ -817,7 +817,7 @@ export class BdlocaleService {
             transaction.abort();
           };
   
-          // Récupérer l'url de l'image
+          //  Récupérer l'url de l'image
           transaction.objectStore(storeName).get(user.nom).onsuccess = function (event) {
             var imgFile = event.target;
             console.log("fichier " + imgFile);
@@ -827,7 +827,7 @@ export class BdlocaleService {
           };
         }
       }, false);
-      // Send XHR
+      //  Send XHR
       xhr.send();
     }
   */
