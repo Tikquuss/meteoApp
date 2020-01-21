@@ -72,7 +72,7 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy, AfterViewChec
                     clearInterval(this.dataAvailableTimer);
                 }, loadingTime);
             }
-        }, 100);
+        }, 0.333);
         this.times = this.openWeatherService.goodtimes();
         this.user = LoginComponent.bdComponent.getUserCourant();
         this.url = 'assets/img/user.jpg';
@@ -272,7 +272,7 @@ export class InterfaceMeteoComponent implements OnInit, OnDestroy, AfterViewChec
                 );
             }, 3600000); // 1h
             garbageCollector();
-        }, 333); // 0.333s
+        }, 500); // 0.5s
     }
 
     ngAfterViewChecked() {

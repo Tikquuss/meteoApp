@@ -9,21 +9,21 @@
     <form [formGroup]="form">
       <div class="form-group">
         <label for="country" class="font-weight-bold">Choisir le pays:</label>
-        <select class="form-control text-black font-weight-bold" id="country" name="country"
+        <select class="form-control bg-dark text-light font-weight-bold" id="country" name="country"
           formControlName="country" #mySelect (change)='onChangePays(mySelect.value)'>
           <option *ngFor="let c of countries">{{c}}</option>
         </select>
       </div>
       <div class="form-group" *ngIf="afficheRegion">
         <label for="region" class="font-weight-bold">Choisir la région:</label>
-        <select class="form-control font-weight-bold" id="region" name="region"
+        <select class="form-control bg-dark text-light font-weight-bold" id="region" name="region"
           formControlName="region" #mySelect2 (change)='onChangeRegion(mySelect2.value)'>
           <option *ngFor="let r of regions">{{r}}</option>
         </select>
       </div>
       <div class="form-group" *ngIf="afficheVille">
         <label for="city" class="font-weight-bold">Choisir la ville:</label>
-        <select class="form-control text-black font-weight-bold" id="city" name="city"
+        <select class="form-control bg-dark text-light font-weight-bold" id="city" name="city"
           formControlName="city">
           <option *ngFor="let c of cities">{{c}}</option>
         </select>
