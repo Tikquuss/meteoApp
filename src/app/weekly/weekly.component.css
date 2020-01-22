@@ -1,0 +1,29 @@
+button {
+    outline: none;
+  }
+  
+  #fkScrollable {
+    scroll-padding-top: 200px;
+  }
+  
+  ::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .fk-load-weekly {
+      opacity: 0;
+      margin-left: 1000px;
+      transition-property: opacity, margin-left;    
+      transition-duration: 0.4s;
+      transition-delay: 0s;
+  }
+  
+  .fk-a {
+      font-size: 11px;
+      color: rgb(200, 200, 200);
+      margin-bottom: 0px;
+  }
+  
+  .fk-t {
+      margin-top: 15px;
+  }

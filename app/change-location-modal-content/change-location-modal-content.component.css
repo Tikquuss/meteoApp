@@ -1,0 +1,23 @@
+button {
+    outline: none;
+}
+
+.fk-head {
+    background-color: #222;
+    color: white;
+}
+
+.fk-body {
+    background-color: #f9f9f9;
+}
+
+.fk-footer {
+    background-color: #f9f9f9;
+}
+
+.fk-load-location {
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.7s;
+    transition-delay: 0s;
+}

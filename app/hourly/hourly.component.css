@@ -1,0 +1,34 @@
+button,
+i {
+  outline: none;
+}
+
+#fkScrollable {
+  scroll-padding-top: 200px;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+}
+
+.fk-load-hourly {
+    opacity: 0;
+    margin-left: 1000px;
+    transition-property: opacity, margin-left;
+    transition-duration: 0.4s;
+    transition-delay: 0s;
+}
+
+.fk-a {
+    font-size: 11px;
+    color: rgb(200, 200, 200);
+}
+
+.fk-t {
+    margin: 15px 0px 0px 0px;
+}
+
+.fk-container-week {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
